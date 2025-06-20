@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>LaCleo Foods – Our Products</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+  <style>
+    /* Basic setup omitted for brevity (nav, hero, etc.) */
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f9f9f9;
+      margin: 0;
+      overflow-x: hidden;
+    }
+
+    .hero {
+      background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
+                  url('https://images.unsplash.com/photo-1546069901-ba9599a7e63c') center/cover no-repeat;
+      padding: 8rem 2rem 4rem;
+      color: white;
+      text-align: center;
+      position: relative;
+    }
+
+    .hero h1 { font-size: 2.8rem; animation: slideInFromTop 1s ease-out both; }
+    .hero p { font-size: 1.2rem; animation: slideInFromBottom 1s ease-out 0.5s both; }
+
+    .filter-tabs {
+      text-align: center;
+      margin: 2rem 0;
+    }
+
+    .filter-btn {
+      background: #fff;
+      border: 2px solid #e67e22;
+      color: #e67e22;
+      padding: 0.6rem 1.2rem;
+      margin: 0 0.5rem;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .filter-btn.active, .filter-btn:hover {
+      background: #e67e22;
+      color: white;
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 2rem;
+      padding: 2rem;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .product-card {
+      background: white;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      opacity: 0;
+      transform: translateY(30px);
+    }
+
+    .product-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+      transition: all 0.6s ease-out;
+    }
+
+    .product-card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+
+    .product-card h3, .product-card p {
+      margin: 1rem;
+    }
+
+    .price {
+      margin: 0 1rem;
+      font-weight: bold;
+      color: #e67e22;
+    }
+
+    .quote-btn {
+      margin: 0 1rem 1rem;
+      background: #e67e22;
+      color: white;
+      padding: 0.6rem 1.2rem;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    .quote-btn:hover {
+      background: #cf6a1c;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Hero -->
+  <section class="hero">
+    <h1>Explore Our Food Categories</h1>
+    <p>Curated for businesses, offices, and corporate events.</p>
+  </section>
+
+  <!-- Filter Tabs -->
+  <div class="filter-tabs">
+    <button class="filter-btn active" data-filter="all">All</button>
+    <button class="filter-btn" data-filter="meal">Meals</button>
+    <button class="filter-btn" data-filter="munchies">Munchies</button>
+    <button class="filter-btn" data-filter="birthdayparty">Birthday Party</button>
+    <button class="filter-btn" data-filter="catering">Catering</button>
+    <button class="filter-btn" data-filter="bhandara">Bhandara</button>
+    <button class="filter-btn" data-filter="stationary">Stationary</button>
+    <button class="filter-btn" data-filter="toiletries">Toiletries</button>
+
+  </div>
+
+  <!-- Product Grid -->
+  <section class="product-grid">
+
+    <div class="product-card" data-category="meal">
+      <img src="{{ url_for('static', filename='images/meals.jpg') }}">
+      <h3>Corporate Meals</h3>
+      <p>Fresh daily meals for teams – customizable and convenient.</p>
+    
+      <a href="{{ url_for('corporate_meals') }}" target="_blank">
+        <button class="quote-btn">Request Quote</button>
+      </a>
+    </div>
+
+    <div class="product-card" data-category="munchies">
+      <img src="{{ url_for('static', filename='images/munchies.jpg') }}">
+      <h3>Munchies</h3>
+      <p>Smart snacking options perfect for breaks and meetings.</p>
+     
+      <a href="{{ url_for('munchies') }}" target="_blank">
+        <button class="quote-btn">Request Quote</button>
+      </a>
+    </div>
+
+    <div class="product-card" data-category="birthdayparty">
+      <img src="{{ url_for('static', filename='images/birthdayparty.jpg') }}">
+      <h3>Birthday Party</h3>
+      <p>Delightful party platters, desserts, and festive treats for every celebration.</p>
+    
+      <a href="{{ url_for('birthdayparty') }}" target="_blank">
+        <button class="quote-btn">Request Quote</button>
+      </a>
+    </div>
+
+    <div class="product-card" data-category="catering">
+      <img src="{{ url_for('static', filename='images/catering.jpg') }}">
+      <h3>Event Catering</h3>
+      <p>Buffet & box options for events, workshops & celebrations.</p>
+    
+      <a href="{{ url_for('event_catering') }}" target="_blank">
+        <button class="quote-btn">Request Quote</button>
+      </a>
+    </div>
+
+    <div class="product-card" data-category="bhandara">
+      <img src="{{ url_for('static', filename='images/bhandara.jpg') }}">
+      <h3>Bhandara</h3>
+      <p>Serving with Devotion, Feeding with Love</p>
+    
+      <a href="{{ url_for('bhandara') }}" target="_blank">
+        <button class="quote-btn">Request Quote</button>
+      </a>
+    </div>
+
+    <div class="product-card" data-category="stationary">
+      <img src="{{ url_for('static', filename='images/stationary.jpg') }}">
+      <h3>Stationary</h3>
+      <p>Office-ready notebooks, pens, files, and printing essentials.</p>
+    
+      <a href="{{ url_for('stationary') }}" target="_blank">
+        <button class="quote-btn">Request Quote</button>
+      </a>
+    </div>
+
+    <div class="product-card" data-category="toiletries">
+      <img src="{{ url_for('static', filename='images/toiletries.jpg') }}">
+      <h3>Toiletries</h3>
+      <p>Essential hygiene kits with soaps, tissues, sanitizers, and cleaning supplies for workplace and events.</p>
+    
+      <a href="{{ url_for('toiletries') }}" target="_blank">
+        <button class="quote-btn">Request Quote</button>
+      </a>
+    </div>
+
+  </section>
+
+  <footer>
+    &copy; 2025 LaCleo Foods. All rights reserved.
+  </footer>
+
+  <!-- Filter + Scroll Script -->
+  <script>
+    const buttons = document.querySelectorAll(".filter-btn");
+    const cards = document.querySelectorAll(".product-card");
+
+    buttons.forEach(btn => {
+      btn.addEventListener("click", () => {
+        buttons.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+
+        const filter = btn.getAttribute("data-filter");
+        cards.forEach(card => {
+          if (filter === "all" || card.dataset.category === filter) {
+            card.style.display = "block";
+          } else {
+            card.style.display = "none";
+          }
+        });
+      });
+    });
+
+    // Scroll-based animation
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    cards.forEach(card => observer.observe(card));
+  </script>
+
+</body>
+</html>

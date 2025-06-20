@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LaCleo Foods – B2B Food Supply</title>
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        body {
+            line-height: 1.6;
+            color: #333;
+            background-color: #f9f9f9;
+            overflow-x: hidden;
+        }
+        
+        /* Keyframe Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideInFromTop {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        @keyframes slideInFromBottom {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        @keyframes slideInFromLeft {
+            from { transform: translateX(-50px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        @keyframes slideInFromRight {
+            from { transform: translateX(50px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        @keyframes colorChange {
+            0% { background-color: #e67e22; }
+            50% { background-color: #f39c12; }
+            100% { background-color: #e67e22; }
+        }
+        
+        /* Navigation Styles */
+        nav {
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #e67e22;
+            text-decoration: none;
+            animation: slideInFromLeft 0.8s ease-out 0.2s both;
+            display: inline-block;
+        }
+        
+        .logo:hover {
+            animation: pulse 1s infinite;
+        }
+        
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+        }
+        
+        .nav-menu li {
+            animation: slideInFromRight 0.8s ease-out forwards;
+        }
+        
+        .nav-menu li:nth-child(1) { animation-delay: 0.3s; }
+        .nav-menu li:nth-child(2) { animation-delay: 0.4s; }
+        .nav-menu li:nth-child(3) { animation-delay: 0.5s; }
+        .nav-menu li:nth-child(4) { animation-delay: 0.6s; }
+        .nav-menu li:nth-child(5) { animation-delay: 0.7s; }
+        .nav-menu li:nth-child(6) { animation-delay: 0.8s; }
+        
+        .nav-menu a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            transition: all 0.3s ease;
+            display: inline-block;
+            position: relative;
+        }
+        
+        .nav-menu a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: #e67e22;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-menu a:hover {
+            color: #e67e22;
+        }
+        
+        .nav-menu a:hover::after {
+            width: 100%;
+        }
+        
+        /* Hero Section */
+        .hero {
+            position: relative;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hero-slideshow {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-size: cover;
+            background-position: center;
+            z-index: 0;
+            animation: heroBackgroundSlide 20s infinite;
+        }
+
+        .hero-overlay {
+            position: relative;
+            z-index: 1;
+            background-color: rgba(0, 0, 0, 0.5); /* 🔲 Dark overlay */
+            padding: 4rem 2rem;
+            text-align: center;
+            color: white;
+            border-radius: 8px;
+            max-width: 800px;
+        }
+
+        .hero-overlay h1 {
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero-overlay p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+
+        .cta-btn {
+            background-color: #e67e22;
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        .cta-btn:hover {
+            background-color: #cf6a1c;
+        }
+
+        @keyframes heroBackgroundSlide {
+            0%   { background-image: url('https://images.unsplash.com/photo-1504674900247-0877df9cc836'); }
+            33%  { background-image: url('https://images.unsplash.com/photo-1546069901-ba9599a7e63c'); }
+            66%  { background-image: url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4'); }
+            100% { background-image: url('https://images.unsplash.com/photo-1504674900247-0877df9cc836'); }
+        }
+
+        .cta-btn {
+            display: inline-block;
+            background-color: #e67e22;
+            color: white;
+            padding: 0.8rem 2rem;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 2;
+            animation: slideInFromBottom 1s ease-out 0.9s both;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .cta-btn:hover {
+            animation: colorChange 1.5s infinite, pulse 1s infinite;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 10px rgba(0,0,0,0.2);
+        }
+        
+        /* About Us Section */
+        .about {
+            padding: 5rem 2rem;
+            background-color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .about-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .about-content {
+            flex: 1;
+            min-width: 300px;
+            opacity: 0;
+            animation: fadeIn 1s ease-out 0.5s forwards;
+        }
+
+        .about-image {
+            flex: 1;
+            min-width: 300px;
+            position: relative;
+            opacity: 0;
+            animation: slideInFromRight 1s ease-out 0.7s forwards;
+        }
+
+        .about-image img {
+            width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            transition: transform 0.5s ease;
+        }
+
+        .about-image:hover img {
+            transform: scale(1.03);
+        }
+
+        .about h2 {
+            font-size: 2.5rem;
+            color: #e67e22;
+            margin-bottom: 1.5rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .about h2::after {
+            content: '';
+            position: absolute;
+            width: 50%;
+            height: 3px;
+            background-color: #e67e22;
+            bottom: -10px;
+            left: 0;
+        }
+
+        .about h3 {
+            font-size: 1.5rem;
+            color: #333;
+            margin: 1.5rem 0 1rem;
+        }
+
+        .about p {
+            margin-bottom: 1rem;
+            line-height: 1.8;
+            color: #555;
+        }
+
+        .stats {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .stat-item {
+            flex: 1;
+            min-width: 150px;
+            text-align: center;
+            padding: 1.5rem;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            opacity: 0;
+            animation: slideInFromBottom 0.8s ease-out forwards;
+        }
+
+        .stat-item:nth-child(1) { animation-delay: 1s; }
+        .stat-item:nth-child(2) { animation-delay: 1.2s; }
+        .stat-item:nth-child(3) { animation-delay: 1.4s; }
+        .stat-item:nth-child(4) { animation-delay: 1.6s; }
+
+        .stat-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+            background-color: #e67e22;
+            color: white;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #e67e22;
+            margin-bottom: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .stat-item:hover .stat-number {
+            color: white;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            font-weight: 600;
+        }
+        
+        /* Why Us Section */
+        .why-us {
+            padding: 5rem 2rem;
+            background-color: #f5f5f5;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .why-us-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .why-us h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            color: #e67e22;
+            margin-bottom: 3rem;
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .why-us h2::after {
+            content: '';
+            position: absolute;
+            width: 50%;
+            height: 3px;
+            background-color: #e67e22;
+            bottom: -10px;
+            left: 25%;
+        }
+
+        .benefits {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            justify-content: center;
+        }
+
+        .benefit-card {
+            flex: 1;
+            min-width: 300px;
+            max-width: 350px;
+            background: white;
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.4s ease;
+            opacity: 0;
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+
+        .benefit-card:nth-child(1) { animation-delay: 0.3s; }
+        .benefit-card:nth-child(2) { animation-delay: 0.5s; }
+        .benefit-card:nth-child(3) { animation-delay: 0.7s; }
+        .benefit-card:nth-child(4) { animation-delay: 0.9s; }
+
+        .benefit-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+
+        .benefit-icon {
+            font-size: 3rem;
+            color: #e67e22;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .benefit-card:hover .benefit-icon {
+            transform: rotate(15deg) scale(1.2);
+        }
+
+        .benefit-card h3 {
+            color: #333;
+            margin-bottom: 1rem;
+            text-align: center;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .benefit-card:hover h3 {
+            color: #e67e22;
+        }
+
+        .benefit-card p {
+            color: #666;
+            line-height: 1.7;
+            text-align: center;
+        }
+
+        .testimonials {
+            margin-top: 4rem;
+            padding: 2rem;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            opacity: 0;
+            animation: fadeIn 1s ease-out 1s forwards;
+        }
+
+        .testimonials h3 {
+            text-align: center;
+            color: #e67e22;
+            margin-bottom: 2rem;
+            font-size: 1.8rem;
+        }
+
+        .testimonial-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            justify-content: center;
+        }
+
+        .testimonial-item {
+            flex: 1;
+            min-width: 250px;
+            padding: 1.5rem;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            position: relative;
+        }
+
+        .testimonial-item::before {
+            content: '"';
+            position: absolute;
+            top: 10px;
+            left: 15px;
+            font-size: 4rem;
+            color: rgba(230, 126, 34, 0.1);
+            font-family: serif;
+            line-height: 1;
+        }
+
+        .testimonial-text {
+            font-style: italic;
+            color: #555;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .testimonial-author {
+            font-weight: bold;
+            color: #e67e22;
+            text-align: right;
+        }
+
+        .testimonial-company {
+            font-size: 0.9rem;
+            color: #777;
+            text-align: right;
+        }
+        
+        /* Features Section */
+        .features {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            padding: 4rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            flex-wrap: wrap;
+        }
+        
+        .features div {
+            flex: 1;
+            min-width: 250px;
+            text-align: center;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: all 0.4s ease;
+            background-color: white;
+            opacity: 0;
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+        
+        .features div:nth-child(1) { animation-delay: 0.5s; }
+        .features div:nth-child(2) { animation-delay: 0.7s; }
+        .features div:nth-child(3) { animation-delay: 0.9s; }
+        
+        .features div:hover {
+            transform: translateY(-10px) scale(1.03);
+            box-shadow: 0 15px 20px rgba(0,0,0,0.1);
+        }
+        
+        .features h3 {
+            color: #e67e22;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .features div:hover h3 {
+            transform: scale(1.1);
+        }
+        
+        .features p {
+            transition: all 0.3s ease;
+        }
+        
+        .features div:hover p {
+            transform: translateY(5px);
+        }
+        
+        /* Contact Section */
+        .contact {
+            background-color: #f9f9f9;
+            padding: 4rem 2rem;
+            text-align: center;
+            opacity: 0;
+            animation: fadeIn 1s ease-out 1s forwards;
+        }
+        
+        .contact-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .contact h2 {
+            color: #e67e22;
+            margin-bottom: 2rem;
+            font-size: 2rem;
+            display: inline-block;
+        }
+        
+        .contact h2:hover {
+            animation: pulse 1s infinite;
+        }
+        
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+        
+        .contact-info div {
+            flex: 1;
+            min-width: 200px;
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: all 0.4s ease;
+            opacity: 0;
+            animation: slideInFromBottom 0.8s ease-out forwards;
+        }
+        
+        .contact-info div:nth-child(1) { animation-delay: 1.2s; }
+        .contact-info div:nth-child(2) { animation-delay: 1.4s; }
+        .contact-info div:nth-child(3) { animation-delay: 1.6s; }
+        
+        .contact-info div:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+        }
+        
+        .contact-form {
+            max-width: 500px;
+            margin: 0 auto;
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            opacity: 0;
+            animation: slideInFromBottom 0.8s ease-out 1.8s forwards;
+        }
+        
+        .form-group {
+            margin-bottom: 1rem;
+            text-align: left;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #555;
+            transition: all 0.3s ease;
+        }
+        
+        .form-group input:focus + label,
+        .form-group textarea:focus + label {
+            color: #e67e22;
+            transform: translateX(5px);
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: #e67e22;
+            box-shadow: 0 0 0 3px rgba(230, 126, 34, 0.2);
+            outline: none;
+            transform: translateY(-2px);
+        }
+        
+        .form-group textarea {
+            height: 150px;
+            resize: vertical;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            opacity: 0;
+            animation: fadeIn 1s ease-out 2s forwards;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+        
+        .footer-section {
+            flex: 1;
+            min-width: 200px;
+            text-align: left;
+            opacity: 0;
+            animation: slideInFromBottom 0.8s ease-out forwards;
+        }
+        
+        .footer-section:nth-child(1) { animation-delay: 2.2s; }
+        .footer-section:nth-child(2) { animation-delay: 2.4s; }
+        .footer-section:nth-child(3) { animation-delay: 2.6s; }
+        
+        .footer-section h3 {
+            color: #e67e22;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+        
+        .footer-section h3:hover {
+            transform: skewX(-10deg);
+        }
+        
+        .footer-section ul {
+            list-style: none;
+        }
+        
+        .footer-section li {
+            margin-bottom: 0.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .footer-section li:hover {
+            transform: translateX(5px);
+        }
+        
+        .footer-section a {
+            color: #ddd;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-section a:hover {
+            color: #e67e22;
+        }
+        
+        .copyright {
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid #555;
+            opacity: 0;
+            animation: fadeIn 1s ease-out 2.8s forwards;
+        }
+        
+        /* Floating food icons animation */
+        .floating-icon {
+            position: absolute;
+            opacity: 0.7;
+            z-index: 1;
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .floating-icon:nth-child(1) {
+            top: 20%;
+            left: 10%;
+            font-size: 2rem;
+            animation-delay: 0s;
+            animation-duration: 5s;
+        }
+        
+        .floating-icon:nth-child(2) {
+            top: 60%;
+            left: 15%;
+            font-size: 1.5rem;
+            animation-delay: 1s;
+            animation-duration: 7s;
+        }
+        
+        .floating-icon:nth-child(3) {
+            top: 40%;
+            right: 10%;
+            font-size: 2.5rem;
+            animation-delay: 0.5s;
+            animation-duration: 6s;
+        }
+        
+        .floating-icon:nth-child(4) {
+            top: 70%;
+            right: 15%;
+            font-size: 1.8rem;
+            animation-delay: 1.5s;
+            animation-duration: 8s;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+            }
+            
+            .nav-menu {
+                margin-top: 1rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .about-container {
+                flex-direction: column;
+            }
+
+            .about-image {
+                order: -1;
+                margin-bottom: 2rem;
+            }
+            
+            .benefit-card {
+                min-width: 100%;
+            }
+            
+            .features {
+                flex-direction: column;
+            }
+            
+            .contact-info {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="nav-container">
+                <a href="/" class="logo">LaCleo Foods</a>
+                <ul class="nav-menu">
+                    <li><a href="#about">About Us</a></li>
+                    <li><a href="/products">Products</a></li>
+                    <li><a href="#why-us">Why Us</a></li>
+                    <li><a href="/media">Media</a></li>
+                    <li><a href="/contact">Contact Us</a></li>
+                </ul>
+            </div>
+        </nav>
+        
+        <section class="hero">
+            <!-- Floating food icons -->
+            <div class="floating-icon">🍎</div>
+            <div class="floating-icon">🍔</div>
+            <div class="floating-icon">🥗</div>
+            <div class="floating-icon">☕</div>
+            
+            <div class="hero-slideshow"></div> <!-- 🔁 Background slideshow layer -->
+            <div class="hero-overlay">
+                <h1>Delivering Food Solutions to Businesses</h1>
+                <p>Corporate meals, snacks, and beverages – all in one place.</p>
+                <a href="/products" class="cta-btn">Explore Products</a>
+            </div>
+        </section>
+    </header>
+
+    <main>
+        <!-- About Us Section -->
+        <section id="about" class="about">
+            <div class="about-container">
+                <div class="about-content">
+                    <h2>About LaCleo Foods</h2>
+                    <p>Founded in 2010, LaCleo Foods has grown from a small local supplier to a leading B2B food distribution company serving businesses across the nation. Our mission is to provide high-quality, fresh food solutions that help companies nourish their teams and impress their clients.</p>
+                    
+                    <h3>Our Story</h3>
+                    <p>What began as a family-owned business with a single delivery truck has blossomed into a full-service food distribution network. We've maintained our commitment to quality and personal service while expanding our capabilities to meet the needs of businesses of all sizes.</p>
+                    
+                    <h3>Our Values</h3>
+                    <p>At LaCleo Foods, we believe in sustainable sourcing, exceptional quality, and reliable service. We partner with trusted local producers whenever possible and maintain rigorous quality control standards at every step of our supply chain.</p>
+                    
+                    <div class="stats">
+                        <div class="stat-item">
+                            <div class="stat-number">13+</div>
+                            <div class="stat-label">Years in Business</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">500+</div>
+                            <div class="stat-label">Clients Served</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">100%</div>
+                            <div class="stat-label">Quality Guarantee</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">24/7</div>
+                            <div class="stat-label">Support</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="about-image">
+                    <img src="https://images.unsplash.com/photo-1606787366850-de6330128bfc" alt="LaCleo Foods Team">
+                </div>
+            </div>
+        </section>
+
+        <!-- Why Us Section -->
+        <section id="why-us" class="why-us">
+            <div class="why-us-container">
+                <h2>Why Choose LaCleo Foods?</h2>
+                
+                <div class="benefits">
+                    <div class="benefit-card">
+                        <div class="benefit-icon">🥦</div>
+                        <h3>Premium Quality</h3>
+                        <p>We source only the freshest ingredients from trusted suppliers, with rigorous quality checks at every stage of our supply chain.</p>
+                    </div>
+                    
+                    <div class="benefit-card">
+                        <div class="benefit-icon">🚚</div>
+                        <h3>Reliable Delivery</h3>
+                        <p>Our logistics network ensures your food arrives on time, every time, with temperature-controlled transport for optimal freshness.</p>
+                    </div>
+                    
+                    <div class="benefit-card">
+                        <div class="benefit-icon">💰</div>
+                        <h3>Cost Effective</h3>
+                        <p>Bulk purchasing power and efficient operations allow us to offer competitive pricing without compromising on quality.</p>
+                    </div>
+                    
+                    <div class="benefit-card">
+                        <div class="benefit-icon">♻️</div>
+                        <h3>Sustainable Practices</h3>
+                        <p>We prioritize eco-friendly packaging, food waste reduction, and partnerships with sustainable producers.</p>
+                    </div>
+                </div>
+                
+                <div class="testimonials">
+                    <h3>What Our Clients Say</h3>
+                    <div class="testimonial-grid">
+                        <div class="testimonial-item">
+                            <p class="testimonial-text">LaCleo Foods transformed our corporate catering. The quality is consistently excellent, and their team is incredibly responsive to our needs.</p>
+                            <p class="testimonial-author">Sarah Johnson</p>
+                            <p class="testimonial-company">TechSolutions Inc.</p>
+                        </div>
+                        <div class="testimonial-item">
+                            <p class="testimonial-text">We've been working with LaCleo for 5 years and they've never missed a delivery. Their reliability is unmatched in the industry.</p>
+                            <p class="testimonial-author">Michael Chen</p>
+                            <p class="testimonial-company">Global Financial Partners</p>
+                        </div>
+                        <div class="testimonial-item">
+                            <p class="testimonial-text">The variety and quality of their products have allowed us to offer better meal options to our employees at competitive prices.</p>
+                            <p class="testimonial-author">David Rodriguez</p>
+                            <p class="testimonial-company">Urban Office Spaces</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="features">
+            <div>
+                <h3>Wide Range</h3>
+                <p>Meals, snacks, beverages, more.</p>
+            </div>
+            <div>
+                <h3>Trusted by Enterprises</h3>
+                <p>We supply to 100+ companies.</p>
+            </div>
+            <div>
+                <h3>Fast Delivery</h3>
+                <p>Fresh food on time, every time.</p>
+            </div>
+        </section>
+
+        <section class="contact">
+            <div class="contact-container">
+                <h2>Contact Us</h2>
+                <div class="contact-info">
+                    <div>
+                        <h3>Address</h3>
+                        <p>123 Business Park, Suite 456<br>New York, NY 10001</p>
+                    </div>
+                    <div>
+                        <h3>Phone</h3>
+                        <p>(555) 123-4567</p>
+                    </div>
+                    <div>
+                        <h3>Email</h3>
+                        <p>info@lacleofoods.com</p>
+                    </div>
+                </div>
+                <form class="contact-form">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" required></textarea>
+                    </div>
+                    <button type="submit" class="cta-btn">Send Message</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="#about">About Us</a></li>
+                    <li><a href="/products">Products</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Company</h3>
+                <ul>
+                    <li><a href="#why-us">Why Us</a></li>
+                    <li><a href="/media">Media</a></li>
+    
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <ul>
+                    <li><a href="tel:5551234567">(555) 123-4567</a></li>
+                    <li><a href="mailto:info@lacleofoods.com">info@lacleofoods.com</a></li>
+                    <li><a href="/contact">Contact Form</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2023 LaCleo Foods. All rights reserved.</p>
+        </div>
+    </footer>
+                    
+</body>
+</html>

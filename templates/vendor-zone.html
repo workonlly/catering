@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LaCleo Foods - Vendor Portal</title>
+    <style>
+        :root {
+            --primary-color: #e67e22;
+            --secondary-color: #2ecc71;
+            --dark-color: #333;
+            --light-color: #f9f9f9;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        body {
+            line-height: 1.6;
+            color: var(--dark-color);
+            background-color: var(--light-color);
+        }
+        
+        /* Header Styles */
+        header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
+                        url('https://images.unsplash.com/photo-1504674900247-0877df9cc836');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+            padding: 6rem 2rem;
+        }
+        
+        .hero h1 {
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+        }
+        
+        /* Vendor Types Grid */
+        .vendor-types {
+            max-width: 1200px;
+            margin: 3rem auto;
+            padding: 0 2rem;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--primary-color);
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            width: 80px;
+            height: 3px;
+            background-color: var(--primary-color);
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .vendor-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .vendor-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .vendor-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .vendor-image {
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .vendor-content {
+            padding: 1.5rem;
+        }
+        
+        .vendor-content h3 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .vendor-content p {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+        
+        .vendor-btn {
+            display: inline-block;
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 0.6rem 1.2rem;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .vendor-btn:hover {
+            background-color: #27ae60;
+        }
+        
+        /* Benefits Section */
+        .benefits {
+            background-color: #f5f5f5;
+            padding: 4rem 2rem;
+        }
+        
+        .benefits-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .benefit-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        
+        .benefit-card h4 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--dark-color);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .copyright {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #555;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .vendor-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="nav-container">
+            <a href="/" class="logo">LaCleo Foods</a>
+            <nav>
+                <a href="/" class="vendor-btn">Back to Main Site</a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <h1>Vendor Partnership Program</h1>
+        <p>Join our network of trusted suppliers and expand your business reach</p>
+        <a href="#vendor-types" class="vendor-btn">Explore Vendor Opportunities</a>
+    </section>
+
+    <section class="vendor-types" id="vendor-types">
+        <h2 class="section-title">Our Vendor Categories</h2>
+        <div class="vendor-grid">
+            <!-- Produce -->
+            <div class="vendor-card">
+                <div class="vendor-image" style="background-image: url('https://images.unsplash.com/photo-1542838132-92c53300491e')"></div>
+                <div class="vendor-content">
+                    <h3>Produce Suppliers</h3>
+                    <p>Fresh fruits and vegetables from local farms and international producers. Organic and conventional options available.</p>
+                    <a href="#" class="vendor-btn">Apply Now</a>
+                </div>
+            </div>
+            
+            <!-- Meat & Poultry -->
+            <div class="vendor-card">
+                <div class="vendor-image" style="background-image: url('https://images.unsplash.com/photo-1558030006-450675393462')"></div>
+                <div class="vendor-content">
+                    <h3>Meat & Poultry</h3>
+                    <p>High-quality meat, poultry, and seafood with proper certifications and food safety standards.</p>
+                    <a href="#" class="vendor-btn">Apply Now</a>
+                </div>
+            </div>
+            
+            <!-- Dairy -->
+            <div class="vendor-card">
+                <div class="vendor-image" style="background-image: url('https://images.unsplash.com/photo-1550583724-b2692b85b150')"></div>
+                <div class="vendor-content">
+                    <h3>Dairy Products</h3>
+                    <p>Milk, cheese, yogurt and other dairy products from trusted local and international sources.</p>
+                    <a href="#" class="vendor-btn">Apply Now</a>
+                </div>
+            </div>
+            
+            <!-- Bakery -->
+            <div class="vendor-card">
+                <div class="vendor-image" style="background-image: url('https://images.unsplash.com/photo-1509440159596-0249088772ff')"></div>
+                <div class="vendor-content">
+                    <h3>Bakery & Pastry</h3>
+                    <p>Artisan breads, pastries, and baked goods from small bakeries to large-scale producers.</p>
+                    <a href="#" class="vendor-btn">Apply Now</a>
+                </div>
+            </div>
+            
+            <!-- Beverages -->
+            <div class="vendor-card">
+                <div class="vendor-image" style="background-image: url('https://images.unsplash.com/photo-1551029506-0807df4e2031')"></div>
+                <div class="vendor-content">
+                    <h3>Beverages</h3>
+                    <p>Coffee, tea, juices, soft drinks and other beverages for corporate clients.</p>
+                    <a href="#" class="vendor-btn">Apply Now</a>
+                </div>
+            </div>
+            
+            <!-- Prepared Foods -->
+            <div class="vendor-card">
+                <div class="vendor-image" style="background-image: url('https://images.unsplash.com/photo-1546069901-ba9599a7e63c')"></div>
+                <div class="vendor-content">
+                    <h3>Prepared Foods</h3>
+                    <p>Ready-to-eat meals, salads, sandwiches and other prepared food items.</p>
+                    <a href="#" class="vendor-btn">Apply Now</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="benefits">
+        <div class="benefits-container">
+            <h2 class="section-title">Vendor Benefits</h2>
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <h4>Expanded Market Reach</h4>
+                    <p>Access our network of 500+ corporate clients across multiple industries and regions.</p>
+                </div>
+                
+                <div class="benefit-card">
+                    <h4>Reliable Payments</h4>
+                    <p>Consistent, on-time payments with transparent accounting and reporting.</p>
+                </div>
+                
+                <div class="benefit-card">
+                    <h4>Volume Commitments</h4>
+                    <p>Guaranteed minimum order quantities to help you plan production.</p>
+                </div>
+                
+                <div class="benefit-card">
+                    <h4>Marketing Exposure</h4>
+                    <p>Featured in our vendor spotlight program and marketing materials.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <p>Ready to become a LaCleo Foods vendor partner?</p>
+            <p>Contact our vendor relations team at <strong>vendors@lacleofoods.com</strong> or call <strong>(555) 987-6543</strong></p>
+            <div class="copyright">
+                <p>&copy; 2023 LaCleo Foods Vendor Partnership Program. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
