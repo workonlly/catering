@@ -2,10 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>LaCleo Foods – B2B Food Supply</title>
     <style>
-
         html {
             scroll-behavior: smooth;
         }
@@ -25,7 +24,25 @@
             overflow-x: hidden;
         }
         
-        /* Keyframe Animations */
+        /* Typography */
+        h1, h2, h3, h4 {
+            line-height: 1.2;
+            margin-bottom: 1rem;
+        }
+        
+        h1 {
+            font-size: 2.8rem;
+        }
+        
+        h2 {
+            font-size: 2.5rem;
+        }
+        
+        h3 {
+            font-size: 1.8rem;
+        }
+        
+        /* Enhanced Keyframe Animations */
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
@@ -42,13 +59,41 @@
         }
         
         @keyframes slideInFromLeft {
-            from { transform: translateX(-50px); opacity: 0; }
+            from { transform: translateX(-100px); opacity: 0; }
             to { transform: translateX(0); opacity: 1; }
         }
         
         @keyframes slideInFromRight {
             from { transform: translateX(50px); opacity: 0; }
             to { transform: translateX(0); opacity: 1; }
+        }
+
+        /* NEW: Smooth slide from left for headings */
+        @keyframes slideFromLeftSmooth {
+            from { 
+                transform: translateX(-80px); 
+                opacity: 0; 
+            }
+            to { 
+                transform: translateX(0); 
+                opacity: 1; 
+            }
+        }
+
+        /* NEW: Bounce slide animation */
+        @keyframes bounceSlideLeft {
+            0% { 
+                transform: translateX(-100px); 
+                opacity: 0; 
+            }
+            60% { 
+                transform: translateX(10px); 
+                opacity: 0.8; 
+            }
+            100% { 
+                transform: translateX(0); 
+                opacity: 1; 
+            }
         }
         
         @keyframes pulse {
@@ -68,17 +113,28 @@
             50% { background-color: #f39c12; }
             100% { background-color: #e67e22; }
         }
-        
+
+        /* NEW: Counter animation */
+        @keyframes countUp {
+            from { transform: scale(0.5); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
         /* Navigation Styles */
-        nav {
-            background-color: #fff;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            padding: 1rem 2rem;
-            position: sticky;
+       nav {
+            background-color: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: none;
+            padding: 0.5rem 2rem;
+            position: fixed;
             top: 0;
+            left: 0;
+            width: 100%;
             z-index: 110;
             animation: fadeIn 0.8s ease-out forwards;
         }
+        
         
         .nav-container {
             display: flex;
@@ -86,16 +142,18 @@
             align-items: center;
             max-width: 1200px;
             margin: 0 auto;
+            padding-left: 0;
         }
         
         .logo {
-            font-size: 1.5rem;
+            font-size: 2rem;
             font-weight: bold;
             color: #e67e22;
             text-decoration: none;
             animation: slideInFromLeft 0.8s ease-out 0.2s both;
             display: inline-block;
         }
+
         
         .logo:hover {
             animation: pulse 1s infinite;
@@ -104,7 +162,7 @@
         .nav-menu {
             display: flex;
             list-style: none;
-            gap: 1.5rem;
+            gap: 20px;
         }
         
         .nav-menu li {
@@ -149,6 +207,29 @@
             width: 100%;
         }
 
+        /* Appointment Button Styles */
+        .appointment-btn {
+            display: inline-block;
+            background-color: #e67e22;
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            margin-left: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border: none;
+            cursor: pointer;
+            animation: slideInFromRight 0.8s ease-out 1.0s both;
+        }
+
+        .appointment-btn:hover {
+            background-color: #ec991c;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 10px rgba(0,0,0,0.2);
+        }
+
         /* Hero Section */
         .hero {
             position: relative;
@@ -183,11 +264,13 @@
         .hero-overlay h1 {
             font-size: 2.8rem;
             margin-bottom: 1rem;
+            animation: slideInFromTop 1s ease-out 0.5s both;
         }
 
         .hero-overlay p {
             font-size: 1.2rem;
             margin-bottom: 2rem;
+            animation: slideInFromBottom 1s ease-out 0.7s both;
         }
 
         .cta-btn {
@@ -198,17 +281,16 @@
             border-radius: 4px;
             text-decoration: none;
             font-weight: bold;
-            transition: all 0.3s ease;
             position: relative;
             z-index: 2;
-            animation: slideInFromBottom 1s ease-out 0.9s both;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            animation: none !important;
+            transition: none !important;
         }
         
         .cta-btn:hover {
-            animation: colorChange 1.5s infinite, pulse 1s infinite;
-            transform: translateY(-3px);
-            box-shadow: 0 6px 10px rgba(0,0,0,0.2);
+            background-color: #cf6a1c; /* Darker orange on hover */
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2); /* Slightly deeper shadow */
         }
 
         .vendor-btn {
@@ -256,7 +338,7 @@
 
         .about-image {
             flex: 1;
-            min-width: 300px;
+            min-width: 400px;
             position: relative;
             opacity: 0;
             animation: slideInFromRight 1s ease-out 0.7s forwards;
@@ -274,11 +356,11 @@
         }
 
         .about h2 {
-            font-size: 2.5rem;
             color: #e67e22;
             margin-bottom: 1.5rem;
             position: relative;
             display: inline-block;
+            animation: slideInFromLeft 1.2s ease-out 0.8s both;
         }
 
         .about h2::after {
@@ -291,17 +373,38 @@
             left: 0;
         }
 
+        /* NEW: Enhanced animations for Our Story and Our Values */
         .about h3 {
-            font-size: 1.5rem;
             color: #333;
             margin: 1.5rem 0 1rem;
+            opacity: 0;
+            transform: translateX(-80px);
+            transition: all 0.6s ease;
+        }
+
+        .about h3.animate-slide {
+            animation: bounceSlideLeft 1s ease-out forwards;
+        }
+
+        .about h3:nth-of-type(1) {
+            animation-delay: 1.2s;
+        }
+
+        .about h3:nth-of-type(2) {
+            animation-delay: 1.8s;
         }
 
         .about p {
             margin-bottom: 1rem;
             line-height: 1.8;
             color: #555;
+            opacity: 0;
+            animation: slideInFromBottom 0.8s ease-out forwards;
         }
+
+        .about p:nth-of-type(1) { animation-delay: 1s; }
+        .about p:nth-of-type(2) { animation-delay: 1.4s; }
+        .about p:nth-of-type(3) { animation-delay: 2s; }
 
         .stats {
             display: flex;
@@ -341,6 +444,8 @@
             color: #e67e22;
             margin-bottom: 0.5rem;
             transition: all 0.3s ease;
+            /* NEW: Counter animation ready */
+            animation: countUp 0.5s ease-out;
         }
 
         .stat-item:hover .stat-number {
@@ -367,15 +472,12 @@
 
         .why-us h2 {
             text-align: center;
-            font-size: 2.5rem;
             color: #e67e22;
             margin-bottom: 3rem;
             position: relative;
-            display: inline-block;
-            left: 50%;
-            transform: translateX(-50%);
+            display: block;
+            animation: slideInFromTop 1s ease-out 0.3s both;
         }
-
         .why-us h2::after {
             content: '';
             position: absolute;
@@ -432,8 +534,8 @@
             color: #333;
             margin-bottom: 1rem;
             text-align: center;
-            font-size: 1.5rem;
             transition: all 0.3s ease;
+            animation: slideInFromLeft 0.8s ease-out forwards;
         }
 
         .benefit-card:hover h3 {
@@ -460,7 +562,7 @@
             text-align: center;
             color: #e67e22;
             margin-bottom: 2rem;
-            font-size: 1.8rem;
+            animation: slideFromLeftSmooth 1s ease-out 1.2s both;
         }
 
         .testimonial-grid {
@@ -477,7 +579,12 @@
             background-color: #f9f9f9;
             border-radius: 8px;
             position: relative;
+            animation: slideInFromBottom 0.8s ease-out forwards;
         }
+
+        .testimonial-item:nth-child(1) { animation-delay: 1.4s; }
+        .testimonial-item:nth-child(2) { animation-delay: 1.6s; }
+        .testimonial-item:nth-child(3) { animation-delay: 1.8s; }
 
         .testimonial-item::before {
             content: '"';
@@ -504,7 +611,7 @@
             text-align: right;
         }
 
-        .testimonial-company {
+        .testimonial-location {
             font-size: 0.9rem;
             color: #777;
             text-align: right;
@@ -546,8 +653,8 @@
         .features h3 {
             color: #e67e22;
             margin-bottom: 1rem;
-            font-size: 1.5rem;
             transition: all 0.3s ease;
+            animation: slideFromLeftSmooth 0.8s ease-out forwards;
         }
         
         .features div:hover h3 {
@@ -579,8 +686,8 @@
         .contact h2 {
             color: #e67e22;
             margin-bottom: 2rem;
-            font-size: 2rem;
             display: inline-block;
+            animation: slideFromLeftSmooth 1s ease-out 1.2s both;
         }
         
         .contact h2:hover {
@@ -593,24 +700,46 @@
             gap: 2rem;
             flex-wrap: wrap;
             margin-bottom: 2rem;
+            align-items: stretch;
         }
         
         .contact-info div {
-            flex: 1;
-            min-width: 200px;
+            flex: 1; 
+            min-width: 300px;
+            max-width: 400px;
+            min-height: 200px;
             background: white;
-            padding: 1.5rem;
+            padding: 2rem 4rem;
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
             transition: all 0.4s ease;
             opacity: 0;
             animation: slideInFromBottom 0.8s ease-out forwards;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
         }
-        
-        .contact-info div:nth-child(1) { animation-delay: 1.2s; }
-        .contact-info div:nth-child(2) { animation-delay: 1.4s; }
-        .contact-info div:nth-child(3) { animation-delay: 1.6s; }
-        
+
+        .contact-info div:nth-child(1) { animation-delay: 1.4s; }
+        .contact-info div:nth-child(2) { animation-delay: 1.6s; }
+        .contact-info div:nth-child(3) { animation-delay: 1.8s; }
+
+        .contact-info div h3 {
+            margin: 0 0 0.5rem 0;
+            color: #e67e22;
+            font-weight: 600;
+            animation: slideFromLeftSmooth 0.6s ease-out forwards;
+        }
+
+        .contact-info div p {
+            margin: 0;
+            line-height: 1.4;
+            color: #555;
+            font-size: 0.95rem;
+        }
+
         .contact-info div:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 15px rgba(0,0,0,0.1);
@@ -624,7 +753,7 @@
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
             opacity: 0;
-            animation: slideInFromBottom 0.8s ease-out 1.8s forwards;
+            animation: slideInFromBottom 0.8s ease-out 2s forwards;
         }
         
         .form-group {
@@ -702,8 +831,8 @@
         .footer-section h3 {
             color: #e67e22;
             margin-bottom: 1rem;
-            font-size: 1.2rem;
             transition: all 0.3s ease;
+            animation: slideFromLeftSmooth 0.8s ease-out forwards;
         }
         
         .footer-section h3:hover {
@@ -781,44 +910,6 @@
             animation-duration: 8s;
         }
         
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-            .nav-container {
-                flex-direction: column;
-            }
-            
-            .nav-menu {
-                margin-top: 1rem;
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-            
-            .hero h1 {
-                font-size: 2rem;
-            }
-
-            .about-container {
-                flex-direction: column;
-            }
-
-            .about-image {
-                order: -1;
-                margin-bottom: 2rem;
-            }
-            
-            .benefit-card {
-                min-width: 100%;
-            }
-            
-            .features {
-                flex-direction: column;
-            }
-            
-            .contact-info {
-                flex-direction: column;
-            }
-        }
-
         /* MODAL STYLES */
         .modal-overlay {
             position: fixed;
@@ -832,6 +923,7 @@
             align-items: center;
             justify-content: center;
             z-index: 120;
+            overflow-y: auto;
         }
 
         .modal-overlay.show {
@@ -842,8 +934,8 @@
             background: rgba(255, 255, 255, 0.9);
             backdrop-filter: blur(12px);
             border-radius: 12px;
-            padding: 2rem 3rem;
-            max-width: 400px;
+            padding: 2rem 2rem;
+            max-width: 500px;
             width: 90%;
             box-shadow: 0 10px 30px rgba(0,0,0,0.15);
             animation: slideInFromTop 0.4s ease forwards;
@@ -851,6 +943,8 @@
             display: flex;
             flex-direction: column;
             align-items: stretch;
+            max-height: 90vh;
+            overflow-y: auto;
         }
 
         .modal h2 {
@@ -858,6 +952,12 @@
             color: #e67e22;
             margin-bottom: 1rem;
             text-align: center;
+        }
+
+        .modal-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
         }
 
         .modal label {
@@ -869,6 +969,7 @@
 
         .modal input[type="text"],
         .modal input[type="email"],
+        .modal input[type="tel"],
         .modal input[type="password"],
         .modal input[type="number"],
         .modal select,
@@ -882,12 +983,24 @@
             transition: border-color 0.3s ease;
         }
 
+        .modal input[type="datetime-local"] {
+            width: 100%;
+            padding: 0.7rem 1rem;
+            margin-bottom: 1.2rem;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
         .modal input[type="text"]:focus,
         .modal input[type="email"]:focus,
+        .modal input[type="tel"]:focus,
         .modal input[type="password"]:focus,
         .modal input[type="number"]:focus,
         .modal select:focus,
-        .modal textarea:focus {
+        .modal textarea:focus,
+        .modal input[type="datetime-local"]:focus {
             outline: none;
             border-color: #e67e22;
             box-shadow: 0 0 6px 2px rgba(230,126,34,0.3);
@@ -928,9 +1041,22 @@
             color: #cf6a1c;
         }
 
+        /* Success Message Styles */
+        .success-message {
+            display: none;
+            background-color: #2ecc71;
+            color: white;
+            padding: 1rem;
+            border-radius: 4px;
+            margin-top: 1rem;
+            text-align: center;
+            animation: fadeIn 0.5s ease;
+        }
+
         /* Accessibility focus outline for modal buttons */
         .modal button:focus,
-        .nav-menu a:focus {
+        .nav-menu a:focus,
+        .appointment-btn:focus {
             outline: 3px solid #e67e22;
             outline-offset: 2px;
         }
@@ -961,38 +1087,586 @@
             width: 20px;
             height: 20px;
         }
+
+        /* AI Chatbot Styles - Fixed Version */
+        #chatbot-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 350px;
+            height: 500px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.2);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            transform: translateY(20px);
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 9999;
+            pointer-events: none;
+        }
+
+        #chatbot-container.open {
+            transform: translateY(0);
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        #chatbot-header {
+            background-color: #e67e22;
+            color: white;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: bold;
+            cursor: default;
+        }
+
+        #chatbot-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            padding: 0 5px;
+        }
+
+        #chatbot-messages {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            background-color: #f9f9f9;
+        }
+
+        .chatbot-message {
+            margin-bottom: 15px;
+            max-width: 80%;
+            padding: 10px 15px;
+            border-radius: 18px;
+            line-height: 1.4;
+            animation: fadeIn 0.3s ease;
+            word-wrap: break-word;
+        }
+
+        .user-message {
+            background-color: #e67e22;
+            color: white;
+            margin-left: auto;
+            border-bottom-right-radius: 5px;
+        }
+
+        .bot-message {
+            background-color: #eee;
+            color: #333;
+            margin-right: auto;
+            border-bottom-left-radius: 5px;
+        }
+
+        #chatbot-input {
+            display: flex;
+            padding: 10px;
+            border-top: 1px solid #ddd;
+            background-color: white;
+        }
+
+        #chatbot-query {
+            flex: 1;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            outline: none;
+        }
+
+        #chatbot-query:focus {
+            border-color: #e67e22;
+        }
+
+        #chatbot-send {
+            background-color: #e67e22;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            margin-left: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #chatbot-send:hover {
+            background-color: #d46b15;
+        }
+
+        #chatbot-launcher {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background-color: #e67e22;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            z-index: 10000;
+            border: none;
+            animation: pulse 2s infinite;
+        }
+
+        #chatbot-launcher:hover {
+            animation: none;
+            transform: scale(1.1);
+        }
+
+        /* Gmail Logo Button */
+        .gmail-float-btn {
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background-color: #ffffff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            z-index: 10000;
+            border: none;
+            transition: all 0.3s ease;
+        }
+
+        .gmail-float-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+        }
+
+        .gmail-float-btn img {
+            width: 40px;
+            height: 40px;
+        }
+
+        /* NEW: Intersection Observer Animation Classes */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .animate-on-scroll.animated {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .slide-left-on-scroll {
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: all 0.8s ease;
+        }
+
+        .slide-left-on-scroll.animated {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Calendar Styles */
+        .calendar {
+            width: 100%;
+            margin: 20px 0;
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .calendar-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .calendar-nav {
+            display: flex;
+            gap: 10px;
+        }
+
+        .calendar-nav button {
+            background: #e67e22;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 5px 10px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .calendar-nav button:hover {
+            background: #d46b15;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+        }
+
+        .calendar-day-header {
+            text-align: center;
+            font-weight: bold;
+            padding: 5px;
+            color: #555;
+        }
+
+        .calendar-day {
+            text-align: center;
+            padding: 10px 5px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .calendar-day:hover {
+            background: #f0f0f0;
+        }
+
+        .calendar-day.selected {
+            background: #e67e22;
+            color: white;
+        }
+
+        .calendar-day.disabled {
+            color: #ccc;
+            cursor: not-allowed;
+        }
+
+        .time-slots {
+            margin-top: 20px;
+        }
+
+        .time-slots h4 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .slot-container {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+            margin-top: 15px;
+        }
+
+        #formStep {
+            display: none;
+        }
+
+
+        .time-slot {
+            padding: 8px 12px;
+            background: #f0f0f0;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .time-slot:hover {
+            background: #e0e0e0;
+        }
+
+        .time-slot.selected {
+            background: #e67e22;
+            color: white;
+        }
+
+        .time-slot.disabled {
+            background: #f9f9f9;
+            color: #ccc;
+            cursor: not-allowed;
+        }
+
+        /* Mobile Menu Styles */
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #333;
+            cursor: pointer;
+            z-index: 1000;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 1024px) {
+            h1, .hero-overlay h1 {
+                font-size: 2.2rem;
+            }
+            
+            h2, .about h2, .why-us h2 {
+                font-size: 2rem;
+            }
+            
+            h3, .about h3, .benefit-card h3 {
+                font-size: 1.5rem;
+            }
+            
+            .contact-info div {
+                padding: 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+                padding: 0.5rem 1rem;
+            }
+            
+            .mobile-menu-toggle {
+                display: block;
+            }
+            
+            .nav-menu {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 80%;
+                max-width: 300px;
+                height: 100vh;
+                background-color: white;
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 5rem 2rem;
+                box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+                transition: right 0.3s ease;
+                margin-top: 0;
+                z-index: 100;
+            }
+            
+            .nav-menu.active {
+                right: 0;
+            }
+            
+            .nav-menu li {
+                width: 100%;
+                margin-bottom: 1rem;
+                animation: none;
+            }
+            
+            .nav-menu a {
+                display: block;
+                width: 100%;
+                padding: 1rem 0;
+            }
+            
+            .appointment-btn {
+                margin-left: 0;
+                margin-top: 1rem;
+                width: 100%;
+                text-align: center;
+            }
+            
+            .hero-overlay {
+                padding: 2rem 1rem;
+                margin: 0 1rem;
+            }
+            
+            .about-container {
+                flex-direction: column;
+            }
+            
+            .about-image {
+                order: -1;
+                min-width: 100%;
+            }
+            
+            .benefit-card {
+                min-width: 100%;
+            }
+            
+            .testimonial-item {
+                min-width: 100%;
+            }
+            
+            .contact-info div {
+                min-width: 100%;
+                padding: 1.5rem;
+            }
+            
+            .contact-form {
+                padding: 1.5rem;
+            }
+            
+            .footer-content {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+            
+            .footer-section {
+                text-align: center;
+            }
+            
+            .footer-section ul {
+                padding: 0;
+            }
+            
+            /* Chatbot adjustments */
+            #chatbot-container {
+                width: 100%;
+                height: 70vh;
+                right: 0;
+                bottom: 0;
+                border-radius: 10px 10px 0 0;
+            }
+            
+            #chatbot-launcher {
+                bottom: 10px;
+                right: 10px;
+                width: 50px;
+                height: 50px;
+            }
+            
+            .gmail-float-btn {
+                bottom: 70px;
+                right: 10px;
+                width: 50px;
+                height: 50px;
+            }
+            
+            .gmail-float-btn img {
+                width: 30px;
+                height: 30px;
+            }
+            
+            /* Calendar adjustments */
+            .calendar-day {
+                padding: 5px;
+                font-size: 0.9rem;
+            }
+            
+            .slot-container {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .time-slot {
+                padding: 6px 8px;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            /* Typography adjustments for small screens */
+            h1, .hero-overlay h1 {
+                font-size: 1.8rem !important;
+                line-height: 1.2;
+            }
+            
+            h2, .about h2, .why-us h2 {
+                font-size: 1.6rem !important;
+                line-height: 1.3;
+            }
+            
+            h3, .benefit-card h3, .features h3 {
+                font-size: 1.3rem !important;
+            }
+            
+            /* Center the "Why Choose" heading properly */
+            .why-us h2 {
+                text-align: center;
+                color: #e67e22;
+                margin-bottom: 3rem;
+                animation: slideInFromTop 1s ease-out 0.3s both;
+                width: 100%;
+            }
+            
+            .why-us h2::after {
+                left: 25%;
+            }
+            
+            .cta-btn, .appointment-btn {
+                padding: 0.6rem 1.2rem;
+                font-size: 0.9rem;
+            }
+            
+            .stat-item {
+                min-width: 120px;
+                padding: 1rem;
+            }
+            
+            .stat-number {
+                font-size: 1.8rem;
+            }
+            
+            .stat-label {
+                font-size: 0.8rem;
+            }
+            
+            .slot-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .modal {
+                padding: 1.5rem;
+            }
+            
+            /* Ensure contact info boxes are full width */
+            .contact-info div {
+                min-width: 100%;
+                padding: 1.5rem;
+            }
+        }
     </style>
 </head>
 <body>
+    <!-- Gmail Floating Button -->
+    <a href="https://mail.google.com/mail/?view=cm&fs=1&to=lacleocorporateservices@gmail.com" 
+       class="gmail-float-btn" 
+       aria-label="Email us"
+       target="_blank">
+        <img src="https://static.vecteezy.com/system/resources/previews/013/948/544/non_2x/gmail-logo-on-transparent-white-background-free-vector.jpg" alt="Gmail Logo">
+    </a>
+
     <header>
         <nav>
             <div class="nav-container">
-                <a href="/" class="logo">LaCleo Foods</a>
-                <ul class="nav-menu" role="menu" aria-label="Primary navigation">
+                <a href="/" style="display: flex; align-items: center; text-decoration: none; margin-right: 60px;">
+                    <img src="/static/images/logo.png" alt="LaCleo Logo" style="height: 40px;" />
+                </a>
+
+                <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle menu">
+                    ☰
+                </button>
+
+                <ul class="nav-menu" role="menu" aria-label="Primary navigation" id="mainMenu">
                     <li role="none"><a href="#about" role="menuitem" tabindex="0">About Us</a></li>
-                    <li role="none"><a href="/products" role="menuitem" tabindex="0">Products</a></li>
+                    <li role="none"><a href="/services" role="menuitem" tabindex="0">Services</a></li>
                     <li role="none"><a href="#why-us" role="menuitem" tabindex="0">Why Us</a></li>
-                    <li role="none"><a href="/media" role="menuitem" tabindex="0">Media</a></li>
+                    <li role="none"><a href="/blog" role="menuitem" tabindex="0">Blog</a></li>
                     <li role="none"><a href="#contact" role="menuitem" tabindex="0">Contact Us</a></li>
-                    <li role="none"><a href="#" id="vendorBtn" role="menuitem" tabindex="0" aria-haspopup="dialog" aria-controls="vendorModal" aria-expanded="false">Vendor Zone</a></li>
-                    <li role="none"><a href="#" id="signupBtn" role="menuitem" tabindex="0" aria-haspopup="dialog" aria-controls="signupModal" aria-expanded="false">Sign Up</a></li>
-                    <li role="none"><a href="#" id="loginBtn" role="menuitem" tabindex="0" aria-haspopup="dialog" aria-controls="loginModal" aria-expanded="false">Login</a></li>
+                    <li role="none"><a href="/vendorzone" role="menuitem" tabindex="0">Vendor Zone</a></li>
+                    <li role="none"><button class="appointment-btn" id="openAppointmentBtn">Book Appointment</button></li>
                 </ul>
             </div>
         </nav>
         
         <section class="hero" role="banner" aria-label="Main promotional content">
-            <!-- Floating food icons -->
-            <div class="floating-icon" aria-hidden="true">🍎</div>
-            <div class="floating-icon" aria-hidden="true">🍔</div>
-            <div class="floating-icon" aria-hidden="true">🥗</div>
-            <div class="floating-icon" aria-hidden="true">☕</div>
-            
             <div class="hero-slideshow" aria-hidden="true"></div>
             <div class="hero-overlay">
                 <h1>Delivering Food Solutions to Businesses</h1>
                 <p>Corporate meals, snacks, and beverages – all in one place.</p>
-                <a href="/products" class="cta-btn">Explore Products</a>
+                <a href="/services" class="cta-btn">Explore Services</a>    
             </div>
         </section>
     </header>
@@ -1005,23 +1679,23 @@
                     <h2>About LaCleo Foods</h2>
                     <p>Founded in 2010, LaCleo Foods has grown from a small local supplier to a leading B2B food distribution company serving businesses across the nation. Our mission is to provide high-quality, fresh food solutions that help companies nourish their teams and impress their clients.</p>
                     
-                    <h3>Our Story</h3>
+                    <h3 class="story-heading">Our Story</h3>
                     <p>What began as a family-owned business with a single delivery truck has blossomed into a full-service food distribution network. We've maintained our commitment to quality and personal service while expanding our capabilities to meet the needs of businesses of all sizes.</p>
                     
-                    <h3>Our Values</h3>
+                    <h3 class="values-heading">Our Values</h3>
                     <p>At LaCleo Foods, we believe in sustainable sourcing, exceptional quality, and reliable service. We partner with trusted local producers whenever possible and maintain rigorous quality control standards at every step of our supply chain.</p>
                     
                     <div class="stats">
                         <div class="stat-item">
-                            <div class="stat-number">13+</div>
+                            <div class="stat-number" data-target="13" data-suffix="+">0+</div>
                             <div class="stat-label">Years in Business</div>
                         </div>
                         <div class="stat-item">
-                            <div class="stat-number">500+</div>
+                            <div class="stat-number" data-target="500" data-suffix="+">0+</div>
                             <div class="stat-label">Clients Served</div>
                         </div>
                         <div class="stat-item">
-                            <div class="stat-number">100%</div>
+                            <div class="stat-number" data-target="100" data-suffix="%">0%</div>
                             <div class="stat-label">Quality Guarantee</div>
                         </div>
                         <div class="stat-item">
@@ -1032,7 +1706,7 @@
                 </div>
                 
                 <div class="about-image">
-                    <img src="https://images.unsplash.com/photo-1606787366850-de6330128bfc" alt="LaCleo Foods Team" />
+                    <img src="https://plus.unsplash.com/premium_photo-1723291306365-841e10185b6f?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8bWVhbHN8ZW58MHx8MHx8fDA%3D" alt="LaCleo Foods Team" />
                 </div>
             </div>
         </section>
@@ -1040,28 +1714,28 @@
         <!-- Why Us Section -->
         <section id="why-us" class="why-us" tabindex="-1">
             <div class="why-us-container">
-                <h2>Why Choose LaCleo Foods?</h2>
+                <h2 class="animate-on-scroll">Why Choose LaCleo Foods?</h2>
                 
                 <div class="benefits">
-                    <div class="benefit-card">
+                    <div class="benefit-card animate-on-scroll">
                         <div class="benefit-icon" aria-hidden="true">🥦</div>
                         <h3>Premium Quality</h3>
                         <p>We source only the freshest ingredients from trusted suppliers, with rigorous quality checks at every stage of our supply chain.</p>
                     </div>
                     
-                    <div class="benefit-card">
+                    <div class="benefit-card animate-on-scroll">
                         <div class="benefit-icon" aria-hidden="true">🚚</div>
                         <h3>Reliable Delivery</h3>
                         <p>Our logistics network ensures your food arrives on time, every time, with temperature-controlled transport for optimal freshness.</p>
                     </div>
                     
-                    <div class="benefit-card">
+                    <div class="benefit-card animate-on-scroll">
                         <div class="benefit-icon" aria-hidden="true">💰</div>
                         <h3>Cost Effective</h3>
                         <p>Bulk purchasing power and efficient operations allow us to offer competitive pricing without compromising on quality.</p>
                     </div>
                     
-                    <div class="benefit-card">
+                    <div class="benefit-card animate-on-scroll">
                         <div class="benefit-icon" aria-hidden="true">♻️</div>
                         <h3>Sustainable Practices</h3>
                         <p>We prioritize eco-friendly packaging, food waste reduction, and partnerships with sustainable producers.</p>
@@ -1069,22 +1743,22 @@
                 </div>
                 
                 <div class="testimonials">
-                    <h3>What Our Clients Say</h3>
+                    <h3 class="slide-left-on-scroll">What Our Clients Say</h3>
                     <div class="testimonial-grid">
-                        <div class="testimonial-item" tabindex="0">
-                            <p class="testimonial-text">LaCleo Foods transformed our corporate catering. The quality is consistently excellent, and their team is incredibly responsive to our needs.</p>
-                            <p class="testimonial-author">Sarah Johnson</p>
-                            <p class="testimonial-company">TechSolutions Inc.</p>
+                        <div class="testimonial-item animate-on-scroll" tabindex="0">
+                            <p class="testimonial-text">Lacleo Foods catered our corporate event flawlessly. The food was delicious, and the service was top-notch. Highly recommend them for any event in Mumbai!</p>
+                            <p class="testimonial-author">Amit Sharma</p>
+                            <p class="testimonial-location">Mumbai, Maharashtra</p>
                         </div>
-                        <div class="testimonial-item" tabindex="0">
+                        <div class="testimonial-item animate-on-scroll" tabindex="0">
                             <p class="testimonial-text">We've been working with LaCleo for 5 years and they've never missed a delivery. Their reliability is unmatched in the industry.</p>
                             <p class="testimonial-author">Michael Chen</p>
-                            <p class="testimonial-company">Global Financial Partners</p>
+                            <p class="testimonial-location">Global Financial Partners</p>
                         </div>
-                        <div class="testimonial-item" tabindex="0">
+                        <div class="testimonial-item animate-on-scroll" tabindex="0">
                             <p class="testimonial-text">The variety and quality of their products have allowed us to offer better meal options to our employees at competitive prices.</p>
                             <p class="testimonial-author">David Rodriguez</p>
-                            <p class="testimonial-company">Urban Office Spaces</p>
+                            <p class="testimonial-location">Urban Office Spaces</p>
                         </div>
                     </div>
                 </div>
@@ -1092,15 +1766,15 @@
         </section>
 
         <section class="features" tabindex="-1">
-            <div>
+            <div class="animate-on-scroll">
                 <h3>Wide Range</h3>
-                <p>Meals, snacks, beverages, more.</p>
+                <p>Meals, snacks, beverages, and more.</p>
             </div>
-            <div>
+            <div class="animate-on-scroll">
                 <h3>Trusted by Enterprises</h3>
                 <p>We supply to 100+ companies.</p>
             </div>
-            <div>
+            <div class="animate-on-scroll">
                 <h3>Fast Delivery</h3>
                 <p>Fresh food on time, every time.</p>
             </div>
@@ -1108,22 +1782,22 @@
 
         <section class="contact" id="contact" tabindex="-1">
             <div class="contact-container">
-                <h2>Contact Us</h2>
+                <h2 class="slide-left-on-scroll">Contact Us</h2>
                 <div class="contact-info">
-                    <div>
+                    <div class="animate-on-scroll">
                         <h3>Address</h3>
-                        <p>123 Business Park, Suite 456<br />New York, NY 10001</p>
+                        <p>Address:  Plot no-b-8 , noida one building sector-62 noida</p>
                     </div>
-                    <div>
+                    <div class="animate-on-scroll">
                         <h3>Phone</h3>
-                        <p>(555) 123-4567</p>
+                        <p>9958489481</p>
                     </div>
-                    <div>
+                    <div class="animate-on-scroll">
                         <h3>Email</h3>
-                        <p>info@lacleofoods.com</p>
+                        <p>lacleocorporateservices@gmail.com</p>
                     </div>
                 </div>
-                <form class="contact-form" aria-label="Contact Form" action="https://script.google.com/macros/s/AKfycbwm0Wep6osrPQaLoDHEy3_2AeR1BgBeDTDUC2vyIcHpPCzMp91w-c2wewBBZ-LXM443/exec" method="POST">
+                <form id="contactForm" class="contact-form animate-on-scroll" aria-label="Contact Form">
                     <div class="form-group">
                         <label for="name">Name</label>
                         <input type="text" id="name" name="name" required aria-required="true" />
@@ -1131,6 +1805,10 @@
                     <div class="form-group">
                         <label for="email">Email</label>
                         <input type="email" id="email" name="email" required aria-required="true" />
+                    </div>
+                    <div class="form-group">
+                        <label for="subject">Subject</label>
+                        <input type="text" id="subject" name="subject" required aria-required="true" />
                     </div>
                     <div class="form-group">
                         <label for="message">Message</label>
@@ -1148,23 +1826,21 @@
                 <h3>Quick Links</h3>
                 <ul>
                     <li><a href="/">Home</a></li>
-                    <li><a href="#about">About Us</a></li>
-                    <li><a href="/products">Products</a></li>
+                    <li><a href="/#about">About Us</a></li>
+                    <li><a href="/services">Services</a></li>
                 </ul>
             </div>
             <div class="footer-section">
                 <h3>Company</h3>
                 <ul>
                     <li><a href="#why-us">Why Us</a></li>
-                    <li><a href="/media">Media</a></li>
                 </ul>
             </div>
             <div class="footer-section">
                 <h3>Contact</h3>
                 <ul>
-                    <li><a href="tel:5551234567">(555) 123-4567</a></li>
-                    <li><a href="mailto:info@lacleofoods.com">info@lacleofoods.com</a></li>
-                    <li><a href="/contact">Contact Form</a></li>
+                    <li><a href="tel:5551234567">9958489481</a></li>
+                    <li><a href="mailto:lacleocorporateservices@gmail.com">lacleocorporateservices@gmail.com</a></li>
                 </ul>
             </div>
         </div>
@@ -1173,43 +1849,99 @@
         </div>
     </footer>
 
-    <!-- Login Modal -->
-    <div class="modal-overlay" id="loginModal" role="dialog" aria-modal="true" aria-labelledby="loginTitle" aria-hidden="true">
+    <!-- Appointment Modal with Calendar -->
+    <div class="modal-overlay" id="appointmentModal" role="dialog" aria-modal="true" aria-labelledby="appointmentTitle" aria-hidden="true">
         <div class="modal" role="document">
-            <button class="close-btn" aria-label="Close login form" id="closeLoginBtn">&times;</button>
-            <h2 id="loginTitle">Login to LaCleo Foods</h2>
-            <form id="loginForm" novalidate>
-                <label for="loginEmail">Email</label>
-                <input type="email" id="loginEmail" name="email" required aria-required="true" autocomplete="username" />
-                <label for="loginPassword">Password</label>
-                <input type="password" id="loginPassword" name="password" required aria-required="true" autocomplete="current-password" />
-                <button type="submit" class="submit-btn">Log In</button>
-            </form>
-            <button class="google-login-btn" id="googleLoginBtn" type="button" aria-label="Login with Google">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 533.5 544.3"><path fill="#4285f4" d="M533.5 278.4c0-18.2-1.6-35.3-4.5-52.2H272.1v98.9h147.1c-6.4 34.8-26.2 64.3-55.7 84.2l90 70.1c52.4-48.3 82.1-119.4 82.1-201z"/><path fill="#34a853" d="M272.1 544.3c75.2 0 138.5-24.8 184.7-67.4l-90-70.1c-24.8 16.6-56.6 26-94.7 26-72.8 0-134.6-49.3-156.6-115.4l-92.1 70.6c46.1 90 140.8 155.7 248.7 155.7z"/><path fill="#fbbc04" d="M115.5 329.4c-7.5-22.1-7.5-45.8 0-67.9l-92-70.6c-23 42.2-23 94.5 0 136.7l92-70.6z"/><path fill="#ea4335" d="M272.1 212.2c39.7 0 75.3 13.7 103.4 40.5l77.4-77.4c-45.5-42.7-104.5-68.3-180.8-68.3-107.9 0-202.6 65.7-248.7 155.7l92.1 70.6c22-66.1 83.8-115.1 156.6-115.1z"/></svg>
-                Login with Google
-            </button>
+            <button class="close-btn" aria-label="Close appointment form" id="closeAppointmentBtn">&times;</button>
+            <div class="modal-content">
+                <h2 id="appointmentTitle">Schedule Your Appointment</h2>
+                
+                <!-- Calendar Step -->
+                <div id="calendarStep" class="modal-step">
+                    <div class="calendar">
+                        <div class="calendar-header">
+                            <div class="calendar-title" id="calendarMonthYear">June 2023</div>
+                            <div class="calendar-nav">
+                                <button id="prevMonth">&lt;</button>
+                                <button id="nextMonth">&gt;</button>
+                            </div>
+                        </div>
+                        
+                        <div class="calendar-grid" id="calendarDaysHeader">
+                            <div class="calendar-day-header">Sun</div>
+                            <div class="calendar-day-header">Mon</div>
+                            <div class="calendar-day-header">Tue</div>
+                            <div class="calendar-day-header">Wed</div>
+                            <div class="calendar-day-header">Thu</div>
+                            <div class="calendar-day-header">Fri</div>
+                            <div class="calendar-day-header">Sat</div>
+                        </div>
+                        
+                        <div class="calendar-grid" id="calendarDays"></div>
+                    </div>
+                    
+                    <div class="time-slots">
+                        <h4>Available Time Slots</h4>
+                        <div class="slot-container" id="timeSlotsContainer">
+                            <!-- Time slots will be generated here -->
+                        </div>
+                    </div>
+                    
+                    <button class="submit-btn" id="proceedToFormBtn" style="margin-top: 20px;">Proceed to Form</button>
+                </div>
+                
+                <!-- Form Step (initially hidden) -->
+                <div id="formStep" class="modal-step" style="display: none;">
+                    <form id="appointmentForm">
+                        <div class="form-group">
+                            <label for="appointmentName">Full Name</label>
+                            <input type="text" id="appointmentName" name="name" required aria-required="true" autocomplete="name" />
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="appointmentCompany">Company Name</label>
+                            <input type="text" id="appointmentCompany" name="company" required aria-required="true" autocomplete="organization" />
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="appointmentEmail">Email</label>
+                            <input type="email" id="appointmentEmail" name="email" required aria-required="true" autocomplete="email" />
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="appointmentPhone">Phone Number</label>
+                            <input type="tel" id="appointmentPhone" name="phone" required aria-required="true" autocomplete="tel" />
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="appointmentService">Service Interested In</label>
+                            <select id="appointmentService" name="service" required aria-required="true">
+                                <option value="">Select a service</option>
+                                <option value="corporate_meals">Corporate Meals</option>
+                                <option value="office_snacks">Office Snacks</option>
+                                <option value="event_catering">Event Catering</option>
+                                <option value="beverage_service">Beverage Service</option>
+                                <option value="custom_solution">Custom Solution</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="appointmentNotes">Additional Notes</label>
+                            <textarea id="appointmentNotes" name="notes" rows="3"></textarea>
+                        </div>
+                        
+                        <input type="hidden" id="selectedDate" name="date">
+                        <input type="hidden" id="selectedTime" name="time">
+                        
+                        <button type="submit" class="submit-btn">Book Appointment</button>
+                        <div id="appointmentSuccess" class="success-message">Your appointment has been booked successfully! We'll contact you shortly to confirm.</div>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 
-    <!-- Sign Up Modal -->
-    <div class="modal-overlay" id="signupModal" role="dialog" aria-modal="true" aria-labelledby="signupTitle" aria-hidden="true">
-        <div class="modal" role="document">
-            <button class="close-btn" aria-label="Close sign up form" id="closeSignupBtn">&times;</button>
-            <h2 id="signupTitle">Sign Up for LaCleo Foods</h2>
-            <form id="signupForm" novalidate>
-                <label for="signupName">Name</label>
-                <input type="text" id="signupName" name="name" required aria-required="true" autocomplete="name" />
-                <label for="signupEmail">Email</label>
-                <input type="email" id="signupEmail" name="email" required aria-required="true" autocomplete="email" />
-                <label for="signupPassword">Password</label>
-                <input type="password" id="signupPassword" name="password" required aria-required="true" autocomplete="new-password" />
-                <button type="submit" class="submit-btn">Sign Up</button>
-            </form>
-        </div>
-    </div>
-
-    <!-- Auction Modal -->
+    <!-- Login Auction Modal -->
     <div class="modal-overlay" id="auctionModal" role="dialog" aria-modal="true" aria-labelledby="auctionTitle" aria-hidden="true">
         <div class="modal" role="document">
             <button class="close-btn" aria-label="Close auction form" id="closeAuctionBtn">&times;</button>
@@ -1233,7 +1965,7 @@
         <div class="modal" role="document">
             <button class="close-btn" aria-label="Close vendor form" id="closeVendorBtn">&times;</button>
             <h2 id="vendorTitle">Become a Vendor Partner</h2>
-            <form action="https://script.google.com/macros/s/AKfycbyRBJtpdqS07Lp7GufG5Xh0ubtXFgwejp_tEgJyhWwnyZs27CHws6uQMYb1-Bo6Zfthgw/exec" method="POST">
+            <form id="vendorForm">
                 <label for="vendorCompany">Company Name</label>
                 <input type="text" id="vendorCompany" name="company" required aria-required="true" autocomplete="organization" />
                 
@@ -1252,67 +1984,492 @@
                 <label for="vendorCertifications">Certifications (e.g., Organic, ISO)</label>
                 <input type="text" id="vendorCertifications" name="certifications" />
                 
-                <button type="submit" class="submit-btn vendor-btn">submit</button>
+                <button type="submit" class="submit-btn vendor-btn">Submit</button>
             </form>
         </div>
     </div>
 
+    <!-- AI Chatbot Widget -->
+    <button id="chatbot-launcher" aria-label="Open chatbot">💬</button>
+    
+    <div id="chatbot-container">
+        <div id="chatbot-header">
+            <span>LaCleo Foods Assistant</span>
+            <button id="chatbot-close" aria-label="Close chatbot">×</button>
+        </div>
+        <div id="chatbot-messages">
+            <div class="chatbot-message bot-message">
+                Hello! I'm your LaCleo Foods assistant. How can I help you today? You can ask about:
+                <ul style="margin-top: 8px; padding-left: 20px;">
+                    <li>Our services</li>
+                    <li>Product offerings</li>
+                    <li>Delivery options</li>
+                    <li>Company information</li>
+                </ul>
+            </div>
+        </div>
+        <div id="chatbot-input">
+            <input type="text" id="chatbot-query" placeholder="Ask about our services...">
+            <button id="chatbot-send" aria-label="Send message">→</button>
+        </div>
+    </div>
+
     <script>
-        // DOM Elements
-        const loginBtn = document.getElementById('loginBtn');
-        const loginModal = document.getElementById('loginModal');
-        const closeLoginBtn = document.getElementById('closeLoginBtn');
-        const loginForm = document.getElementById('loginForm');
+        // ===== NEW: ENHANCED ANIMATIONS SCRIPT =====
+        
+        // 1. COUNTER ANIMATION FUNCTION
+        function animateCounter(element, target, suffix = '', duration = 2000) {
+            let start = 0;
+            const increment = target / (duration / 16); // 60fps
+            const timer = setInterval(() => {
+                start += increment;
+                if (start >= target) {
+                    element.textContent = target + suffix;
+                    clearInterval(timer);
+                } else {
+                    element.textContent = Math.floor(start) + suffix;
+                }
+            }, 16);
+        }
 
-        const signupBtn = document.getElementById('signupBtn');
-        const signupModal = document.getElementById('signupModal');
-        const closeSignupBtn = document.getElementById('closeSignupBtn');
-        const signupForm = document.getElementById('signupForm');
+        // 2. INTERSECTION OBSERVER FOR SCROLL ANIMATIONS
+        const observerOptions = {
+            threshold: 0.3,
+            rootMargin: '0px 0px -50px 0px'
+        };
 
-        const auctionBtn = null;
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animated');
+                    
+                    // Trigger counter animations for stat numbers
+                    if (entry.target.classList.contains('stat-item')) {
+                        const numberElement = entry.target.querySelector('.stat-number');
+                        const target = parseInt(numberElement.dataset.target);
+                        const suffix = numberElement.dataset.suffix || '';
+                        
+                        if (target) {
+                            animateCounter(numberElement, target, suffix, 2500);
+                        }
+                    }
+                }
+            });
+        }, observerOptions);
+
+        // 3. INITIALIZE ANIMATIONS ON DOM LOAD
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add animation classes to elements that need scroll-triggered animations
+            const animateElements = document.querySelectorAll('.animate-on-scroll, .slide-left-on-scroll');
+            animateElements.forEach(el => observer.observe(el));
+
+            // Observe stat items for counter animation
+            const statItems = document.querySelectorAll('.stat-item');
+            statItems.forEach(item => observer.observe(item));
+
+            // Add slide animation to story and values headings
+            const storyHeading = document.querySelector('.story-heading');
+            const valuesHeading = document.querySelector('.values-heading');
+            
+            if (storyHeading) {
+                storyHeading.classList.add('slide-left-on-scroll');
+                observer.observe(storyHeading);
+            }
+            
+            if (valuesHeading) {
+                valuesHeading.classList.add('slide-left-on-scroll');
+                observer.observe(valuesHeading);
+            }
+
+            // Trigger animations for headings when they come into view
+            setTimeout(() => {
+                if (storyHeading) storyHeading.classList.add('animate-slide');
+                if (valuesHeading) valuesHeading.classList.add('animate-slide');
+            }, 1000);
+
+            // Mobile menu toggle
+            const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+            const mainMenu = document.getElementById('mainMenu');
+            
+            if (mobileMenuToggle && mainMenu) {
+                mobileMenuToggle.addEventListener('click', function() {
+                    mainMenu.classList.toggle('active');
+                    this.setAttribute('aria-expanded', mainMenu.classList.contains('active'));
+                });
+                
+                // Close menu when clicking on a link
+                document.querySelectorAll('.nav-menu a').forEach(link => {
+                    link.addEventListener('click', () => {
+                        mainMenu.classList.remove('active');
+                        mobileMenuToggle.setAttribute('aria-expanded', 'false');
+                    });
+                });
+            }
+        });
+
+        // ===== APPOINTMENT MODAL WITH CALENDAR FUNCTIONALITY =====
+        
+        // Appointment Modal Elements
+        const appointmentModal = document.getElementById('appointmentModal');
+        const openAppointmentBtn = document.getElementById('openAppointmentBtn');
+        const heroAppointmentBtn = document.getElementById('heroAppointmentBtn');
+        const closeAppointmentBtn = document.getElementById('closeAppointmentBtn');
+        const appointmentForm = document.getElementById('appointmentForm');
+        const appointmentSuccess = document.getElementById('appointmentSuccess');
+        const calendarStep = document.getElementById('calendarStep');
+        const formStep = document.getElementById('formStep');
+        const proceedToFormBtn = document.getElementById('proceedToFormBtn');
+        const selectedDateInput = document.getElementById('selectedDate');
+        const selectedTimeInput = document.getElementById('selectedTime');
+
+        // Calendar Elements
+        const calendarMonthYear = document.getElementById('calendarMonthYear');
+        const prevMonthBtn = document.getElementById('prevMonth');
+        const nextMonthBtn = document.getElementById('nextMonth');
+        const calendarDays = document.getElementById('calendarDays');
+        const timeSlotsContainer = document.getElementById('timeSlotsContainer');
+
+        // Calendar variables
+        let currentDate = new Date();
+        let selectedDate = null;
+        let selectedTime = null;
+
+        // Open Appointment Modal from nav button
+        if (openAppointmentBtn) {
+            openAppointmentBtn.addEventListener('click', () => {
+                openModal(appointmentModal, openAppointmentBtn);
+                generateCalendar(currentDate.getFullYear(), currentDate.getMonth());
+            });
+        }
+
+        // Open Appointment Modal from hero button
+        if (heroAppointmentBtn) {
+            heroAppointmentBtn.addEventListener('click', () => {
+                openModal(appointmentModal, heroAppointmentBtn);
+                generateCalendar(currentDate.getFullYear(), currentDate.getMonth());
+            });
+        }
+
+        // Close Appointment Modal
+        if (closeAppointmentBtn) {
+            closeAppointmentBtn.addEventListener('click', () => {
+                closeModal(appointmentModal, openAppointmentBtn);
+                resetCalendar();
+            });
+        }
+
+        // Close when clicking outside
+        appointmentModal.addEventListener('click', (e) => {
+            if(e.target === appointmentModal) {
+                closeModal(appointmentModal, openAppointmentBtn);
+                resetCalendar();
+            }
+        });
+
+        // Calendar Navigation
+        prevMonthBtn.addEventListener('click', () => {
+            currentDate.setMonth(currentDate.getMonth() - 1);
+            generateCalendar(currentDate.getFullYear(), currentDate.getMonth());
+        });
+
+        nextMonthBtn.addEventListener('click', () => {
+            currentDate.setMonth(currentDate.getMonth() + 1);
+            generateCalendar(currentDate.getFullYear(), currentDate.getMonth());
+        });
+
+        // Generate Calendar
+        function generateCalendar(year, month) {
+            // Set month and year in header
+            const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+            calendarMonthYear.textContent = `${monthNames[month]} ${year}`;
+            
+            // Get first day of month and total days in month
+            const firstDay = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            
+            // Clear previous calendar days
+            calendarDays.innerHTML = '';
+            
+            // Add empty cells for days before the first day of the month
+            for (let i = 0; i < firstDay; i++) {
+                const emptyDay = document.createElement('div');
+                emptyDay.classList.add('calendar-day', 'disabled');
+                calendarDays.appendChild(emptyDay);
+            }
+            
+            // Add days of the month
+            const today = new Date();
+            for (let i = 1; i <= daysInMonth; i++) {
+                const day = document.createElement('div');
+                day.classList.add('calendar-day');
+                day.textContent = i;
+                
+                // Check if date is in the past
+                const date = new Date(year, month, i);
+                if (date < today && date.getDate() !== today.getDate()) {
+                    day.classList.add('disabled');
+                } else {
+                    day.addEventListener('click', () => selectDate(date, day));
+                }
+                
+                // Highlight today
+                if (i === today.getDate() && month === today.getMonth() && year === today.getFullYear()) {
+                    day.classList.add('selected');
+                    selectDate(date, day);
+                }
+                
+                calendarDays.appendChild(day);
+            }
+        }
+
+        // Select Date
+        function selectDate(date, dayElement) {
+            // Remove selected class from all days
+            document.querySelectorAll('.calendar-day').forEach(day => {
+                day.classList.remove('selected');
+            });
+            
+            // Add selected class to clicked day
+            dayElement.classList.add('selected');
+            
+            selectedDate = date;
+            selectedDateInput.value = formatDate(date);
+            
+            // Generate time slots for selected date
+            generateTimeSlots(date);
+        }
+
+        // Generate Time Slots
+        function generateTimeSlots(date) {
+            timeSlotsContainer.innerHTML = '';
+            
+            // Check if selected date is today
+            const today = new Date();
+            const isToday = date.getDate() === today.getDate() && 
+                           date.getMonth() === today.getMonth() && 
+                           date.getFullYear() === today.getFullYear();
+            
+            // Generate time slots (9AM to 5PM in 30-minute intervals)
+            const startHour = isToday ? Math.max(9, today.getHours() + 1) : 9;
+            const endHour = 17;
+            
+            for (let hour = startHour; hour <= endHour; hour++) {
+                for (let minute = 0; minute < 60; minute += 30) {
+                    // Skip if time is in the past for today
+                    if (isToday && hour === today.getHours() && minute <= today.getMinutes()) {
+                        continue;
+                    }
+                    
+                    const timeSlot = document.createElement('div');
+                    timeSlot.classList.add('time-slot');
+                    const timeString = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
+                    timeSlot.textContent = timeString;
+                    
+                    timeSlot.addEventListener('click', () => {
+                        document.querySelectorAll('.time-slot').forEach(slot => {
+                            slot.classList.remove('selected');
+                        });
+                        timeSlot.classList.add('selected');
+                        selectedTime = timeString;
+                        selectedTimeInput.value = timeString;
+                    });
+                    
+                    timeSlotsContainer.appendChild(timeSlot);
+                }
+            }
+        }
+
+        // Format date as YYYY-MM-DD
+        function formatDate(date) {
+            const year = date.getFullYear();
+            const month = (date.getMonth() + 1).toString().padStart(2, '0');
+            const day = date.getDate().toString().padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        }
+
+        // Reset calendar when modal is closed
+        function resetCalendar() {
+            calendarStep.style.display = 'block';
+            formStep.style.display = 'none';
+            selectedDate = null;
+            selectedTime = null;
+            selectedDateInput.value = '';
+            selectedTimeInput.value = '';
+            currentDate = new Date();
+        }
+
+        // Proceed to form after selecting date and time
+        proceedToFormBtn.addEventListener('click', () => {
+            if (!selectedDate) {
+                alert('Please select a date');
+                return;
+            }
+            
+            if (!selectedTime) {
+                alert('Please select a time slot');
+                return;
+            }
+            
+            calendarStep.style.display = 'none';
+            formStep.style.display = 'block';
+        });
+
+        // Appointment Form Submission
+        if (appointmentForm) {
+            appointmentForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                
+                // Get form data
+                const formData = new FormData(appointmentForm);
+                const appointmentData = {
+                    name: formData.get('name'),
+                    company: formData.get('company'),
+                    email: formData.get('email'),
+                    phone: formData.get('phone'),
+                    date: formData.get('date'),
+                    time: formData.get('time'),
+                    service: formData.get('service'),
+                    notes: formData.get('notes'),
+                    timestamp: new Date().toISOString()
+                };
+                
+                // Here you would typically send this data to your server
+                // For this example, we'll just show a success message
+                console.log('Appointment data:', appointmentData);
+                
+                // Show success message
+                appointmentSuccess.style.display = 'block';
+                
+                // Reset form after 3 seconds
+                setTimeout(() => {
+                    appointmentForm.reset();
+                    appointmentSuccess.style.display = 'none';
+                    closeModal(appointmentModal, openAppointmentBtn);
+                    resetCalendar();
+                }, 3000);
+            });
+        }
+
+        // ===== EXISTING CHATBOT AND MODAL SCRIPTS =====
+        
+        // Enhanced Chatbot knowledge base
+        const chatbotKnowledge = {
+            "about": "LaCleo Foods is a leading B2B food distribution company founded in 2010. We specialize in providing high-quality, fresh food solutions to businesses across the nation. Our mission is to help companies nourish their teams with premium food offerings.",
+            "services": "We offer comprehensive food services including:\n- Daily corporate meal deliveries\n- Healthy snack options\n- Beverage solutions\n- Custom menu planning\n- Special event catering\nAll with flexible scheduling to meet your business needs.",
+            "products": "Our product portfolio includes:\n- Freshly prepared meals\n- Gourmet sandwiches and salads\n- Healthy snacks and energy bars\n- Premium coffee and beverages\n- Specialty diet options (vegan, gluten-free, etc.)\nWe source from trusted suppliers with rigorous quality checks.",
+            "delivery": "Our reliable delivery features:\n- Temperature-controlled transport\n- Custom delivery schedules\n- Real-time tracking\n- 99.7% on-time delivery rate\n- Flexible order adjustments\nContact us to set up a delivery plan for your business.",
+            "contact": "You can reach us through:\n📞 Phone: 9958489481\n✉ Email: lacleocorporateservices@gmail.com\n🏢 Address: Address:  Plot no-b-8 , noida one building sector-62 noida, \n⏰ Hours: Mon-Fri 8AM-6PM",
+            "vendor": "Vendor partners can:\n1. Visit our Vendor Zone portal\n2. Submit an online application\n3. Provide product samples\n4. Complete quality review\nWe work with suppliers who meet our high standards for quality and sustainability.",
+            "quality": "Our quality commitments:\n✓ Rigorous supplier vetting\n✓ Daily quality inspections\n✓ HACCP certified facilities\n✓ Sustainable sourcing\n✓ 100% satisfaction guarantee\nWe never compromise on food safety or quality.",
+            "default": "I'm sorry, I didn't understand that question. I can help with information about:\n- Our food services and products\n- Delivery options\n- Company information\n- Vendor partnerships\n- Quality standards\nPlease try rephrasing your question!"
+        };
+
+        // Chatbot elements
+        const chatbotContainer = document.getElementById('chatbot-container');
+        const chatbotLauncher = document.getElementById('chatbot-launcher');
+        const chatbotClose = document.getElementById('chatbot-close');
+        const chatMessages = document.getElementById('chatbot-messages');
+        const chatInput = document.getElementById('chatbot-query');
+        const chatSend = document.getElementById('chatbot-send');
+
+        // Toggle chatbot visibility
+        document.addEventListener('DOMContentLoaded', function() {
+            // Launcher button
+            chatbotLauncher.addEventListener('click', function(e) {
+                e.stopPropagation();
+                chatbotContainer.classList.add('open');
+                chatInput.focus();
+            });
+
+            // Close button
+            chatbotClose.addEventListener('click', function(e) {
+                e.stopPropagation();
+                chatbotContainer.classList.remove('open');
+            });
+
+            // Close when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!chatbotContainer.contains(e.target) && e.target !== chatbotLauncher) {
+                    chatbotContainer.classList.remove('open');
+                }
+            });
+
+            // Prevent propagation within chatbot
+            chatbotContainer.addEventListener('click', function(e) {
+                e.stopPropagation();
+            });
+
+            // Send message function
+            function sendMessage() {
+                const message = chatInput.value.trim();
+                if (message) {
+                    // Add user message to chat
+                    addMessage(message, 'user');
+                    chatInput.value = '';
+                    
+                    // Process message and get bot response
+                    setTimeout(() => {
+                        const response = getBotResponse(message);
+                        addMessage(response, 'bot');
+                    }, 500);
+                }
+            }
+
+            // Add message to chat UI
+            function addMessage(text, sender) {
+                const messageDiv = document.createElement('div');
+                messageDiv.classList.add('chatbot-message', `${sender}-message`);
+                messageDiv.textContent = text;
+                chatMessages.appendChild(messageDiv);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+
+            // Enhanced response function
+            function getBotResponse(message) {
+                const lowerMessage = message.toLowerCase();
+                
+                if (/about|who|company|info/.test(lowerMessage)) {
+                    return chatbotKnowledge.about;
+                } else if (/service|offer|provide/.test(lowerMessage)) {
+                    return chatbotKnowledge.services;
+                } else if (/product|item|sell|offer/.test(lowerMessage)) {
+                    return chatbotKnowledge.products;
+                } else if (/deliver|ship|transport|arrive/.test(lowerMessage)) {
+                    return chatbotKnowledge.delivery;
+                } else if (/contact|reach|call|email|visit/.test(lowerMessage)) {
+                    return chatbotKnowledge.contact;
+                } else if (/vendor|supplier|partner|provide/.test(lowerMessage)) {
+                    return chatbotKnowledge.vendor;
+                } else if (/quality|standard|safe|fresh/.test(lowerMessage)) {
+                    return chatbotKnowledge.quality;
+                } else if (/hello|hi|hey/.test(lowerMessage)) {
+                    return "Hello! How can I assist you with LaCleo Foods services today?";
+                } else if (/thank|thanks|appreciate/.test(lowerMessage)) {
+                    return "You're welcome! Is there anything else I can help you with?";
+                } else if (/appointment|meeting|consultation|schedule/.test(lowerMessage)) {
+                    return "You can book an appointment with us by clicking the 'Book Appointment' button in the navigation or hero section. Would you like me to open the appointment form for you?";
+                } else {
+                    return chatbotKnowledge.default;
+                }
+            }
+
+            // Event listeners for sending messages
+            chatSend.addEventListener('click', sendMessage);
+            chatInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    sendMessage();
+                }
+            });
+        });
+
+        // DOM Elements for modals
         const auctionModal = document.getElementById('auctionModal');
         const closeAuctionBtn = document.getElementById('closeAuctionBtn');
         const auctionForm = document.getElementById('auctionForm');
 
-        const googleLoginBtn = document.getElementById('googleLoginBtn');
-
-        // New vendor elements
-        const vendorBtn = document.getElementById('vendorBtn');
         const vendorModal = document.getElementById('vendorModal');
         const closeVendorBtn = document.getElementById('closeVendorBtn');
         const vendorForm = document.getElementById('vendorForm');
-
-        // Login modal handlers
-        loginBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            openModal(loginModal, loginBtn);
-        });
-
-        closeLoginBtn.addEventListener('click', () => {
-            closeModal(loginModal, loginBtn);
-        });
-
-        loginModal.addEventListener('click', (e) => {
-            if(e.target === loginModal) {
-                closeModal(loginModal, loginBtn);
-            }
-        });
-
-        // Signup modal handlers
-        signupBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            openModal(signupModal, signupBtn);
-        });
-
-        closeSignupBtn.addEventListener('click', () => {
-            closeModal(signupModal, signupBtn);
-        });
-
-        signupModal.addEventListener('click', (e) => {
-            if(e.target === signupModal) {
-                closeModal(signupModal, signupBtn);
-            }
-        });
 
         // Auction modal handlers
         closeAuctionBtn.addEventListener('click', () => {
@@ -1326,81 +2483,55 @@
         });
 
         // Vendor modal handlers
-        vendorBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            openModal(vendorModal, vendorBtn);
-        });
+        if (closeVendorBtn) {
+            closeVendorBtn.addEventListener('click', () => {
+                closeModal(vendorModal, null);
+            });
 
-        closeVendorBtn.addEventListener('click', () => {
-            closeModal(vendorModal, vendorBtn);
-        });
-
-        vendorModal.addEventListener('click', (e) => {
-            if(e.target === vendorModal) {
-                closeModal(vendorModal, vendorBtn);
-            }
-        });
+            vendorModal.addEventListener('click', (e) => {
+                if(e.target === vendorModal) {
+                    closeModal(vendorModal, null);
+                }
+            });
+        }
 
         // Keyboard accessibility
         document.addEventListener('keydown', (e) => {
             if(e.key === 'Escape') {
-                if(loginModal.classList.contains('show')) {
-                    closeModal(loginModal, loginBtn);
-                }
-                if(signupModal.classList.contains('show')) {
-                    closeModal(signupModal, signupBtn);
+                if(appointmentModal.classList.contains('show')) {
+                    closeModal(appointmentModal, openAppointmentBtn);
+                    resetCalendar();
                 }
                 if(auctionModal.classList.contains('show')) {
                     closeModal(auctionModal, null);
                 }
                 if(vendorModal.classList.contains('show')) {
-                    closeModal(vendorModal, vendorBtn);
+                    closeModal(vendorModal, null);
                 }
-            }
-            // Ctrl+Shift+A to open auction modal for testing/demo
-            if(e.key.toLowerCase() === 'a' && e.ctrlKey && e.shiftKey) {
-                openModal(auctionModal, null);
             }
         });
 
         // Form submit handlers
-        loginForm.addEventListener('submit', (e) => {
+        const contactForm = document.getElementById('contactForm');
+        
+        contactForm.addEventListener('submit', (e) => {
             e.preventDefault();
-            if(loginForm.checkValidity()) {
-                alert('Login submitted for: ' + loginForm.email.value);
-                closeModal(loginModal, loginBtn);
-                loginForm.reset();
-            } else {
-                loginForm.reportValidity();
-            }
-        });
-
-        signupForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            if(signupForm.checkValidity()) {
-                alert('Sign Up submitted for: ' + signupForm.email.value);
-                closeModal(signupModal, signupBtn);
-                signupForm.reset();
-            } else {
-                signupForm.reportValidity();
-            }
-        });
-
-        contactForm.addEventListener('submit', () => {
             setTimeout(() => {
                 alert('Thank you for contacting us!');
                 contactForm.reset();
             }, 1200);
         });
 
-
-        vendorForm.addEventListener('submit', () => {
-            setTimeout(() => {
-                closeModal(vendorModal, vendorBtn);
-                vendorForm.reset();
-            }, 1200);
-        });
-
+        if (vendorForm) {
+            vendorForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                setTimeout(() => {
+                    closeModal(vendorModal, null);
+                    vendorForm.reset();
+                    alert('Vendor application submitted successfully!');
+                }, 1200);
+            });
+        }
 
         auctionForm.addEventListener('submit', (e) => {
             e.preventDefault();
@@ -1413,25 +2544,84 @@
             }
         });
 
-        // Google Login button
-        googleLoginBtn.addEventListener('click', () => {
-            alert('Simulated Google login clicked.');
-            closeModal(loginModal, loginBtn);
-        });
-
         // Modal utility functions
         function openModal(modal, triggerBtn) {
+            document.body.classList.add('modal-open');
             modal.classList.add('show');
             modal.setAttribute('aria-hidden', 'false');
             const focusable = modal.querySelector('input, button, textarea, select');
             if(focusable) focusable.focus();
         }
 
+        // Update your closeModal function
         function closeModal(modal, triggerBtn) {
+            document.body.classList.remove('modal-open');
             modal.classList.remove('show');
             modal.setAttribute('aria-hidden', 'true');
             if(triggerBtn) triggerBtn.focus();
         }
+    </script>
+
+    <!-- Google Sheets Integration for Forms -->
+    <script>
+        // Contact Form Submission
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const form = e.target;
+            const data = new FormData(form);
+
+            fetch('https://script.google.com/macros/s/AKfycbyI5YJhIQP9RB8kTUCSi1L4HVdZhlxF8E77wzghyIkBjtMiX2xCDqFbRGer40zadgE5/exec', {
+                method: 'POST',
+                body: data
+            })
+            .then(response => response.text())
+            .then(result => {
+                alert("Details submitted successfully!");
+                form.reset();
+            })
+            .catch(error => {
+                alert("There was an error submitting the form. Please try again.");
+                console.error("Error:", error);
+            });
+        });
+
+        // Appointment Form Submission
+        document.getElementById('appointmentForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const form = e.target;
+            const data = new FormData(form);
+            
+            // Add timestamp to the form data
+            data.append('timestamp', new Date().toISOString());
+            data.append('formType', 'appointment');
+            
+            fetch('https://script.google.com/macros/s/AKfycbyI5YJhIQP9RB8kTUCSi1L4HVdZhlxF8E77wzghyIkBjtMiX2xCDqFbRGer40zadgE5/exec', {
+                method: 'POST',
+                body: data
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.text();
+            })
+            .then(result => {
+                console.log('Success:', result);
+                document.getElementById('appointmentSuccess').style.display = 'block';
+                setTimeout(() => {
+                    form.reset();
+                    document.getElementById('appointmentSuccess').style.display = 'none';
+                    closeModal(appointmentModal, openAppointmentBtn);
+                    resetCalendar();
+                }, 3000);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('There was an error booking your appointment. Please try again or contact us directly.');
+            });
+        });
     </script>
 </body>
 </html>

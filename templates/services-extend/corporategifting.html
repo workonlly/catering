@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GiftSphere - Premium Corporate Gifting Solutions</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        .back-btn {
+            color: #e67e22;
+            text-decoration: none;
+            margin-bottom: 2rem;
+            display: inline-block;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+        .back-btn:hover {
+            color: #cf6a1c;
+        }
+        .service-header {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        .service-title {
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+        .service-image {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+        }
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        .content-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .content-card h3 {
+            color: #e67e22;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+        .content-card ul {
+            list-style: none;
+            padding: 0;
+        }
+        .content-card li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #eee;
+        }
+        .content-card li:before {
+            content: "🎁";
+            margin-right: 0.5rem;
+            color: #e67e22;
+        }
+        .cta-section {
+            background: linear-gradient(135deg, #e67e22, #cf6a1c);
+            color: white;
+            padding: 3rem;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .cta-section h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s;
+        }
+        .btn-primary {
+            background: white;
+            color: #e67e22;
+        }
+        .btn-primary:hover {
+            background: #f8f8f8;
+            transform: translateY(-2px);
+        }
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+        .btn-secondary:hover {
+            background: white;
+            color: #e67e22;
+        }
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.5);
+        }
+        .modal-content {
+            background-color: #fff;
+            margin: 5% auto;
+            padding: 2rem;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 600px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            position: relative;
+        }
+        .close {
+            position: absolute;
+            right: 1rem;
+            top: 1rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        .form-group input, 
+        .form-group select, 
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: inherit;
+        }
+        .form-submit {
+            background: #e67e22;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+        .form-submit:hover {
+            background: #cf6a1c;
+        }
+        .info-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        .info-section h3 {
+            color: #e67e22;
+            border-bottom: 2px solid #e67e22;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+        .info-item {
+            margin-bottom: 1rem;
+        }
+        .info-item h4 {
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+        .gift-badge {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        .badge-icon {
+            margin-right: 1rem;
+            color: #e67e22;
+            font-size: 1.5rem;
+        }
+        .gift-gallery {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        .gift-item {
+            height: 200px;
+            background-color: #eee;
+            border-radius: 5px;
+            overflow: hidden;
+            position: relative;
+        }
+        .gift-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+        .gift-item:hover img {
+            transform: scale(1.05);
+        }
+        .gift-label {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 0.5rem;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+        .benefits-list {
+            margin: 2rem 0;
+        }
+        .benefits-list li {
+            margin-bottom: 1rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+        .benefits-list li:before {
+            content: "✓";
+            color: #e67e22;
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+        @media (max-width: 768px) {
+            .content-grid, .info-grid, .gift-gallery {
+                grid-template-columns: 1fr;
+            }
+            .service-title {
+                font-size: 2rem;
+            }
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            .modal-content {
+                width: 90%;
+                margin: 10% auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="{{ url_for('services') }}" class="back-btn">← Back to Services</a>
+        <div class="service-header">
+            <h1 class="service-title">Corporate Gifting Solutions</h1>
+            <img src="https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" alt="Corporate Gifts" class="service-image">
+            <p style="font-size: 1.2rem; color: #666;">Thoughtfully curated gifts that strengthen relationships and elevate your brand.</p>
+        </div>
+
+        <div class="content-grid">
+            <div class="content-card">
+                <h3>Gift Collections</h3>
+                <ul>
+                    <li>Executive Luxury Gifts</li>
+                    <li>Employee Appreciation</li>
+                    <li>Client Thank You Gifts</li>
+                    <li>Festive/Holiday Collections</li>
+                    <li>New Product Launch Kits</li>
+                    <li>Conference & Event Gifts</li>
+                </ul>
+            </div>
+            
+            <div class="content-card">
+                <h3>Gift Services</h3>
+                <ul>
+                    <li>Custom Branded Packaging</li>
+                    <li>Personalized Gift Messages</li>
+                    <li>Bulk Order Discounts</li>
+                    <li>Nationwide Delivery</li>
+                    <li>International Shipping</li>
+                    <li>Gift Tracking & Reporting</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <h3>Our Gifting Solutions</h3>
+            <div class="info-grid">
+                <div class="info-item">
+                    <div class="gift-badge">
+                        <div class="badge-icon">🎯</div>
+                        <h4>Targeted Gifting</h4>
+                    </div>
+                    <p>Customized gift selections based on recipient demographics, interests, and your relationship objectives.</p>
+                </div>
+                <div class="info-item">
+                    <div class="gift-badge">
+                        <div class="badge-icon">🏷️</div>
+                        <h4>Brand Integration</h4>
+                    </div>
+                    <p>Subtle yet effective brand placement through custom packaging, inserts, and curated brand-aligned gifts.</p>
+                </div>
+                <div class="info-item">
+                    <div class="gift-badge">
+                        <div class="badge-icon">📦</div>
+                        <h4>Premium Packaging</h4>
+                    </div>
+                    <p>Luxury gift boxes, eco-friendly wrapping, and presentation that makes an impression before opening.</p>
+                </div>
+                <div class="info-item">
+                    <div class="gift-badge">
+                        <div class="badge-icon">🌱</div>
+                        <h4>Sustainable Options</h4>
+                    </div>
+                    <p>Eco-conscious gifts and packaging for companies with sustainability commitments.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="gift-gallery">
+            <div class="gift-item">
+                <img src="https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Luxury Gift Box">
+                <div class="gift-label">Executive Luxury Collection</div>
+            </div>
+            <div class="gift-item">
+                <img src="https://images.unsplash.com/photo-1607082349566-0077024786f0?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Corporate Gift Hamper">
+                <div class="gift-label">Client Appreciation Hamper</div>
+            </div>
+            <div class="gift-item">
+                <img src="https://images.unsplash.com/photo-1519664824562-b4bc73f9795a?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Branded Gift Set">
+                <div class="gift-label">Branded Corporate Gifts</div>
+            </div>
+        </div>
+
+        <div class="content-card" style="margin-top: 2rem;">
+            <h3 style="color: #e67e22;">Why Choose GiftSphere for Corporate Gifting?</h3>
+            <p>Corporate gifting is more than just sending presents—it's a strategic tool for relationship building, brand reinforcement, and employee engagement. GiftSphere delivers thoughtful, memorable gifting solutions that align with your corporate values and business objectives.</p>
+
+            <h4>Strategic Gifting Approach</h4>
+            <p>We help you develop a gifting strategy that aligns with your business goals, whether it's client retention, employee recognition, or brand awareness. Our consultants work with you to determine the right gifts for each audience and occasion.</p>
+
+            <h4>Custom Curation</h4>
+            <p>Every gift is carefully selected or created to reflect your brand personality and the recipient's preferences. From luxury items for top clients to practical gifts for employees, we ensure each gift makes the right impression.</p>
+
+            <h4>Seamless Logistics</h4>
+            <p>We handle all aspects of gifting—from procurement and personalization to packaging and delivery—with meticulous attention to detail. Our nationwide network ensures timely delivery, even for last-minute requests.</p>
+
+            <h4>Brand Integration</h4>
+            <p>Your brand is presented tastefully through custom packaging, branded inserts, and carefully selected items that reflect your company's values and aesthetic.</p>
+
+            <h4>Technology Integration</h4>
+            <p>Our online gifting platform allows you to manage corporate gifts at scale, with features like recipient tracking, delivery confirmation, and budget management.</p>
+
+            <h4>Benefits of Partnering with GiftSphere:</h4>
+            <ul class="benefits-list">
+                <li>Strengthen client relationships with thoughtful gifts</li>
+                <li>Boost employee morale with meaningful recognition</li>
+                <li>Enhance brand visibility through curated gifts</li>
+                <li>Save time with end-to-end gifting management</li>
+                <li>Access exclusive products not available retail</li>
+                <li>Receive volume discounts on bulk orders</li>
+                <li>Ensure consistent quality across all gifts</li>
+                <li>Get expert advice on gifting etiquette</li>
+            </ul>
+
+            <h4>Gifting for Every Occasion</h4>
+            <p>We provide solutions for all corporate gifting needs:</p>
+            <ul class="benefits-list">
+                <li><strong>Welcome Gifts:</strong> Impress new clients or employees from day one</li>
+                <li><strong>Thank You Gifts:</strong> Show appreciation for partnerships and referrals</li>
+                <li><strong>Milestone Gifts:</strong> Celebrate work anniversaries and achievements</li>
+                <li><strong>Festive Gifts:</strong> Holiday collections for seasonal appreciation</li>
+                <li><strong>Sympathy Gifts:</strong> Thoughtful gestures for difficult times</li>
+                <li><strong>Promotional Gifts:</strong> Branded items that get noticed</li>
+            </ul>
+
+            <p>GiftSphere transforms corporate gifting from an obligation to an opportunity—an opportunity to strengthen relationships, reinforce your brand, and create lasting impressions that drive business success.</p>
+        </div>
+
+        <div class="cta-section">
+            <h3>Ready to Elevate Your Corporate Gifting?</h3>
+            <p>Contact us today to discuss custom gifting solutions for your business.</p>
+            <div class="cta-buttons">
+                <a href="#" class="btn btn-primary" id="catalogBtn">Request Gift Catalog</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div id="confirmationModal" class="modal">
+        <div class="modal-content" style="text-align: center;">
+            <span class="close" onclick="closeModal('confirmationModal')">&times;</span>
+            <h2 style="color: #e67e22;">Thank You!</h2>
+            <p>Your catalog request has been submitted successfully.</p>
+            <p>Our gifting specialist will contact you within 24 hours.</p>
+            <button class="form-submit" onclick="closeModal('confirmationModal')" style="margin-top: 1rem;">Close</button>
+        </div>
+    </div>
+
+    <!-- Catalog Request Modal -->
+    <div id="catalogModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('catalogModal')">&times;</span>
+            <h2 style="color: #e67e22; text-align: center;">Corporate Gift Catalog Request</h2>
+            <p style="text-align: center; margin-bottom: 2rem;">Complete this form to receive our latest corporate gift collections</p>
+            <form id="giftForm">
+                <div class="form-group">
+                    <label for="name">Your Name*</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="company">Company Name*</label>
+                    <input type="text" id="company" name="company" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="title">Job Title</label>
+                    <input type="text" id="title" name="title">
+                </div>
+                
+                <div class="form-group">
+                    <label for="phone">Contact Number*</label>
+                    <input type="tel" id="phone" name="phone" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email Address*</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="giftType">Primary Gift Purpose*</label>
+                    <select id="giftType" name="giftType" required>
+                        <option value="">Select primary purpose</option>
+                        <option value="client">Client Appreciation</option>
+                        <option value="employee">Employee Recognition</option>
+                        <option value="event">Event/Conference</option>
+                        <option value="holiday">Holiday/Festive</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="budget">Typical Gift Budget Range</label>
+                    <select id="budget" name="budget">
+                        <option value="">Select range</option>
+                        <option value="25-50">$25-$50</option>
+                        <option value="50-100">$50-$100</option>
+                        <option value="100-250">$100-$250</option>
+                        <option value="250+">$250+</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="quantity">Typical Order Quantity</label>
+                    <select id="quantity" name="quantity">
+                        <option value="">Select range</option>
+                        <option value="1-10">1-10</option>
+                        <option value="11-25">11-25</option>
+                        <option value="26-50">26-50</option>
+                        <option value="51-100">51-100</option>
+                        <option value="100+">100+</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="notes">Special Requirements</label>
+                    <textarea id="notes" name="notes" rows="3" placeholder="Any specific needs or preferences?"></textarea>
+                </div>
+                
+                <button type="submit" class="form-submit">Request Catalog</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Get the modal elements
+        const catalogModal = document.getElementById("catalogModal");
+        const confirmationModal = document.getElementById("confirmationModal");
+        
+        // Get the buttons that open the modals
+        const catalogBtn = document.getElementById("catalogBtn");
+        
+        // When the user clicks the button, open the modal
+        catalogBtn.onclick = function(e) {
+            e.preventDefault();
+            catalogModal.style.display = "block";
+        }
+        
+        // Close modal function
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = "none";
+        }
+        
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = "none";
+            }
+        }
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === "Escape") {
+                const modals = document.querySelectorAll('.modal');
+                modals.forEach(modal => {
+                    modal.style.display = "none";
+                });
+            }
+        });
+        
+        // Form submission handling
+        document.getElementById("giftForm").addEventListener("submit", function(e) {
+            e.preventDefault();
+            
+            // Create FormData object from the form
+            const formData = new FormData(e.target);
+            
+            // Send data to Google Apps Script
+            fetch("https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec", {
+                method: "POST",
+                body: formData
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Close the catalog modal
+                    catalogModal.style.display = "none";
+                    // Show the confirmation modal
+                    confirmationModal.style.display = "block";
+                    // Reset the form
+                    e.target.reset();
+                } else {
+                    alert("Something went wrong. Please try again later.");
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert("An error occurred. Please try again.");
+            });
+        });
+    </script>
+</body>
+</html>

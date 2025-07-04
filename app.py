@@ -17,59 +17,81 @@ RECIPIENT_EMAIL = "lacleocorporateservices@gmail.com"
 def home():
     return render_template("index.html")
 
-@app.route("/products")
-def products():
-    return render_template("products.html")
-
-@app.route("/contact")
-def contact():
-    return render_template("contact.html")
+@app.route("/services")
+def services():
+    return render_template("services.html")
 
 @app.route("/about")
 def about():
     return render_template("about.html")
 
-@app.route("/media")
-def media():
-    return render_template("media.html")
+@app.route("/blog")
+def blog():
+    return render_template("blog.html")
 
-@app.route("/corporate-meals")
+@app.route("/services-extend/corporate-meals")
 def corporate_meals():
-    return render_template("corporate_meals.html")
+    return render_template("services-extend/corporate-meals.html")
 
-@app.route("/munchies")
-def munchies():
-    return render_template("munchies.html")
+@app.route("/services-extend/snacks")
+def snacks():
+    return render_template("services-extend/snacks.html")
 
-@app.route("/birthdayparty")
+@app.route("/services-extend/birthday-party")
 def birthdayparty():
-    return render_template("birthdayparty.html")
+    return render_template("services-extend/birthday-party.html")
 
-@app.route("/event-catering")
+@app.route("/services-extend/event-catering")
 def event_catering():
-    return render_template("event_catering.html")
+    return render_template("services-extend/event-catering.html")
 
-@app.route("/bhandara")
+@app.route("/services-extend/bhandara")
 def bhandara():
-    return render_template("bhandara.html")
+    return render_template("services-extend/bhandara.html")
 
-@app.route("/stationary")
+@app.route("/services-extend/stationary")
 def stationary():
-    return render_template("stationary.html")
+    return render_template("services-extend/stationary.html")
 
-@app.route("/vendor-zone")
+@app.route("/services-extend/toiletries")
 def toiletries():
-    return render_template("toiletries.html")
+    return render_template("services-extend/toiletries.html")
 
-@app.route("/submit-vendor", methods=['POST'])
-def submit_vendor():
+@app.route("/vendorzone")
+def vendorzone():
+    return render_template("vendorzone.html")
 
+@app.route("/booking")
+def booking():
+    return render_template("booking.html")
 
-    
-    
+@app.route("/services-extend/cabservices")
+def cabservices():
+    return render_template("services-extend/cabservices.html")
 
+@app.route("/services-extend/securityguard")
+def securityguard():
+    return render_template("services-extend/securityguard.html")
 
+@app.route("/services-extend/corporategifting")
+def corporategifting():
+    return render_template("services-extend/corporategifting.html")
 
+@app.route("/services-extend/corporatedesktops")
+def corporatedesktops():
+    return render_template("services-extend/corporatedesktops.html")
+
+@app.route("/services-extend/trophiescertificates")
+def trophiescertificates():
+    return render_template("services-extend/trophiescertificates.html")
+
+@app.route("/services-extend/payrollservices")
+def payrollservices():
+    return render_template("services-extend/payrollservices.html")
+
+@app.route("/services-extend/corporatepayslipsolution")
+def corporatepayslipsolution():
+    return render_template("services-extend/corporatepayslipsolution.html")
 
     try:
         # Get form data

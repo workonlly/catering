@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LaCleo Foods - Vendor Portal</title>
+    <style>
+        :root {
+            --primary-color: #e67e22;
+            --secondary-color: #2ecc71;
+            --dark-color: #333;
+            --light-color: #f9f9f9;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        body {
+            line-height: 1.6;
+            color: var(--dark-color);
+            background-color: var(--light-color);
+        }
+        
+        /* Gmail Logo Button */
+        .gmail-float-btn {
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background-color: #ffffff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            z-index: 10000;
+            border: none;
+            transition: all 0.3s ease;
+        }
+
+        .gmail-float-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+        }
+
+        .gmail-float-btn img {
+            width: 40px;
+            height: 40px;
+        }
+        
+        /* Header Styles */
+        header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-container {
+            position: relative;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0.5rem 2rem;
+            display: flex;
+            align-items: center;
+            height: 80px; 
+        }
+
+        nav {
+            background-color: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(10px);
+            box-shadow: none;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 110;
+            transition: all 0.3s ease;
+        }
+
+        nav.scrolled {
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .logo-container {
+            margin-right: auto; /* Push logo to left */
+        }
+
+        .logo-img {
+            height: 350px; 
+            width: auto;
+            object-fit: contain;
+            display: block;
+        }
+
+        .nav-links {
+            flex: 1;
+            display: flex;
+            justify-content: flex-end; /* Align nav items to right */
+        }
+
+        .nav-links ul {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-links ul li a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links ul li a.active,
+        .nav-links ul li a:hover {
+            color: var(--primary-color);
+        }
+
+        .nav-links ul li a.active::after,
+        .nav-links ul li a:hover::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--primary-color);
+        }
+
+        /* Mobile Menu Toggle - Right Side */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 30px;
+            height: 21px;
+            cursor: pointer;
+            z-index: 120;
+            margin-left: 1rem; /* Push to right side */
+        }
+
+        .menu-toggle span {
+            display: block;
+            height: 3px;
+            width: 100%;
+            background-color: var(--dark-color);
+            border-radius: 3px;
+            transition: all 0.3s ease;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
+                        url('https://images.unsplash.com/photo-1504674900247-0877df9cc836');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+            padding: 6rem 2rem;
+        }
+        
+        .hero h1 {
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+        }
+        
+        /* Vendor Types Grid */
+        .vendor-types {
+            max-width: 1200px;
+            margin: 3rem auto;
+            padding: 0 2rem;
+        }
+        
+        /* AI Chatbot Styles */
+        #chatbot-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 350px;
+            height: 500px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.2);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            transform: translateY(20px);
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 9999;
+            pointer-events: none;
+        }
+
+        #chatbot-container.open {
+            transform: translateY(0);
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        #chatbot-header {
+            background-color: #e67e22;
+            color: white;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: bold;
+            cursor: default;
+        }
+
+        #chatbot-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            padding: 0 5px;
+        }
+
+        #chatbot-messages {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            background-color: #f9f9f9;
+        }
+
+        .chatbot-message {
+            margin-bottom: 15px;
+            max-width: 80%;
+            padding: 10px 15px;
+            border-radius: 18px;
+            line-height: 1.4;
+            animation: fadeIn 0.3s ease;
+            word-wrap: break-word;
+        }
+
+        .user-message {
+            background-color: #e67e22;
+            color: white;
+            margin-left: auto;
+            border-bottom-right-radius: 5px;
+        }
+
+        .bot-message {
+            background-color: #eee;
+            color: #333;
+            margin-right: auto;
+            border-bottom-left-radius: 5px;
+        }
+
+        #chatbot-input {
+            display: flex;
+            padding: 10px;
+            border-top: 1px solid #ddd;
+            background-color: white;
+        }
+
+        #chatbot-query {
+            flex: 1;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            outline: none;
+        }
+
+        #chatbot-query:focus {
+            border-color: #e67e22;
+        }
+
+        #chatbot-send {
+            background-color: #e67e22;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            margin-left: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #chatbot-send:hover {
+            background-color: #d46b15;
+        }
+
+        #chatbot-launcher {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background-color: #e67e22;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            z-index: 10000;
+            border: none;
+            animation: pulse 2s infinite;
+        }
+
+        #chatbot-launcher:hover {
+            animation: none;
+            transform: scale(1.1);
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--primary-color);
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            width: 80px;
+            height: 3px;
+            background-color: var(--primary-color);
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .vendor-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .vendor-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .vendor-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .vendor-image {
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .vendor-content {
+            padding: 1.5rem;
+        }
+        
+        .vendor-content h3 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .vendor-content p {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+        
+        .vendor-btn {
+            display: inline-block;
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 0.6rem 1.2rem;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .vendor-btn:hover {
+            background-color: #27ae60;
+        }
+        
+        /* Benefits Section */
+        .benefits {
+            background-color: #f5f5f5;
+            padding: 4rem 2rem;
+        }
+        
+        .benefits-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .benefit-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        
+        .benefit-card h4 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--dark-color);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .copyright {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #555;
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .nav-container {
+                justify-content: space-between;
+                padding: 0.5rem 1rem;
+            }
+            
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%; /* Changed from left to right */
+                width: 80%;
+                max-width: 300px;
+                height: 100vh;
+                background-color: white;
+                flex-direction: column;
+                justify-content: flex-start;
+                padding-top: 80px;
+                transition: all 0.3s ease;
+                z-index: 100;
+                box-shadow: -2px 0 10px rgba(0,0,0,0.1); /* Shadow on left side */
+            }
+            
+            .nav-links.active {
+                right: 0; /* Changed from left to right */
+            }
+            a
+            .nav-links ul {
+                flex-direction: column;
+                gap: 0;
+                padding-right: 0;
+            }
+
+            .nav-links ul li a {
+                display: block;
+                width: 100%;
+                text-align: right;
+                padding: 1rem 1.5rem;
+                border-bottom: 1px solid #eee;
+            }
+            
+            .menu-toggle {
+                display: flex;
+                margin-left: auto; /* Push to right side */
+            }
+            
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            /* Adjust chatbot for mobile */
+            #chatbot-container {
+                width: 90%;
+                right: 5%;
+                height: 70vh;
+                bottom: 80px;
+            }
+            
+            #chatbot-launcher {
+                bottom: 20px;
+                right: 20px;
+            }
+            
+            .gmail-float-btn {
+                bottom: 90px;
+                right: 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+            
+            .hero {
+                padding: 4rem 1rem;
+            }
+            
+            .vendor-types, .benefits {
+                padding: 2rem 1rem;
+            }
+            
+            .section-title {
+                margin-bottom: 2rem;
+            }
+            
+            footer {
+                padding: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 1.6rem;
+            }
+            
+            .hero p {
+                font-size: 0.9rem;
+            }
+            
+            .vendor-btn {
+                padding: 0.5rem 1rem;
+                font-size: 0.9rem;
+            }
+            
+            .vendor-content h3 {
+                font-size: 1.1rem;
+            }
+            
+            .vendor-content p {
+                font-size: 0.9rem;
+            }
+            
+            .benefit-card h4 {
+                font-size: 1rem;
+            }
+            
+            .benefit-card p {
+                font-size: 0.9rem;
+            }
+            
+            footer p {
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Animation for menu toggle */
+        .menu-toggle.active span:nth-child(1) {
+            transform: translateY(9px) rotate(45deg);
+        }
+
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .menu-toggle.active span:nth-child(3) {
+            transform: translateY(-9px) rotate(-45deg);
+        }
+
+        /* Overlay for mobile menu */
+        .nav-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 90;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .nav-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Prevent scrolling when menu is open */
+        body.no-scroll {
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <nav>
+            <div class="nav-container">
+                <div class="logo-container">
+                    <a href="/" style="display: flex; align-items: center; text-decoration: none;">
+                       <img src="/static/images/logo.png" alt="LaCleo Logo" style="height: 40px;transform: scale(1);" />
+                    </a>
+                </div>
+                <div class="nav-links">
+                    <ul>
+                        <li><a href="/#about">About Us</a></li>
+                        <li><a href="/services">Services</a></li>
+                        <li><a href="/#why-us">Why Us</a></li>
+                        <li><a href="/blog">Blog</a></li>
+                        <li><a href="/#contact">Contact Us</a></li>
+                        <li><a href="/vendorzone" class="active">Vendor Zone</a></li>
+                    </ul>
+                </div>
+                <button class="menu-toggle" aria-label="Menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </nav>
+        <div class="nav-overlay"></div>
+    </header>
+
+    <section class="hero">
+        <h1>Vendor Partnership Program</h1>
+        <p>Join our network of trusted suppliers and expand your business reach</p>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSfg_QMK0DmjI99EgC0hxp9m63USLrIPDIoe7VB7yQXD-OMntw/viewform?usp=header" class="vendor-btn" target="_blank">Become a Vendor</a>
+    </section>
+
+    <section class="vendor-types" id="vendor-types">
+        <h2 class="section-title">Our Vendor Categories</h2>
+        <div class="vendor-grid">
+            <!-- Produce -->
+            <div class="vendor-card">
+                <div class="vendor-image" style="background-image: url('https://images.unsplash.com/photo-1542838132-92c53300491e')"></div>
+                <div class="vendor-content">
+                    <h3>Produce Suppliers</h3>
+                    <p>Fresh fruits and vegetables from local farms and international producers. Organic and conventional options available.</p>
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSfg_QMK0DmjI99EgC0hxp9m63USLrIPDIoe7VB7yQXD-OMntw/viewform?usp=header" class="vendor-btn" target="_blank">Apply Now</a>
+                </div>
+            </div>
+            <!-- Meat & Poultry -->
+            <div class="vendor-card">
+                <div class="vendor-image" style="background-image: url('https://images.unsplash.com/photo-1558030006-450675393462')"></div>
+                <div class="vendor-content">
+                    <h3>Meat & Poultry</h3>
+                    <p>High-quality meat, poultry, and seafood with proper certifications and food safety standards.</p>
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSfg_QMK0DmjI99EgC0hxp9m63USLrIPDIoe7VB7yQXD-OMntw/viewform?usp=header" class="vendor-btn" target="_blank">Apply Now</a>
+                </div>
+            </div>
+            
+            <!-- Dairy -->
+            <div class="vendor-card">
+                <div class="vendor-image" style="background-image: url('https://images.unsplash.com/photo-1550583724-b2692b85b150')"></div>
+                <div class="vendor-content">
+                    <h3>Dairy Products</h3>
+                    <p>Milk, cheese, yogurt and other dairy products from trusted local and international sources.</p>
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSfg_QMK0DmjI99EgC0hxp9m63USLrIPDIoe7VB7yQXD-OMntw/viewform?usp=header" class="vendor-btn" target="_blank">Apply Now</a>
+                </div>
+            </div>
+            
+            <!-- Bakery -->
+            <div class="vendor-card">
+                <div class="vendor-image" style="background-image: url('https://images.unsplash.com/photo-1534432182912-63863115e106?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')"></div>
+                <div class="vendor-content">
+                    <h3>Bakery & Pastry</h3>
+                    <p>Artisan breads, pastries, and baked goods from small bakeries to large-scale producers.</p>
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSfg_QMK0DmjI99EgC0hxp9m63USLrIPDIoe7VB7yQXD-OMntw/viewform?usp=header" class="vendor-btn" target="_blank">Apply Now</a>
+                </div>
+            </div>
+            
+            <!-- Beverages -->
+            <div class="vendor-card">
+                <div class="vendor-image" style="background-image: url('https://images.unsplash.com/photo-1594579705048-135dbd27c068?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8ODl8fGJldmVyYWdlc3xlbnwwfHwwfHx8MA%3D%3D')"></div>
+                <div class="vendor-content">
+                    <h3>Beverages</h3>
+                    <p>Coffee, tea, juices, soft drinks and other beverages for corporate clients.</p>
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSfg_QMK0DmjI99EgC0hxp9m63USLrIPDIoe7VB7yQXD-OMntw/viewform?usp=header" class="vendor-btn" target="_blank">Apply Now</a>
+                </div>
+            </div>
+            
+            <!-- Prepared Foods -->
+            <div class="vendor-card">
+                <div class="vendor-image" style="background-image: url('https://images.unsplash.com/photo-1546069901-ba9599a7e63c')"></div>
+                <div class="vendor-content">
+                    <h3>Prepared Foods</h3>
+                    <p>Ready-to-eat meals, salads, sandwiches and other prepared food items.</p>
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSfg_QMK0DmjI99EgC0hxp9m63USLrIPDIoe7VB7yQXD-OMntw/viewform?usp=header" class="vendor-btn" target="_blank">Apply Now</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="benefits">
+        <div class="benefits-container">
+            <h2 class="section-title">Vendor Benefits</h2>
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <h4>Expanded Market Reach</h4>
+                    <p>Access our network of 500+ corporate clients across multiple industries and regions.</p>
+                </div>
+                
+                <div class="benefit-card">
+                    <h4>Reliable Payments</h4>
+                    <p>Consistent, on-time payments with transparent accounting and reporting.</p>
+                </div>
+                
+                <div class="benefit-card">
+                    <h4>Volume Commitments</h4>
+                    <p>Guaranteed minimum order quantities to help you plan production.</p>
+                </div>
+                
+                <div class="benefit-card">
+                    <h4>Marketing Exposure</h4>
+                    <p>Featured in our vendor spotlight program and marketing materials.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <p>Ready to become a LaCleo Foods vendor partner?</p>
+            <p>Contact our vendor relations team at <strong>lacleocorporateservices@gmail.com</strong> or call <strong>9958489481</strong></p>
+            <div class="copyright">
+                <p>&copy; 2023 LaCleo Foods Vendor Partnership Program. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Gmail Floating Button -->
+    <a href="https://mail.google.com/mail/?view=cm&fs=1&to=lacleocorporateservices@gmail.com" 
+       class="gmail-float-btn" 
+       aria-label="Email us"
+       target="_blank">
+        <img src="https://static.vecteezy.com/system/resources/previews/013/948/544/non_2x/gmail-logo-on-transparent-white-background-free-vector.jpg" alt="Gmail Logo">
+    </a>
+    
+    <!-- AI Chatbot Widget -->
+    <button id="chatbot-launcher" aria-label="Open chatbot">💬</button>
+    
+    <div id="chatbot-container">
+        <div id="chatbot-header">
+            <span>LaCleo Foods Assistant</span>
+            <button id="chatbot-close" aria-label="Close chatbot">×</button>
+        </div>
+        <div id="chatbot-messages">
+            <div class="chatbot-message bot-message">
+                Hello! I'm your LaCleo Foods assistant. How can I help you today? You can ask about:
+                <ul style="margin-top: 8px; padding-left: 20px;">
+                    <li>Our services</li>
+                    <li>Product offerings</li>
+                    <li>Delivery options</li>
+                    <li>Company information</li>
+                </ul>
+            </div>
+        </div>
+        <div id="chatbot-input">
+            <input type="text" id="chatbot-query" placeholder="Ask about our services...">
+            <button id="chatbot-send" aria-label="Send message">→</button>
+        </div>
+    </div>
+    
+    <script>
+        // Enhanced Chatbot knowledge base
+        const chatbotKnowledge = {
+            "about": "LaCleo Foods is a leading B2B food distribution company founded in 2010. We specialize in providing high-quality, fresh food solutions to businesses across the nation. Our mission is to help companies nourish their teams with premium food offerings.",
+            "services": "We offer comprehensive food services including:\n- Daily corporate meal deliveries\n- Healthy snack options\n- Beverage solutions\n- Custom menu planning\n- Special event catering\nAll with flexible scheduling to meet your business needs.",
+            "products": "Our product portfolio includes:\n- Freshly prepared meals\n- Gourmet sandwiches and salads\n- Healthy snacks and energy bars\n- Premium coffee and beverages\n- Specialty diet options (vegan, gluten-free, etc.)\nWe source from trusted suppliers with rigorous quality checks.",
+            "delivery": "Our reliable delivery features:\n- Temperature-controlled transport\n- Custom delivery schedules\n- Real-time tracking\n- 99.7% on-time delivery rate\n- Flexible order adjustments\nContact us to set up a delivery plan for your business.",
+            "contact": "You can reach us through:\n📞 Phone: 9958489481\n✉ Email: lacleocorporateservices@gmail.com\n🏢 Address: Address:  Plot no-b-8 , noida one building sector-62 noida, \n⏰ Hours: Mon-Fri 8AM-6PM",
+            "vendor": "Vendor partners can:\n1. Visit our Vendor Zone portal\n2. Submit an online application\n3. Provide product samples\n4. Complete quality review\nWe work with suppliers who meet our high standards for quality and sustainability.",
+            "quality": "Our quality commitments:\n✓ Rigorous supplier vetting\n✓ Daily quality inspections\n✓ HACCP certified facilities\n✓ Sustainable sourcing\n✓ 100% satisfaction guarantee\nWe never compromise on food safety or quality.",
+            "default": "I'm sorry, I didn't understand that question. I can help with information about:\n- Our food services and products\n- Delivery options\n- Company information\n- Vendor partnerships\n- Quality standards\nPlease try rephrasing your question!"
+        };
+
+        // Chatbot elements
+        const chatbotContainer = document.getElementById('chatbot-container');
+        const chatbotLauncher = document.getElementById('chatbot-launcher');
+        const chatbotClose = document.getElementById('chatbot-close');
+        const chatMessages = document.getElementById('chatbot-messages');
+        const chatInput = document.getElementById('chatbot-query');
+        const chatSend = document.getElementById('chatbot-send');
+
+        // Mobile menu elements
+        const menuToggle = document.querySelector('.menu-toggle');
+        const navLinks = document.querySelector('.nav-links');
+        const navOverlay = document.querySelector('.nav-overlay');
+
+        // Toggle mobile menu
+        menuToggle.addEventListener('click', function() {
+            this.classList.toggle('active');
+            navLinks.classList.toggle('active');
+            navOverlay.classList.toggle('active');
+            document.body.classList.toggle('no-scroll');
+        });
+
+        // Close mobile menu when clicking overlay
+        navOverlay.addEventListener('click', function() {
+            menuToggle.classList.remove('active');
+            navLinks.classList.remove('active');
+            this.classList.remove('active');
+            document.body.classList.remove('no-scroll');
+        });
+
+        // Close mobile menu when clicking a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', function() {
+                menuToggle.classList.remove('active');
+                navLinks.classList.remove('active');
+                navOverlay.classList.remove('active');
+                document.body.classList.remove('no-scroll');
+            });
+        });
+
+        // Toggle chatbot visibility
+        document.addEventListener('DOMContentLoaded', function() {
+            // Launcher button
+            chatbotLauncher.addEventListener('click', function(e) {
+                e.stopPropagation();
+                chatbotContainer.classList.add('open');
+                chatInput.focus();
+            });
+
+            // Close button
+            chatbotClose.addEventListener('click', function(e) {
+                e.stopPropagation();
+                chatbotContainer.classList.remove('open');
+            });
+
+            // Close when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!chatbotContainer.contains(e.target) && e.target !== chatbotLauncher) {
+                    chatbotContainer.classList.remove('open');
+                }
+            });
+
+            // Prevent propagation within chatbot
+            chatbotContainer.addEventListener('click', function(e) {
+                e.stopPropagation();
+            });
+
+            // Send message function
+            function sendMessage() {
+                const message = chatInput.value.trim();
+                if (message) {
+                    // Add user message to chat
+                    addMessage(message, 'user');
+                    chatInput.value = '';
+                    
+                    // Process message and get bot response
+                    setTimeout(() => {
+                        const response = getBotResponse(message);
+                        addMessage(response, 'bot');
+                    }, 500);
+                }
+            }
+
+            // Add message to chat UI
+            function addMessage(text, sender) {
+                const messageDiv = document.createElement('div');
+                messageDiv.classList.add('chatbot-message', `${sender}-message`);
+                messageDiv.textContent = text;
+                chatMessages.appendChild(messageDiv);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+
+            // Enhanced response function
+            function getBotResponse(message) {
+                const lowerMessage = message.toLowerCase();
+                    
+                if (/about|who|company|info/.test(lowerMessage)) {
+                    return chatbotKnowledge.about;
+                } else if (/service|offer|provide/.test(lowerMessage)) {
+                    return chatbotKnowledge.services;
+                } else if (/product|item|sell|offer/.test(lowerMessage)) {
+                    return chatbotKnowledge.products;
+                } else if (/deliver|ship|transport|arrive/.test(lowerMessage)) {
+                    return chatbotKnowledge.delivery;
+                } else if (/contact|reach|call|email|visit/.test(lowerMessage)) {
+                    return chatbotKnowledge.contact;
+                } else if (/vendor|supplier|partner|provide/.test(lowerMessage)) {
+                    return chatbotKnowledge.vendor;
+                } else if (/quality|standard|safe|fresh/.test(lowerMessage)) {
+                    return chatbotKnowledge.quality;
+                } else if (/hello|hi|hey/.test(lowerMessage)) {
+                    return "Hello! How can I assist you with LaCleo Foods services today?";
+                } else if (/thank|thanks|appreciate/.test(lowerMessage)) {
+                    return "You're welcome! Is there anything else I can help you with?";
+                } else if (/appointment|meeting|consultation|schedule/.test(lowerMessage)) {
+                    return "You can book an appointment with us by clicking the 'Book Appointment' button in the navigation or hero section. Would you like me to open the appointment form for you?";
+                } else {
+                    return chatbotKnowledge.default;
+                }
+            }
+            
+            // Event listeners for sending messages
+            chatSend.addEventListener('click', sendMessage);
+            chatInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    sendMessage();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

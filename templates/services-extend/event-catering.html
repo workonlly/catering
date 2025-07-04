@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Catering - LaCleo Foods</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        .back-btn {
+            color: #e67e22;
+            text-decoration: none;
+            margin-bottom: 2rem;
+            display: inline-block;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+        .back-btn:hover {
+            color: #cf6a1c;
+        }
+        .service-header {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        .service-title {
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+        .service-image {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+        }
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        .content-card {
+            background: transparent;
+            padding: 2rem;
+            border-radius: 0px;
+        }
+        .content-card h3 {
+            color: #e67e22;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+        .content-card ul {
+            list-style: none;
+            padding: 0;
+        }
+        .content-card li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #eee;
+        }
+        .content-card li:before {
+            content: "🍽️";
+            margin-right: 0.5rem;
+        }
+        .cta-section {
+            background: linear-gradient(135deg, #e67e22, #cf6a1c);
+            color: white;
+            padding: 3rem;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .cta-section h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s;
+        }
+        .btn-primary {
+            background: white;
+            color: #e67e22;
+        }
+        .btn-primary:hover {
+            background: #f8f8f8;
+            transform: translateY(-2px);
+        }
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+        .btn-secondary:hover {
+            background: white;
+            color: #e67e22;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+        }
+        .close-btn {
+            margin-top: 1rem;
+            padding: 0.5rem 1rem;
+            background: #e67e22;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 28px;
+            font-weight: bold;
+            color: #aaa;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .modal-close:hover {
+            color: #333;
+            text-decoration: none;
+        }
+
+        .modal-content {
+            position: relative; /* Add this to position the close button correctly */
+            padding: 40px 30px 30px; /* Adjust padding to accommodate close button */
+        }
+        /* Confirmation Modal Specific Styles */
+        #confirmationModal .modal-content {
+            text-align: center;
+            padding: 2rem 3rem;
+        }
+
+        #confirmationModal h2 {
+            color: #e67e22;
+            margin-bottom: 1rem;
+        }
+
+        #confirmationModal p {
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        @media (max-width: 768px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+            .service-title {
+                font-size: 2rem;
+            }
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="{{ url_for('services') }}" class="back-btn">← Back to Services</a>
+        <div class="service-header">
+            <h1 class="service-title">Event Catering</h1>
+            <img src="https://images.unsplash.com/photo-1555244162-803834f70033?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Event Catering" class="service-image">
+            <p style="font-size: 1.2rem; color: #666;">Buffet & box options for events, workshops & celebrations. Professional catering solutions for all types of corporate and social events.</p>
+        </div>
+
+        <div class="content-grid">
+            <div class="content-card">
+                <h3>Catering Options</h3>
+                <ul>
+                    <li>Buffet-style catering for large groups</li>
+                    <li>Individual meal boxes for convenience</li>
+                    <li>Workshop and seminar catering</li>
+                    <li>Corporate event full-service catering</li>
+                    <li>Celebration and milestone event catering</li>
+                    <li>Outdoor event catering</li>
+                </ul>
+            </div>
+            
+            <div class="content-card">
+                <h3>Event Types We Serve</h3>
+                <ul>
+                    <li>Corporate conferences</li>
+                    <li>Training workshops</li>
+                    <li>Product launches</li>
+                    <li>Annual meetings</li>
+                    <li>Team building events</li>
+                    <li>Award ceremonies</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="content-card" style="grid-column: span 2;">
+            <h3>Why Choose LaCleo for Event Catering?</h3>
+            <p>At LaCleo Foods, we believe every corporate or social event is an opportunity to delight, impress, and connect. Our event catering services are thoughtfully designed to match your vision—from intimate in-office gatherings to large-scale formal galas. We don’t just serve food—we create experiences that reflect your brand’s values and hospitality.</p>
+            <p>We take a holistic approach to event catering. It begins with understanding the tone and purpose of your event—be it professional, festive, casual, or luxurious. From there, our culinary experts and logistics coordinators work hand-in-hand to craft a menu and setup plan that suits the occasion and audience. Whether you need a no-fuss lunch for a tech demo or a lavish spread for a product launch, LaCleo adapts with perfection.</p>
+        </div>
+
+        <div class="content-card" style="grid-column: span 2;">
+            <h3>Flavors That Impress, Service That Delivers</h3>
+            <p>Our menu options span regional Indian cuisines, global favorites, healthy modern meals, and chef-crafted fusion concepts. You can opt for a buffet with warm dishes and salads or choose our popular boxed meals for mess-free individual servings. Our chefs pay attention to not just flavor and freshness, but also nutrition, dietary preferences, and allergen considerations.</p>
+            <p>Beyond the food, our team handles everything—from transportation and on-site setup to service staff, utensils, and waste management. Each catering order is executed with meticulous care and punctuality. We make it our mission to ensure that the food and service become a highlight of your event.</p>
+        </div>
+        
+        <div class="content-card" style="grid-column: span 2;">
+            <h3>Custom Catering for All Scales & Settings</h3>
+            <p>LaCleo’s event catering isn’t one-size-fits-all. We offer personalized options tailored for small boardroom meetings, open-air parties, offsite company retreats, and formal corporate dinners. We also cater to multi-day events—serving breakfast, lunch, snacks, and beverages across different sessions or rooms with seamless coordination.</p>
+            <p>Hosting an outdoor workshop or hybrid event? We provide temperature-controlled containers, sustainable packaging, labeled allergen-friendly items, and even contactless delivery. You can also add elements like live counters, chef-curated tasting stations, or themed food bars to elevate the experience.</p>
+            <p>We also integrate branding elements when needed—custom-branded packaging, menu cards, signage, or color-themed setups—to align with your company identity or campaign. Our attention to visual detail ensures your brand is front and center without compromising hospitality.</p>
+        </div>
+
+        <div class="content-card" style="grid-column: span 2;">
+            <h3>Proven Trust & Partnerships</h3>
+            <p>We are proud to be the catering partner of choice for several startups, SMBs, and enterprise clients across industries. Our repeat clients value us for consistency, hygiene, transparency in pricing, and the flexibility we offer even for last-minute requests. Event managers and office administrators trust LaCleo because we make their job easier—offering end-to-end support and proactive communication.</p>
+            <p>We are FSSAI-compliant and follow rigorous food safety standards in every order. Our back-end kitchen and logistics team undergo regular training to ensure your experience is smooth, hygienic, and aligned with your organization’s expectations.</p>
+        </div>
+
+        <div class="cta-section">
+            <h3>Full-Service Experience</h3>
+            <p>From planning to cleanup, we handle every aspect of your event catering needs with professional service and attention to detail. Let us make your event memorable.</p>
+            <div class="cta-buttons">
+                <button id="bookCateringBtn" class="btn btn-primary">Book Now</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div id="confirmationModal" class="modal">
+        <div class="modal-content">
+            <h2 style="color: #e67e22;">Thank You!</h2>
+            <p>Your catering request has been submitted successfully.</p>
+            <p>Our team will contact you within 24 hours to confirm the details and discuss next steps.</p>
+            <button class="close-btn" onclick="closeModal('confirmationModal')">Close</button>
+        </div>
+    </div>
+
+    <!-- Modal for Book Catering -->
+    <div id="bookCateringModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeModal('bookCateringModal')">&times;</span>
+            <h3>Book Catering</h3>
+            <p>Our catering team will contact you shortly to discuss your event needs.</p>
+            <form id="cateringForm">
+                <div style="margin-bottom: 1rem;">
+                    <input type="text" placeholder="Your Name" required style="width: 100%; padding: 0.5rem; margin-bottom: 0.5rem;">
+                </div>
+                <div style="margin-bottom: 1rem;">
+                    <input type="email" placeholder="Your Email" required style="width: 100%; padding: 0.5rem; margin-bottom: 0.5rem;">
+                </div>
+                <div style="margin-bottom: 1rem;">
+                    <input type="tel" placeholder="Your Phone" style="width: 100%; padding: 0.5rem; margin-bottom: 0.5rem;">
+                </div>
+                <div style="margin-bottom: 1rem;">
+                    <textarea placeholder="Event Details" style="width: 100%; padding: 0.5rem; height: 100px;"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit Request</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal for View Menus -->
+    <div id="viewMenusModal" class="modal">
+        <div class="modal-content">
+            <h3>Our Event Menus</h3>
+            <div style="text-align: left; margin-bottom: 1rem;">
+                <h4>Standard Buffet Menu - $25/person</h4>
+                <ul>
+                    <li>Three main course options</li>
+                    <li>Two side dishes</li>
+                    <li>Salad bar</li>
+                    <li>Dessert selection</li>
+                </ul>
+                
+                <h4>Premium Buffet Menu - $40/person</h4>
+                <ul>
+                    <li>Five main course options</li>
+                    <li>Three side dishes</li>
+                    <li>Gourmet salad bar</li>
+                    <li>Premium dessert selection</li>
+                    <li>Chef-attended stations</li>
+                </ul>
+                
+                <h4>Boxed Lunch - $15/person</h4>
+                <ul>
+                    <li>Sandwich selection</li>
+                    <li>Side salad</li>
+                    <li>Fresh fruit</li>
+                    <li>Cookie or brownie</li>
+                </ul>
+            </div>
+            <button class="close-btn" onclick="closeModal('viewMenusModal')">Close</button>
+        </div>
+    </div>
+
+    <script>
+        const bookCateringBtn = document.getElementById('bookCateringBtn');
+        const bookCateringModal = document.getElementById('bookCateringModal');
+
+        bookCateringBtn.addEventListener('click', function () {
+            bookCateringModal.style.display = 'flex';
+        });
+
+        window.addEventListener('click', function (event) {
+            if (event.target.className === 'modal') {
+                event.target.style.display = 'none';
+            }
+        });
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        document.getElementById('cateringForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const form = e.target;
+            const formData = new FormData(form);
+            const params = new URLSearchParams(formData);
+
+            fetch("https://script.google.com/macros/s/AKfycbxH8DP_SSnotJDjrSBhrFCER2lcOrwiMN39-TrRd3rYSoeYjRF3uh5v2DC3nxPffo9AXQ/exec", {
+                method: "POST",
+                body: params,
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded",
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Close the booking modal
+                    closeModal('bookCateringModal');
+                    // Show the confirmation modal
+                    document.getElementById('confirmationModal').style.display = 'flex';
+                    // Reset the form
+                    form.reset();
+                } else {
+                    throw new Error('Network response was not ok');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert("Something went wrong. Please try again.");
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stationary - LaCleo Foods</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        .back-btn {
+            color: #e67e22;
+            text-decoration: none;
+            margin-bottom: 2rem;
+            display: inline-block;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+        .back-btn:hover {
+            color: #cf6a1c;
+        }
+        .service-header {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        .service-title {
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+        .service-image {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+        }
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        .content-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .content-card h3 {
+            color: #e67e22;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+        .content-card ul {
+            list-style: none;
+            padding: 0;
+        }
+        .content-card li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #eee;
+        }
+        .content-card li:before {
+            content: "📝";
+            margin-right: 0.5rem;
+        }
+        .cta-section {
+            background: linear-gradient(135deg, #e67e22, #cf6a1c);
+            color: white;
+            padding: 3rem;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .cta-section h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s;
+        }
+        .btn-primary {
+            background: white;
+            color: #e67e22;
+        }
+        .btn-primary:hover {
+            background: #f8f8f8;
+            transform: translateY(-2px);
+        }
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+        .btn-secondary:hover {
+            background: white;
+            color: #e67e22;
+        }
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 500px;
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .close:hover {
+            color: black;
+        }
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: inherit;
+        }
+        .form-submit {
+            background: #e67e22;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+        .form-submit:hover {
+            background: #cf6a1c;
+        }
+        @media (max-width: 768px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+            .service-title {
+                font-size: 2rem;
+            }
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            .modal-content {
+                width: 90%;
+                margin: 20% auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="{{ url_for('services') }}" class="back-btn">← Back to Services</a>
+        <div class="service-header">
+            <h1 class="service-title">Stationary</h1>
+            <img src="https://images.unsplash.com/photo-1568871391149-449702439177?q=80&w=916&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Stationary" class="service-image">
+            <p style="font-size: 1.2rem; color: #666;">Office-ready notebooks, pens, files, and printing essentials. Complete range of stationery supplies to keep your workplace organized and productive.</p>
+        </div>
+
+        <div class="content-grid">
+            <div class="content-card">
+                <h3>Product Categories</h3>
+                <ul>
+                    <li>Premium notebooks and notepads</li>
+                    <li>Quality pens and writing instruments</li>
+                    <li>Filing systems and organizers</li>
+                    <li>Printing paper and supplies</li>
+                    <li>Office accessories and tools</li>
+                    <li>Presentation materials</li>
+                </ul>
+            </div>
+            
+            <div class="content-card">
+                <h3>Business Solutions</h3>
+                <ul>
+                    <li>Bulk orders for offices</li>
+                    <li>Custom branded stationery</li>
+                    <li>Regular supply subscriptions</li>
+                    <li>Event and conference supplies</li>
+                    <li>Employee welcome kits</li>
+                    <li>Meeting room essentials</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="service-header" style="margin-top: 2rem;">
+            <h2 style="color: #e67e22;">Smart Stationery for Smarter Workspaces</h2>
+            <p>LaCleo Foods also supports your office logistics through premium stationery solutions that boost productivity and organization. Every item is handpicked for quality and practicality, helping teams stay efficient and well-equipped.</p>
+
+            <h3 style="color: #444;">Why Quality Stationery Matters</h3>
+            <p>Professional, reliable stationery ensures smooth day-to-day operations. Whether it's jotting down notes, printing important documents, or organizing files, good stationery makes work seamless and stress-free.</p>
+
+            <h3 style="color: #444;">Customization & Branding</h3>
+            <p>Make a lasting impression with personalized stationery. From company-branded pens and notebooks to customized folders and kits — we offer branding services to reflect your identity in every detail.</p>
+
+            <h3 style="color: #444;">Bulk & Subscription Options</h3>
+            <p>Whether you need a one-time office setup or a recurring monthly supply, we provide flexible packages with bulk discounts and scheduled deliveries to meet your specific needs.</p>
+
+            <h3 style="color: #444;">Why Choose LaCleo for Office Stationery?</h3>
+            <ul>
+                <li>Reliable quality and premium materials</li>
+                <li>Custom branding for a professional touch</li>
+                <li>Bulk order support with competitive pricing</li>
+                <li>Flexible supply subscriptions</li>
+                <li>Complete kits for onboarding or events</li>
+            </ul>
+        </div>
+
+        <div class="cta-section">
+            <h3>Bulk Orders Available</h3>
+            <p>We offer competitive pricing for bulk orders and can customize stationery with your company branding and logos. Keep your office well-stocked and organized.</p>
+            <div class="cta-buttons">
+                <a href="#" class="btn btn-primary" onclick="openModal('catalogModal')">Book Now</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Catalog Request Modal -->
+    <div id="catalogModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('catalogModal')">&times;</span>
+            <h2>Request Our Catalog</h2>
+            <form id="catalogForm" onsubmit="submitForm(event, 'catalog')">
+                <div class="form-group">
+                    <label for="catalog-name">Full Name</label>
+                    <input type="text" id="catalog-name" required>
+                </div>
+                <div class="form-group">
+                    <label for="catalog-email">Email Address</label>
+                    <input type="email" id="catalog-email" required>
+                </div>
+                <div class="form-group">
+                    <label for="catalog-company">Company Name</label>
+                    <input type="text" id="catalog-company">
+                </div>
+                <button type="submit" class="form-submit">Submit Request</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Bulk Quote Modal -->
+    <div id="quoteModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('quoteModal')">&times;</span>
+            <h2>Request Bulk Quote</h2>
+            <form id="quoteForm" onsubmit="submitForm(event, 'quote')">
+                <div class="form-group">
+                    <label for="quote-name">Full Name</label>
+                    <input type="text" id="quote-name" required>
+                </div>
+                <div class="form-group">
+                    <label for="quote-email">Email Address</label>
+                    <input type="email" id="quote-email" required>
+                </div>
+                <div class="form-group">
+                    <label for="quote-company">Company Name</label>
+                    <input type="text" id="quote-company" required>
+                </div>
+                <div class="form-group">
+                    <label for="quote-phone">Phone Number</label>
+                    <input type="tel" id="quote-phone" required>
+                </div>
+                <div class="form-group">
+                    <label for="quote-details">Order Details</label>
+                    <textarea id="quote-details" rows="4" required placeholder="Please describe the items and quantities you're interested in"></textarea>
+                </div>
+                <button type="submit" class="form-submit">Request Quote</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="confirmationModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('confirmationModal')">&times;</span>
+            <h2>Thank You!</h2>
+            <p>Your request has been submitted successfully.</p>
+            <p>Our team will contact you within 24 hours to confirm the details and discuss next steps.</p>
+            <button onclick="closeModal('confirmationModal')" class="form-submit" style="margin-top: 1rem;">Close</button>
+        </div>
+    </div>
+
+    <script>
+        // Update your form submission functions:
+
+        document.getElementById("catalogForm").addEventListener("submit", function(e) {
+            e.preventDefault();
+
+            const formData = new FormData();
+            formData.append("formType", "Catalog Request");
+            formData.append("name", document.getElementById("catalog-name").value);
+            formData.append("email", document.getElementById("catalog-email").value);
+            formData.append("company", document.getElementById("catalog-company").value);
+
+            fetch("https://script.google.com/macros/s/AKfycbx0zSthqc6fi3o1vkeRgSwXCVtitB517fJIJaA-Q580vuMrXFLmV97Yd13i3p1j4fUTTQ/exec", {
+                method: "POST",
+                body: formData
+            })
+            .then(response => {
+                if (response.ok) {
+                    document.getElementById("catalogForm").reset();
+                    closeModal("catalogModal");
+                    openModal("confirmationModal"); // Show confirmation modal
+                } else {
+                    alert("Something went wrong. Please try again later.");
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                alert("An error occurred. Please try again.");
+            });
+        });
+        
+        document.getElementById("quoteForm").addEventListener("submit", function(e) {
+            e.preventDefault();
+
+            const formData = new FormData();
+            formData.append("formType", "Bulk Stationery Quote");
+            formData.append("name", document.getElementById("quote-name").value);
+            formData.append("email", document.getElementById("quote-email").value);
+            formData.append("company", document.getElementById("quote-company").value);
+            formData.append("phone", document.getElementById("quote-phone").value);
+            formData.append("details", document.getElementById("quote-details").value);
+
+            fetch("https://script.google.com/macros/s/AKfycbx0zSthqc6fi3o1vkeRgSwXCVtitB517fJIJaA-Q580vuMrXFLmV97Yd13i3p1j4fUTTQ/exec", {
+                method: "POST",
+                body: formData
+            })
+            .then(response => {
+                if (response.ok) {
+                    document.getElementById("quoteForm").reset();
+                    closeModal("quoteModal");
+                    openModal("confirmationModal"); // Show confirmation modal
+                } else {
+                    alert("Something went wrong. Please try again later.");
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                alert("An error occurred. Please try again.");
+            });
+        });
+
+        // Keep your existing modal functions:
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'block';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            if (event.target.className === 'modal') {
+                event.target.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>

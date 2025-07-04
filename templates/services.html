@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LaCleo Foods – Our Products</title>
+  <style>
+    /* Reset and Base Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f9f9f9;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    /* Hero Section */
+    .hero {
+      background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
+                  url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') center/cover no-repeat;
+      padding: 8rem 2rem 4rem;
+      color: white;
+      text-align: center;
+      position: relative;
+    }
+
+    .hero h1 {
+      font-size: 2.8rem;
+      margin-bottom: 1rem;
+      animation: slideInFromTop 1s ease-out both;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      animation: slideInFromBottom 1s ease-out 0.5s both;
+    }
+
+    /* Animations */
+    @keyframes slideInFromTop {
+      from {
+        opacity: 0;
+        transform: translateY(-50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes slideInFromBottom {
+      from {
+        opacity: 0;
+        transform: translateY(50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Filter Tabs */
+    .filter-tabs {
+      text-align: center;
+      margin: 2rem 0;
+      padding: 0 1rem;
+    }
+
+    .filter-btn {
+      background: #fff;
+      border: 2px solid #e67e22;
+      color: #e67e22;
+      padding: 0.6rem 1.2rem;
+      margin: 0.5rem;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-size: 1rem;
+    }
+
+    .filter-btn.active, .filter-btn:hover {
+      background: #e67e22;
+      color: white;
+    }
+
+    /* Product Grid */
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 2rem;
+      padding: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* Gmail Logo Button */
+    .gmail-float-btn {
+      position: fixed;
+      bottom: 90px;
+      right: 20px;
+      width: 60px;
+      height: 60px;
+      background-color: #ffffff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      z-index: 10000;
+      border: none;
+      transition: all 0.3s ease;
+      pointer-events: none;
+    }
+
+    .gmail-float-btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+    }
+
+    .gmail-float-btn img {
+      width: 40px;
+      height: 40px;
+      pointer-events: auto;
+    }
+
+    .product-card {
+      background: white;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      opacity: 0;
+      transform: translateY(30px);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    /* AI Chatbot Styles - Fixed Version */
+    #chatbot-container {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 350px;
+      height: 500px;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 5px 25px rgba(0,0,0,0.2);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      transform: translateY(20px);
+      opacity: 0;
+      transition: all 0.3s ease;
+      z-index: 9999;
+      pointer-events: none;
+    }
+
+    #chatbot-container.open {
+      transform: translateY(0);
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    #chatbot-header {
+      background-color: #e67e22;
+      color: white;
+      padding: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: bold;
+    }
+
+    #chatbot-close {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 20px;
+      cursor: pointer;
+      padding: 0 5px;
+    }
+
+    #chatbot-messages {
+      flex: 1;
+      padding: 15px;
+      overflow-y: auto;
+      background-color: #f9f9f9;
+    }
+
+    .chatbot-message {
+      margin-bottom: 15px;
+      max-width: 80%;
+      padding: 10px 15px;
+      border-radius: 18px;
+      line-height: 1.4;
+      animation: fadeIn 0.3s ease;
+      word-wrap: break-word;
+    }
+
+    .user-message {
+      background-color: #e67e22;
+      color: white;
+      margin-left: auto;
+      border-bottom-right-radius: 5px;
+    }
+
+    .bot-message {
+      background-color: #eee;
+      color: #333;
+      margin-right: auto;
+      border-bottom-left-radius: 5px;
+    }
+
+    #chatbot-input {
+      display: flex;
+      padding: 10px;
+      border-top: 1px solid #ddd;
+      background-color: white;
+    }
+
+    #chatbot-query {
+      flex: 1;
+      padding: 10px 15px;
+      border: 1px solid #ddd;
+      border-radius: 20px;
+      outline: none;
+    }
+
+    #chatbot-query:focus {
+      border-color: #e67e22;
+    }
+
+    #chatbot-send {
+      background-color: #e67e22;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      margin-left: 10px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #chatbot-send:hover {
+      background-color: #d46b15;
+    }
+
+    #chatbot-launcher {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 60px;
+      height: 60px;
+      background-color: #e67e22;
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      z-index: 10000;
+      border: none;
+      animation: pulse 2s infinite;
+    }
+
+    #chatbot-launcher:hover {
+      animation: none;
+      transform: scale(1.1);
+    }
+
+    /* Hover effect for product cards */
+    .product-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    }
+
+    .product-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+      transition: all 0.6s ease-out;
+    }
+
+    .product-card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .product-card h3 {
+      margin: 1rem 1rem 0.5rem;
+      font-size: 1.3rem;
+      color: #333;
+    }
+
+    .product-card p {
+      margin: 0 1rem 1rem;
+      color: #666;
+      font-size: 0.95rem;
+    }
+
+    .book-btn {
+      display: inline-block;
+      margin: 0 1rem 1rem;
+      background: #e67e22;
+      color: white;
+      padding: 0.6rem 1.2rem;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      text-decoration: none;
+      font-size: 0.95rem;
+      text-align: center;
+    }
+
+    .book-btn:hover {
+      background: #cf6a1c;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 2rem;
+      background: #333;
+      color: white;
+      margin-top: 2rem;
+    }
+
+    /* Navigation Container */
+    nav {
+      background-color: rgba(255, 255, 255, 0.9);
+      padding: 1rem 2rem;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 110;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .nav-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    /* Logo Styles */
+    .logo-link {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+    }
+
+    .logo-img {
+      height: 40px;
+    }
+
+    /* Desktop Navigation */
+    .nav-menu {
+      display: flex;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .nav-item {
+      margin: 0 0.8rem;
+      display: flex;
+      align-items: center;
+    }
+
+    .nav-link {
+      text-decoration: none;
+      color: #333;
+      font-weight: 600;
+      padding: 0.5rem 0;
+      position: relative;
+      transition: all 0.3s ease;
+    }
+
+    .nav-link.active {
+      color: #e67e22;
+      border-bottom: 2px solid #e67e22;
+    }
+
+    .nav-link:hover {
+      color: #e67e22;
+    }
+
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: 0;
+      left: 0;
+      background-color: #e67e22;
+      transition: width 0.3s ease;
+    }
+
+    .nav-link:hover::after {
+      width: 100%;
+    }
+
+    /* Mobile Menu Button */
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      color: #333;
+      font-size: 24px;
+      cursor: pointer;
+      padding: 10px;
+      z-index: 100;
+    }
+
+    /* Mobile Navigation */
+    @media (max-width: 768px) {
+      .mobile-menu-btn {
+        display: block;
+      }
+
+      .nav-menu {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 70%;
+        height: 100vh;
+        background-color: rgba(255, 255, 255, 0.98);
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 80px 30px 30px;
+        transition: right 0.3s ease;
+        z-index: 90;
+        box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+      }
+
+      .nav-menu.active {
+        right: 0;
+      }
+
+      .nav-item {
+        width: 100%;
+        margin: 0;
+        padding: 0.8rem 0;
+        border-bottom: 1px solid #eee;
+      }
+
+      .nav-link {
+        padding: 0.8rem 0;
+        width: 100%;
+        display: block;
+      }
+
+      .hero h1 {
+        font-size: 2rem;
+      }
+      
+      .hero p {
+        font-size: 1rem;
+      }
+      
+      .filter-btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+      }
+
+      /* Adjust product grid for mobile */
+      .product-grid {
+        grid-template-columns: 1fr;
+        padding: 1rem;
+      }
+    }
+
+    /* Overlay for mobile menu */
+    .mobile-menu-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.5);
+      z-index: 80;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    .mobile-menu-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation Header -->
+  <header>
+    <nav>
+      <div class="nav-container">
+        <a href="/" class="logo-link">
+          <img src="/static/images/logo.png" alt="LaCleo Logo" class="logo-img">
+        </a>
+        
+        <!-- Mobile Menu Button -->
+        <button class="mobile-menu-btn" aria-label="Toggle menu">☰</button>
+        
+        <ul class="nav-menu">
+          <li class="nav-item"><a href="/#about" class="nav-link">About Us</a></li>
+          <li class="nav-item"><a href="/services" class="nav-link active">Services</a></li>
+          <li class="nav-item"><a href="/#why-us" class="nav-link">Why Us</a></li>
+          <li class="nav-item"><a href="/blog" class="nav-link">Blog</a></li>
+          <li class="nav-item"><a href="/#contact" class="nav-link">Contact Us</a></li>
+          <li class="nav-item"><a href="/vendorzone" class="nav-link">Vendor Zone</a></li>
+        </ul>
+      </div>
+    </nav>
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu-overlay"></div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <h1>Explore Our Services</h1>
+    <p>Curated for businesses, offices, and corporate events.</p>
+  </section>
+
+  <!-- Filter Tabs -->
+  <div class="filter-tabs">
+    <button class="filter-btn active" data-filter="all">All</button>
+    <button class="filter-btn" data-filter="meal">Meals</button>
+    <button class="filter-btn" data-filter="snacks">Snacks</button>
+    <button class="filter-btn" data-filter="birthdayparty">Birthday Party</button>
+    <button class="filter-btn" data-filter="catering">Catering</button>
+    <button class="filter-btn" data-filter="bhandara">Bhandara</button>
+    <button class="filter-btn" data-filter="stationary">Stationary</button>
+    <button class="filter-btn" data-filter="toiletries">Toiletries</button>
+    <button class="filter-btn" data-filter="cabservices">Cab Services</button>
+    <button class="filter-btn" data-filter="securityguard">Security Guard</button>
+    <button class="filter-btn" data-filter="corporategifting">Corporate Gifting</button>
+    <button class="filter-btn" data-filter="corporatedesktops">Corporate Desktops</button>
+    <button class="filter-btn" data-filter="trophiescertificates">Trophies and Certificates</button>
+    <button class="filter-btn" data-filter="payrollservices">Payroll Services</button>
+    <button class="filter-btn" data-filter="corporatepayslipsolution">Corporate Payslip Solution</button>
+  </div>
+
+  <!-- Product Grid -->
+  <section class="product-grid">
+    <div class="product-card" data-category="meal">
+      <img src="https://cdn-ikpened.nitrocdn.com/IASuVSfAFufVGDVSWpDAfIIJMmSefhYb/assets/images/optimized/rev-866e6ae/sadhgurucatering.com/wp-content/uploads/2023/12/dinner-catering-services-in-ghaziabad-and-noida-e1731795719614.jpg" alt="Corporate Meals">
+      <h3>Corporate Meals</h3>
+      <p>Fresh daily meals for teams – customizable and convenient.</p>
+      <a href="{{ url_for('corporate_meals') }}" target="_blank" class="book-btn">View More</a>
+    </div>
+
+    <div class="product-card" data-category="snacks">
+      <img src="https://videos.openai.com/vg-assets/assets%2Ftask_01jzar3cgaeyzb3qe7jfzcnn6v%2F1751633908_img_0.webp?st=2025-07-04T11%3A25%3A43Z&se=2025-07-10T12%3A25%3A43Z&sks=b&skt=2025-07-04T11%3A25%3A43Z&ske=2025-07-10T12%3A25%3A43Z&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skoid=3d249c53-07fa-4ba4-9b65-0bf8eb4ea46a&skv=2019-02-02&sv=2018-11-09&sr=b&sp=r&spr=https%2Chttp&sig=a3AulL94oTiaRkarxAPPzYdLt7mle%2FDnOLh2jiaXERU%3D&az=oaivgprodscus" alt="Snacks">
+      <h3>Snacks</h3>
+      <p>Smart snacking options perfect for breaks and meetings.</p>
+      <a href="{{ url_for('snacks') }}" target="_blank" class="book-btn">View More</a>
+    </div>
+
+    <div class="product-card" data-category="birthdayparty">
+      <img src="https://images.unsplash.com/photo-1631857455684-a54a2f03665f?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Birthday Party">
+      <h3>Birthday Party</h3>
+      <p>Delightful party platters, desserts, and festive treats for every celebration.</p>
+      <a href="{{ url_for('birthdayparty') }}" target="_blank" class="book-btn">View More</a>
+    </div>
+
+    <div class="product-card" data-category="catering">
+      <img src="https://images.unsplash.com/photo-1555244162-803834f70033?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Event Catering">
+      <h3>Event Catering</h3>
+      <p>Buffet & box options for events, workshops & celebrations.</p>
+      <a href="{{ url_for('event_catering') }}" target="_blank" class="book-btn">View More</a>
+    </div>
+
+    <div class="product-card" data-category="bhandara">
+      <img src="https://i.pinimg.com/736x/20/f1/b7/20f1b7b04650881498d15fcbbefbfda1.jpg" alt="Bhandara">
+      <h3>Bhandara</h3>
+      <p>Serving with Devotion, Feeding with Love</p>
+      <a href="{{ url_for('bhandara') }}" target="_blank" class="book-btn">View More</a>
+    </div>
+
+    <div class="product-card" data-category="stationary">
+      <img src="https://images.unsplash.com/photo-1568871391149-449702439177?q=80&w=916&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Stationary">
+      <h3>Stationary</h3>
+      <p>Office-ready notebooks, pens, files, and printing essentials.</p>
+      <a href="{{ url_for('stationary') }}" target="_blank" class="book-btn">View More</a>
+    </div>
+
+    <div class="product-card" data-category="toiletries">
+      <img src="https://images.unsplash.com/photo-1631524254770-03abe3f42a0d?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8dG9pbGV0JTIwcm9sbHxlbnwwfHwwfHx8MA%3D%3D" alt="Toiletries">
+      <h3>Toiletries</h3>
+      <p>Essential hygiene kits with soaps, tissues, sanitizers, and cleaning supplies for workplace and events.</p>
+      <a href="{{ url_for('toiletries') }}" target="_blank" class="book-btn">View More</a>
+    </div>
+
+    <div class="product-card" data-category="cabservices">
+      <img src="https://videos.openai.com/vg-assets/assets%2Ftask_01jzap9j97e09s7etsqsf4cc69%2F1751631984_img_0.webp?st=2025-07-04T11%3A25%3A37Z&se=2025-07-10T12%3A25%3A37Z&sks=b&skt=2025-07-04T11%3A25%3A37Z&ske=2025-07-10T12%3A25%3A37Z&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skoid=3d249c53-07fa-4ba4-9b65-0bf8eb4ea46a&skv=2019-02-02&sv=2018-11-09&sr=b&sp=r&spr=https%2Chttp&sig=ERAoaZwKJ7dudSZu7H%2BH7w2tSsW8mdBevoKKeQIPPlM%3D&az=oaivgprodscus" alt="Cab Services">
+      <h3>Cab Services</h3>
+      <p>Dependable corporate cab services ensuring smooth and timely employee commutes for workplaces and events.</p>
+      <a href="{{ url_for('cabservices') }}" target="_blank" class="book-btn">View More</a>
+    </div>
+
+    <div class="product-card" data-category="securityguard">
+      <img src="https://t3.ftcdn.net/jpg/03/89/64/28/360_F_389642869_GUV78rbOFwMwEL5oUu3le2wJbgTdZxgg.jpg" alt="Security Guard">
+      <h3>Security Guard</h3>
+      <p>Professional security guard services ensuring safety and protection for workplaces and events.</p>
+      <a href="{{ url_for('securityguard') }}" target="_blank" class="book-btn">View More</a>
+    </div>
+
+    <div class="product-card" data-category="corporategifting">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRfeUKz9BxeffCMbqUppmdR5Y_CeDGqZM0xFw&s" alt="Corporate Gifting">
+      <h3>Corporate Gifting</h3>
+      <p>Curated corporate gifting solutions for employees, clients, and special occasions.</p>
+      <a href="{{ url_for('corporategifting') }}" target="_blank" class="book-btn">View More</a>
+    </div>
+
+    <div class="product-card" data-category="corporatedesktops">
+      <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" alt="Corporate Desktops">
+      <h3>Corporate Desktops</h3>
+      <p>High-performance corporate desktops tailored for efficient workplace operations.</p>
+      <a href="{{ url_for('corporatedesktops') }}" target="_blank" class="book-btn">View More</a>
+    </div>
+
+    <div class="product-card" data-category="trophiescertificates">
+      <img src="https://videos.openai.com/vg-assets/assets%2Ftask_01jzan620wf2badjjxsvnnwre4%2F1751631138_img_0.webp?st=2025-07-04T10%3A30%3A27Z&se=2025-07-10T11%3A30%3A27Z&sks=b&skt=2025-07-04T10%3A30%3A27Z&ske=2025-07-10T11%3A30%3A27Z&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skoid=3d249c53-07fa-4ba4-9b65-0bf8eb4ea46a&skv=2019-02-02&sv=2018-11-09&sr=b&sp=r&spr=https%2Chttp&sig=3nFvzYwitjsdCevtYb%2FYeE%2FuU0n26HnsBOX%2FeV4yfYk%3D&az=oaivgprodscus" alt="Trophies and Certificates">
+      <h3>Trophies and Certificates</h3>
+      <p>Customized trophies and certificates for corporate recognition and special events.</p>
+      <a href="{{ url_for('trophiescertificates') }}" target="_blank" class="book-btn">View More</a>
+    </div>
+
+    <div class="product-card" data-category="payrollservices">
+      <img src="https://videos.openai.com/vg-assets/assets%2Ftask_01jzamt4q5fp3rzhw9064de5p4%2F1751630404_img_0.webp?st=2025-07-04T10%3A29%3A24Z&se=2025-07-10T11%3A29%3A24Z&sks=b&skt=2025-07-04T10%3A29%3A24Z&ske=2025-07-10T11%3A29%3A24Z&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skoid=3d249c53-07fa-4ba4-9b65-0bf8eb4ea46a&skv=2019-02-02&sv=2018-11-09&sr=b&sp=r&spr=https%2Chttp&sig=%2Fnu%2Ft6cJIoBCBDPMlYs%2FJnshI1KILP62K%2B%2B2poSpXwI%3D&az=oaivgprodscus" alt="Payroll Services">
+      <h3>Payroll Services</h3>
+      <p>Reliable payroll services ensuring accurate and timely salary processing for your workforce.</p>
+      <a href="{{ url_for('payrollservices') }}" target="_blank" class="book-btn">View More</a>
+    </div>
+
+    <div class="product-card" data-category="corporatepayslipsolution">
+      <img src="https://videos.openai.com/vg-assets/assets%2Ftask_01jzap0ptgftb9ptnwqvgrz8bj%2F1751631687_img_1.webp?st=2025-07-04T10%3A30%3A43Z&se=2025-07-10T11%3A30%3A43Z&sks=b&skt=2025-07-04T10%3A30%3A43Z&ske=2025-07-10T11%3A30%3A43Z&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skoid=3d249c53-07fa-4ba4-9b65-0bf8eb4ea46a&skv=2019-02-02&sv=2018-11-09&sr=b&sp=r&spr=https%2Chttp&sig=YfFFzNK37ZjIntWGWYd48ixQuw1f3eWeyJTJlyRWeJ8%3D&az=oaivgprodscus" alt="Corporate Payslip Solution">
+      <h3>Corporate Payslip Solution</h3>
+      <p>Secure and efficient corporate payslip solutions for streamlined employee salary management.</p>
+      <a href="{{ url_for('corporatepayslipsolution') }}" target="_blank" class="book-btn">View More</a>
+    </div>
+  </section>
+
+  <footer>
+    &copy; 2025 LaCleo Foods. All rights reserved.
+  </footer>
+
+  <script>
+    // Filter Functionality
+    const buttons = document.querySelectorAll(".filter-btn");
+    const cards = document.querySelectorAll(".product-card");
+
+    buttons.forEach(btn => {
+      btn.addEventListener("click", () => {
+        buttons.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+
+        const filter = btn.getAttribute("data-filter");
+        cards.forEach(card => {
+          if (filter === "all" || card.dataset.category === filter) {
+            card.style.display = "block";
+          } else {
+            card.style.display = "none";
+          }
+        });
+      });
+    });
+
+    // Scroll Animation
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    cards.forEach(card => observer.observe(card));
+
+    // Mobile Menu Toggle
+    const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+    const mobileMenu = document.querySelector('.nav-menu');
+    const mobileOverlay = document.querySelector('.mobile-menu-overlay');
+
+    mobileMenuBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('active');
+      mobileOverlay.classList.toggle('active');
+    });
+
+    mobileOverlay.addEventListener('click', () => {
+      mobileMenu.classList.remove('active');
+      mobileOverlay.classList.remove('active');
+    });
+
+    // Close menu when clicking on a link
+    document.querySelectorAll('.nav-link').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu.classList.remove('active');
+        mobileOverlay.classList.remove('active');
+      });
+    });
+  </script>
+  
+  <!-- Gmail Floating Button -->
+  <a href="https://mail.google.com/mail/?view=cm&fs=1&to=lacleocorporateservices@gmail.com" 
+     class="gmail-float-btn" 
+     aria-label="Email us"
+     target="_blank">
+      <img src="https://static.vecteezy.com/system/resources/previews/013/948/544/non_2x/gmail-logo-on-transparent-white-background-free-vector.jpg" alt="Gmail Logo">
+  </a>
+  
+  <!-- AI Chatbot Widget -->
+  <button id="chatbot-launcher" aria-label="Open chatbot">💬</button>
+  
+  <div id="chatbot-container">
+      <div id="chatbot-header">
+          <span>LaCleo Foods Assistant</span>
+          <button id="chatbot-close" aria-label="Close chatbot">×</button>
+      </div>
+      <div id="chatbot-messages">
+          <div class="chatbot-message bot-message">
+              Hello! I'm your LaCleo Foods assistant. How can I help you today? You can ask about:
+              <ul style="margin-top: 8px; padding-left: 20px;">
+                  <li>Our services</li>
+                  <li>Product offerings</li>
+                  <li>Delivery options</li>
+                  <li>Company information</li>
+              </ul>
+          </div>
+      </div>
+      <div id="chatbot-input">
+          <input type="text" id="chatbot-query" placeholder="Ask about our services...">
+          <button id="chatbot-send" aria-label="Send message">→</button>
+      </div>
+  </div>
+  
+  <script>
+  // Enhanced Chatbot knowledge base
+  const chatbotKnowledge = {
+      "about": "LaCleo Foods is a leading B2B food distribution company founded in 2010. We specialize in providing high-quality, fresh food solutions to businesses across the nation. Our mission is to help companies nourish their teams with premium food offerings.",
+      "services": "We offer comprehensive food services including:\n- Daily corporate meal deliveries\n- Healthy snack options\n- Beverage solutions\n- Custom menu planning\n- Special event catering\nAll with flexible scheduling to meet your business needs.",
+      "products": "Our product portfolio includes:\n- Freshly prepared meals\n- Gourmet sandwiches and salads\n- Healthy snacks and energy bars\n- Premium coffee and beverages\n- Specialty diet options (vegan, gluten-free, etc.)\nWe source from trusted suppliers with rigorous quality checks.",
+      "delivery": "Our reliable delivery features:\n- Temperature-controlled transport\n- Custom delivery schedules\n- Real-time tracking\n- 99.7% on-time delivery rate\n- Flexible order adjustments\nContact us to set up a delivery plan for your business.",
+      "contact": "You can reach us through:\n📞 Phone: 9958489481\n✉ Email: lacleocorporateservices@gmail.com\n🏢 Address: Plot no-b-8, noida one building sector-62 noida\n⏰ Hours: Mon-Fri 8AM-6PM",
+      "vendor": "Vendor partners can:\n1. Visit our Vendor Zone portal\n2. Submit an online application\n3. Provide product samples\n4. Complete quality review\nWe work with suppliers who meet our high standards for quality and sustainability.",
+      "quality": "Our quality commitments:\n✓ Rigorous supplier vetting\n✓ Daily quality inspections\n✓ HACCP certified facilities\n✓ Sustainable sourcing\n✓ 100% satisfaction guarantee\nWe never compromise on food safety or quality.",
+      "default": "I'm sorry, I didn't understand that question. I can help with information about:\n- Our food services and products\n- Delivery options\n- Company information\n- Vendor partnerships\n- Quality standards\nPlease try rephrasing your question!"
+  };
+
+  // Chatbot elements
+  const chatbotContainer = document.getElementById('chatbot-container');
+  const chatbotLauncher = document.getElementById('chatbot-launcher');
+  const chatbotClose = document.getElementById('chatbot-close');
+  const chatMessages = document.getElementById('chatbot-messages');
+  const chatInput = document.getElementById('chatbot-query');
+  const chatSend = document.getElementById('chatbot-send');
+
+  // Toggle chatbot visibility
+  document.addEventListener('DOMContentLoaded', function() {
+      // Launcher button
+      chatbotLauncher.addEventListener('click', function(e) {
+          e.stopPropagation();
+          chatbotContainer.classList.add('open');
+          chatInput.focus();
+      });
+
+      // Close button
+      chatbotClose.addEventListener('click', function(e) {
+          e.stopPropagation();
+          chatbotContainer.classList.remove('open');
+      });
+
+      // Close when clicking outside
+      document.addEventListener('click', function(e) {
+          if (!chatbotContainer.contains(e.target) && e.target !== chatbotLauncher) {
+              chatbotContainer.classList.remove('open');
+          }
+      });
+
+      // Prevent propagation within chatbot
+      chatbotContainer.addEventListener('click', function(e) {
+          e.stopPropagation();
+      });
+
+      // Send message function
+      function sendMessage() {
+          const message = chatInput.value.trim();
+          if (message) {
+              // Add user message to chat
+              addMessage(message, 'user');
+              chatInput.value = '';
+              
+              // Process message and get bot response
+              setTimeout(() => {
+                  const response = getBotResponse(message);
+                  addMessage(response, 'bot');
+              }, 500);
+          }
+      }
+
+      // Add message to chat UI
+      function addMessage(text, sender) {
+          const messageDiv = document.createElement('div');
+          messageDiv.classList.add('chatbot-message', `${sender}-message`);
+          messageDiv.textContent = text;
+          chatMessages.appendChild(messageDiv);
+          chatMessages.scrollTop = chatMessages.scrollHeight;
+      }
+
+      // Enhanced response function
+      function getBotResponse(message) {
+          const lowerMessage = message.toLowerCase();
+              
+          if (/about|who|company|info/.test(lowerMessage)) {
+              return chatbotKnowledge.about;
+          } else if (/service|offer|provide/.test(lowerMessage)) {
+              return chatbotKnowledge.services;
+          } else if (/product|item|sell|offer/.test(lowerMessage)) {
+              return chatbotKnowledge.products;
+          } else if (/deliver|ship|transport|arrive/.test(lowerMessage)) {
+              return chatbotKnowledge.delivery;
+          } else if (/contact|reach|call|email|visit/.test(lowerMessage)) {
+              return chatbotKnowledge.contact;
+          } else if (/vendor|supplier|partner|provide/.test(lowerMessage)) {
+              return chatbotKnowledge.vendor;
+          } else if (/quality|standard|safe|fresh/.test(lowerMessage)) {
+              return chatbotKnowledge.quality;
+          } else if (/hello|hi|hey/.test(lowerMessage)) {
+              return "Hello! How can I assist you with LaCleo Foods services today?";
+          } else if (/thank|thanks|appreciate/.test(lowerMessage)) {
+              return "You're welcome! Is there anything else I can help you with?";
+          } else if (/appointment|meeting|consultation|schedule/.test(lowerMessage)) {
+              return "You can book an appointment with us by clicking the 'Book Appointment' button in the navigation or hero section. Would you like me to open the appointment form for you?";
+          } else {
+              return chatbotKnowledge.default;
+          }
+      }
+      
+      // Event listeners for sending messages
+      chatSend.addEventListener('click', sendMessage);
+      chatInput.addEventListener('keypress', function(e) {
+          if (e.key === 'Enter') {
+              sendMessage();
+          }
+      });
+  });
+  </script>
+</body>
+</html>

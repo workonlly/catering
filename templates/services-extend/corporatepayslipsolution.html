@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Corporate Payslip - LaCleo Foods</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        .back-btn {
+            color: #e67e22;
+            text-decoration: none;
+            margin-bottom: 2rem;
+            display: inline-block;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+        .back-btn:hover {
+            color: #cf6a1c;
+        }
+        .service-header {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        .service-title {
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+        .service-image {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+        }
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        .content-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .content-card h3 {
+            color: #e67e22;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+        .content-card ul {
+            list-style: none;
+            padding: 0;
+        }
+        .content-card li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #eee;
+        }
+        .content-card li:before {
+            content: "📋";
+            margin-right: 0.5rem;
+            color: #e67e22;
+        }
+        .cta-section {
+            background: linear-gradient(135deg, #e67e22, #cf6a1c);
+            color: white;
+            padding: 3rem;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .cta-section h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s;
+        }
+        .btn-primary {
+            background: white;
+            color: #e67e22;
+        }
+        .btn-primary:hover {
+            background: #f8f8f8;
+            transform: translateY(-2px);
+        }
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+        .btn-secondary:hover {
+            background: white;
+            color: #e67e22;
+        }
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.5);
+        }
+        .modal-content {
+            background-color: #fff;
+            margin: 5% auto;
+            padding: 2rem;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 600px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            position: relative;
+        }
+        .close {
+            position: absolute;
+            right: 1rem;
+            top: 1rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        .form-group input, 
+        .form-group select, 
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: inherit;
+        }
+        .form-submit {
+            background: #e67e22;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+        .form-submit:hover {
+            background: #cf6a1c;
+        }
+        .info-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        .info-section h3 {
+            color: #e67e22;
+            border-bottom: 2px solid #e67e22;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+        .info-item {
+            margin-bottom: 1rem;
+        }
+        .info-item h4 {
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+        .payslip-badge {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        .badge-icon {
+            margin-right: 1rem;
+            color: #e67e22;
+            font-size: 1.5rem;
+        }
+        .features-list {
+            margin: 2rem 0;
+        }
+        .features-list li {
+            margin-bottom: 1rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+        .features-list li:before {
+            content: "✓";
+            color: #e67e22;
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+        .payslip-preview {
+            background-color: #f5f5f5;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+        .payslip-header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        .payslip-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .payslip-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1.5rem;
+        }
+        .payslip-table th, .payslip-table td {
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        .payslip-table th {
+            background-color: #e67e22;
+            color: white;
+        }
+        .payslip-footer {
+            text-align: center;
+            font-size: 0.9rem;
+            color: #666;
+        }
+        @media (max-width: 768px) {
+            .content-grid, .info-grid, .payslip-details {
+                grid-template-columns: 1fr;
+            }
+            .service-title {
+                font-size: 2rem;
+            }
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            .modal-content {
+                width: 90%;
+                margin: 10% auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="{{ url_for('services') }}" class="back-btn">← Back to Services</a>
+        <div class="service-header">
+            <h1 class="service-title">Corporate Payslip Solutions</h1>
+            <img src="https://videos.openai.com/vg-assets/assets%2Ftask_01jzap0ptgftb9ptnwqvgrz8bj%2F1751631687_img_1.webp?st=2025-07-04T10%3A30%3A43Z&se=2025-07-10T11%3A30%3A43Z&sks=b&skt=2025-07-04T10%3A30%3A43Z&ske=2025-07-10T11%3A30%3A43Z&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skoid=3d249c53-07fa-4ba4-9b65-0bf8eb4ea46a&skv=2019-02-02&sv=2018-11-09&sr=b&sp=r&spr=https%2Chttp&sig=YfFFzNK37ZjIntWGWYd48ixQuw1f3eWeyJTJlyRWeJ8%3D&az=oaivgprodscus" alt="Corporate Payslips" class="service-image">
+            <p style="font-size: 1.2rem; color: #666;">Professional, compliant, and customizable payslip solutions for businesses of all sizes.</p>
+        </div>
+
+        <div class="content-grid">
+            <div class="content-card">
+                <h3>Payslip Services</h3>
+                <ul>
+                    <li>Custom Payslip Design</li>
+                    <li>Automated Payslip Generation</li>
+                    <li>Digital Payslip Delivery</li>
+                    <li>Multi-Language Support</li>
+                    <li>Tax & Deduction Breakdowns</li>
+                    <li>Year-End Tax Statements</li>
+                </ul>
+            </div>
+            
+            <div class="content-card">
+                <h3>Integration Features</h3>
+                <ul>
+                    <li>Payroll System Integration</li>
+                    <li>HR Software Compatibility</li>
+                    <li>Accounting Software Sync</li>
+                    <li>Employee Self-Service Portal</li>
+                    <li>Mobile App Access</li>
+                    <li>API for Custom Solutions</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <h3>Our Payslip Solutions</h3>
+            <div class="info-grid">
+                <div class="info-item">
+                    <div class="payslip-badge">
+                        <div class="badge-icon">🖨️</div>
+                        <h4>Automated Generation</h4>
+                    </div>
+                    <p>System automatically generates payslips each pay period with accurate calculations for taxes, deductions, and benefits.</p>
+                </div>
+                <div class="info-item">
+                    <div class="payslip-badge">
+                        <div class="badge-icon">📱</div>
+                        <h4>Digital Delivery</h4>
+                    </div>
+                    <p>Employees receive payslips via email or through secure employee portals, accessible on any device.</p>
+                </div>
+                <div class="info-item">
+                    <div class="payslip-badge">
+                        <div class="badge-icon">🔒</div>
+                        <h4>Secure & Compliant</h4>
+                    </div>
+                    <p>Bank-level security with compliance to all regional labor laws and data protection regulations.</p>
+                </div>
+                <div class="info-item">
+                    <div class="payslip-badge">
+                        <div class="badge-icon">🎨</div>
+                        <h4>Brand Customization</h4>
+                    </div>
+                    <p>Payslips customized with your company logo, colors, and messaging for professional branding.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="payslip-preview">
+            <div class="payslip-header">
+                <h3 style="color: #e67e22; margin-bottom: 0.5rem;">SAMPLE PAYSLIP</h3>
+                <p style="color: #666; margin-bottom: 0;">Pay Period: 01 Jan - 31 Jan 2023</p>
+            </div>
+            
+            <div class="payslip-details">
+                <div>
+                    <p><strong>Employee:</strong> John Smith</p>
+                    <p><strong>Employee ID:</strong> EMP2023001</p>
+                    <p><strong>Department:</strong> Marketing</p>
+                </div>
+                <div>
+                    <p><strong>Pay Date:</strong> 05 Feb 2023</p>
+                    <p><strong>Pay Method:</strong> Direct Deposit</p>
+                    <p><strong>Tax ID:</strong> 123-45-6789</p>
+                </div>
+            </div>
+            
+            <table class="payslip-table">
+                <thead>
+                    <tr>
+                        <th>Earnings</th>
+                        <th>Amount</th>
+                        <th>Deductions</th>
+                        <th>Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Basic Salary</td>
+                        <td>$5,000.00</td>
+                        <td>Federal Tax</td>
+                        <td>$750.00</td>
+                    </tr>
+                    <tr>
+                        <td>Overtime</td>
+                        <td>$250.00</td>
+                        <td>State Tax</td>
+                        <td>$300.00</td>
+                    </tr>
+                    <tr>
+                        <td>Bonus</td>
+                        <td>$500.00</td>
+                        <td>Social Security</td>
+                        <td>$310.00</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Total Earnings</strong></td>
+                        <td><strong>$5,750.00</strong></td>
+                        <td><strong>Total Deductions</strong></td>
+                        <td><strong>$1,360.00</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div style="text-align: right; margin-bottom: 1.5rem;">
+                <p><strong>Net Pay:</strong> $4,390.00</p>
+            </div>
+            
+            <div class="payslip-footer">
+                <p>This is an example payslip generated by PaySlip Pro</p>
+                <p>For inquiries, please contact your HR department</p>
+            </div>
+        </div>
+
+        <div class="content-card" style="margin-top: 2rem;">
+            <h3 style="color: #e67e22;">Why Choose PaySlip Pro for Your Corporate Payslips?</h3>
+            <p>Payslips are more than just payment records—they're important documents that affect employee satisfaction, compliance, and your company's professional image. PaySlip Pro delivers comprehensive payslip solutions that ensure accuracy, compliance, and efficiency.</p>
+
+            <h4>Customizable Templates</h4>
+            <p>Choose from our library of professional templates or work with our designers to create a completely custom payslip that reflects your brand identity and includes all required information.</p>
+
+            <h4>Automated Processing</h4>
+            <p>Our system automatically generates payslips each pay period by pulling data from your payroll system, eliminating manual work and reducing errors.</p>
+
+            <h4>Multiple Delivery Options</h4>
+            <p>Deliver payslips via email, employee self-service portals, mobile apps, or printed copies—whatever works best for your workforce.</p>
+
+            <h4>Detailed Breakdowns</h4>
+            <p>Employees appreciate clear breakdowns of their earnings, taxes, and deductions. Our system presents this information in an easy-to-understand format.</p>
+
+            <h4>Compliance Assurance</h4>
+            <p>We stay current with all regional labor laws to ensure your payslips include all legally required information in the correct format.</p>
+
+            <h4>Secure Archiving</h4>
+            <p>All payslips are securely archived for the required retention period, with controlled access for authorized personnel only.</p>
+
+            <h4>Employee Self-Service</h4>
+            <p>Our optional employee portal allows staff to access current and historical payslips, download PDF copies, and update certain information.</p>
+
+            <h4>Key Features of PaySlip Pro:</h4>
+            <ul class="features-list">
+                <li>Automated generation from payroll data</li>
+                <li>Custom branding with your logo and colors</li>
+                <li>Multiple language support for global workforces</li>
+                <li>Secure digital delivery with read receipts</li>
+                <li>Printable formats for employees who prefer paper</li>
+                <li>Historical payslip access (current and former employees)</li>
+                <li>Integration with major payroll providers</li>
+                <li>Detailed earnings and deductions breakdown</li>
+                <li>Year-to-date totals on each payslip</li>
+                <li>Tax and benefits information display</li>
+            </ul>
+
+            <h4>Scalable for Any Organization</h4>
+            <p>Whether you have 10 employees or 10,000, our system scales to meet your needs. We serve small businesses, mid-sized companies, and large enterprises across all industries.</p>
+
+            <p>PaySlip Pro isn't just a service—we're your partner in payroll communication. Let us help you create professional, compliant payslips that enhance the employee experience while reducing your administrative burden.</p>
+        </div>
+
+        <div class="cta-section">
+            <h3>Ready to Upgrade Your Payslip Process?</h3>
+            <p>Contact us today to see how we can transform your corporate payslip delivery.</p>
+            <div class="cta-buttons">
+                <a href="#" class="btn btn-primary" id="demoBtn">Request a Demo</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div id="confirmationModal" class="modal">
+        <div class="modal-content" style="text-align: center;">
+            <span class="close" onclick="closeModal('confirmationModal')">&times;</span>
+            <h2 style="color: #e67e22;">Thank You!</h2>
+            <p>Your demo request has been submitted successfully.</p>
+            <p>Our payslip specialist will contact you within 24 hours.</p>
+            <button class="form-submit" onclick="closeModal('confirmationModal')" style="margin-top: 1rem;">Close</button>
+        </div>
+    </div>
+
+    <!-- Demo Request Modal -->
+    <div id="demoModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('demoModal')">&times;</span>
+            <h2 style="color: #e67e22; text-align: center;">Payslip Solution Demo</h2>
+            <p style="text-align: center; margin-bottom: 2rem;">Complete this form to schedule your personalized demo</p>
+            <form id="payslipForm">
+                <div class="form-group">
+                    <label for="name">Your Name*</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="company">Company Name*</label>
+                    <input type="text" id="company" name="company" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="title">Job Title*</label>
+                    <input type="text" id="title" name="title" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="phone">Contact Number*</label>
+                    <input type="tel" id="phone" name="phone" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email Address*</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="employees">Number of Employees*</label>
+                    <select id="employees" name="employees" required>
+                        <option value="">Select range</option>
+                        <option value="1-50">1-50</option>
+                        <option value="51-200">51-200</option>
+                        <option value="201-500">201-500</option>
+                        <option value="501-1000">501-1000</option>
+                        <option value="1000+">1000+</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="current">Current Payslip Method</label>
+                    <select id="current" name="current">
+                        <option value="">Select current method</option>
+                        <option value="manual">Manual Creation</option>
+                        <option value="payroll">Payroll System Generated</option>
+                        <option value="other">Other Software</option>
+                        <option value="none">No Formal System</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="challenges">Key Challenges</label>
+                    <textarea id="challenges" name="challenges" rows="3" placeholder="What problems are you facing with your current payslip process?"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="preferred">Preferred Demo Date/Time</label>
+                    <input type="text" id="preferred" name="preferred" placeholder="E.g., Weekday mornings, Afternoons, etc.">
+                </div>
+                
+                <button type="submit" class="form-submit">Request Demo</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Get the modal elements
+        const demoModal = document.getElementById("demoModal");
+        const confirmationModal = document.getElementById("confirmationModal");
+        
+        // Get the buttons that open the modals
+        const demoBtn = document.getElementById("demoBtn");
+        
+        // When the user clicks the button, open the modal
+        demoBtn.onclick = function(e) {
+            e.preventDefault();
+            demoModal.style.display = "block";
+        }
+        
+        // Close modal function
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = "none";
+        }
+        
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = "none";
+            }
+        }
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === "Escape") {
+                const modals = document.querySelectorAll('.modal');
+                modals.forEach(modal => {
+                    modal.style.display = "none";
+                });
+            }
+        });
+        
+        // Form submission handling
+        document.getElementById("payslipForm").addEventListener("submit", function(e) {
+            e.preventDefault();
+            
+            // Here you would typically send the form data to your server
+            // For demonstration, we'll just show the confirmation modal
+            
+            // Close the demo modal
+            demoModal.style.display = "none";
+            // Show the confirmation modal
+            confirmationModal.style.display = "block";
+            // Reset the form
+            e.target.reset();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog – LaCleo Foods</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        body {
+            line-height: 1.6;
+            color: #333;
+            background-color: #f9f9f9;
+            overflow-x: hidden;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-left: 0;
+        }
+        
+        .logo-img {
+            height: 350px; 
+            width: auto;
+            object-fit: contain;
+            display: block;
+        }
+
+        .logo-container {
+            margin-right: 2rem; 
+            margin-left: -30px; 
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 600;
+            padding: 0.5rem 0;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .nav-menu a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: #e67e22;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-menu a:hover {
+            color: #e67e22;
+        }
+        
+        .nav-menu a:hover::after {
+            width: 100%;
+        }
+        
+        .nav-menu a.active {
+            color: #e67e22;
+        }
+        
+        .nav-menu a.active::after {
+            width: 100%;
+        }
+        
+        /* Hero Section */
+        .media-hero {
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
+                        url('https://images.unsplash.com/photo-1504674900247-0877df9cc836') center/cover no-repeat;
+            padding: 6rem 2rem 4rem;
+            color: white;
+            text-align: center;
+            position: relative;
+        }
+        
+        .media-hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .media-hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .back-btn {
+            display: inline-block;
+            background-color: #e67e22;
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .back-btn:hover {
+            background-color: #cf6a1c;
+            transform: translateY(-2px);
+        }
+        
+        /* Gallery/Blog Styles */
+        .gallery-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+        
+        .gallery-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .gallery-header h2 {
+            font-size: 2.5rem;
+            color: #e67e22;
+            margin-bottom: 1rem;
+        }
+        
+        .gallery-header p {
+            font-size: 1.1rem;
+            color: #666;
+        }
+        
+        .filter-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+        
+        .filter-btn {
+            background: white;
+            border: 2px solid #e67e22;
+            color: #e67e22;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+        
+        .filter-btn.active,
+        .filter-btn:hover {
+            background: #e67e22;
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .gallery-item {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .gallery-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+            background-color: #f0f0f0;
+        }
+        
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+        
+        .gallery-content {
+            padding: 1.5rem;
+        }
+        
+        .gallery-content h3 {
+            color: #333;
+            margin-bottom: 0.5rem;
+            font-size: 1.3rem;
+        }
+        
+        .gallery-content p {
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        .service-tag {
+            display: inline-block;
+            background: #e67e22;
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+        }
+        
+        /* Blog Post View (hidden by default) */
+        .blog-post-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 6rem 2rem 4rem;
+            display: none;
+        }
+        
+        .blog-post-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .blog-post-title {
+            font-size: 2.5rem;
+            color: #e67e22;
+            margin-bottom: 1rem;
+        }
+        
+        .blog-post-meta {
+            color: #666;
+            font-size: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .blog-post-image {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+        }
+        
+        .blog-post-content {
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+        
+        .blog-post-content p {
+            margin-bottom: 1.5rem;
+        }
+        
+        .back-to-blog {
+            display: inline-block;
+            margin-top: 3rem;
+            color: #e67e22;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .back-to-blog:hover {
+            color: #cf6a1c;
+            text-decoration: underline;
+        }
+        
+        /* CTA Section */
+        .media-cta {
+            background: #e67e22;
+            color: white;
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+        
+        .media-cta h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .media-cta p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .media-cta-btn {
+            background: white;
+            color: #e67e22;
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .media-cta-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        
+        /* Footer Styles */
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+        
+        .footer-section {
+            flex: 1;
+            min-width: 200px;
+            text-align: left;
+        }
+        
+        .footer-section h3 {
+            color: #e67e22;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+        
+        .footer-section ul {
+            list-style: none;
+        }
+        
+        .footer-section li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .footer-section a {
+            color: #ddd;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-section a:hover {
+            color: #e67e22;
+        }
+        
+        .copyright {
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid #555;
+        }
+        
+        /* Translucent Fixed Navbar */
+        nav {
+            background-color: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 1rem 2rem;
+            transition: all 0.3s ease;
+            box-shadow: none;
+        }
+
+        nav.scrolled {
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Login Panel */
+        .login-panel {
+            max-width: 400px;
+            margin: 6rem auto;
+            padding: 2rem;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .login-panel h2 {
+            color: #e67e22;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        
+        .login-form .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .login-form label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        
+        .login-form input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
+        }
+        
+        .login-btn {
+            background: #e67e22;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+        
+        .login-btn:hover {
+            background: #cf6a1c;
+        }
+        
+        /* Admin Panel (hidden by default) */
+        .admin-panel {
+            max-width: 800px;
+            margin: 6rem auto 4rem;
+            padding: 2rem;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            display: none;
+        }
+        
+        .admin-panel h2 {
+            color: #e67e22;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
+        }
+        
+        .form-group textarea {
+            min-height: 200px;
+        }
+        
+        .image-upload-container {
+            border: 2px dashed #e67e22;
+            border-radius: 6px;
+            padding: 1.5rem;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .image-preview {
+            max-width: 100%;
+            max-height: 200px;
+            margin-top: 1rem;
+            display: none;
+        }
+        
+        .upload-btn {
+            background: #e67e22;
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .upload-btn:hover {
+            background: #cf6a1c;
+        }
+        
+        .submit-btn {
+            background: #e67e22;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+        
+        .submit-btn:hover {
+            background: #cf6a1c;
+            transform: translateY(-2px);
+        }
+        
+        /* Edit Button Styles */
+        .edit-btn {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-left: 0.5rem;
+        }
+        
+        .edit-btn:hover {
+            background: #3e8e41;
+        }
+        
+        /* Posts Management */
+        .posts-management {
+            margin-top: 3rem;
+        }
+        
+        .posts-list {
+            max-height: 300px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .post-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.8rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .post-item:last-child {
+            border-bottom: none;
+        }
+        
+        .post-item-title {
+            flex: 1;
+            font-weight: 600;
+        }
+        
+        .post-item-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .delete-btn {
+            background: #ff4444;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .delete-btn:hover {
+            background: #cc0000;
+        }
+        
+        /* Tab Styles */
+        .tab-buttons {
+            display: flex;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .tab-btn {
+            background: none;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            cursor: pointer;
+            font-weight: 600;
+            color: #666;
+            position: relative;
+        }
+        
+        .tab-btn.active {
+            color: #e67e22;
+        }
+        
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #e67e22;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        /* Hamburger Menu Styles */
+        .hamburger {
+            display: none; /* Hidden by default on desktop */
+            flex-direction: column;
+            justify-content: space-around;
+            width: 30px;
+            height: 25px;
+            cursor: pointer;
+            z-index: 1001; /* Ensure it's above other content */
+        }
+
+        .hamburger .bar {
+            width: 100%;
+            height: 3px;
+            background-color: #333;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: row; /* Keep logo and hamburger on one line */
+                justify-content: space-between;
+                align-items: center;
+                padding: 0 1rem;
+            }
+            
+            .nav-menu {
+                display: flex;
+                flex-direction: column;
+                position: fixed;
+                top: 0;
+                right: -100%; /* Start off-screen to the right */
+                width: 80%;
+                max-width: 300px;
+                height: 100vh;
+                background-color: rgba(255, 255, 255, 0.95);
+                padding: 2rem 1rem;
+                box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+                gap: 1rem;
+                z-index: 1000;
+                transition: right 0.3s ease-in-out;
+            }
+
+            .nav-menu.active {
+                right: 0; /* Slide in from right */
+            }
+
+            .nav-menu li {
+                text-align: left;
+                margin: 0.5rem 0;
+            }
+
+            .nav-menu a {
+                padding: 0.8rem 1rem;
+                width: 100%;
+                display: block;
+            }
+
+            .hamburger {
+                display: flex; /* Show hamburger on mobile */
+                position: relative;
+                z-index: 1001;
+            }
+            
+            .hamburger.active .bar:nth-child(1) {
+                transform: translateY(8px) rotate(45deg);
+            }
+            
+            .hamburger.active .bar:nth-child(2) {
+                opacity: 0;
+            }
+            
+            .hamburger.active .bar:nth-child(3) {
+                transform: translateY(-8px) rotate(-45deg);
+            }
+            
+            /* Overlay when menu is open */
+            .menu-overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0,0,0,0.5);
+                z-index: 999;
+                opacity: 0;
+                visibility: hidden;
+                transition: opacity 0.3s ease, visibility 0.3s ease;
+            }
+            
+            .menu-overlay.active {
+                opacity: 1;
+                visibility: visible;
+            }
+            
+            .media-hero h1 {
+                font-size: 2rem;
+            }
+            
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .filter-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .post-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .post-item-actions {
+                margin-top: 0.5rem;
+                width: 100%;
+            }
+            
+            .delete-btn, .edit-btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body> 
+    <header>
+        <nav>
+            <div class="nav-container">
+                <div class="logo-container">
+                    <a href="/" style="display: flex; align-items: center; text-decoration: none; margin-right: auto;">
+                        <img src="/static/images/logo.png" alt="LaCleo Logo" style="height: 40px;transform: scale(1);" />
+                    </a>
+                </div>
+                <div class="hamburger" id="hamburger">
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                </div>
+                <ul class="nav-menu" id="navMenu">
+                    <li><a href="/#about">About Us</a></li>
+                    <li><a href="/services">Services</a></li>
+                    <li><a href="/#why-us">Why Us</a></li>
+                    <li><a href="#" class="active" id="blogLink">Blog</a></li>
+                    <li><a href="/#contact">Contact Us</a></li>
+                    <li><a href="/vendorzone">Vendor Zone</a></li>
+                </ul>
+                <div class="menu-overlay" id="menuOverlay"></div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Login Panel (shown when admin link clicked) -->
+    <section class="login-panel" id="loginPanel" style="display: none;">
+        <h2>Admin Login</h2>
+        <form class="login-form" id="loginForm">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" required>
+            </div>
+            <button type="submit" class="login-btn">Login</button>
+        </form>
+    </section>
+
+    <!-- Blog List View -->
+    <section class="media-hero" id="blogHero">
+        <h1>LaCleo Foods Blog</h1>
+        <p>Discover the latest news and insights about corporate catering</p>
+        <a href="/" class="back-btn">← Back to Home</a>
+    </section>
+
+    <section class="gallery-container" id="blogList">
+        <div class="gallery-header">
+            <h2>Latest Articles</h2>
+            <p>Stay updated with our corporate catering expertise</p>
+        </div>
+
+        <div class="filter-buttons">
+            <button class="filter-btn active" data-filter="all">All Posts</button>
+            <button class="filter-btn" data-filter="trends">Trends</button>
+            <button class="filter-btn" data-filter="nutrition">Nutrition</button>
+            <button class="filter-btn" data-filter="events">Events</button>
+        </div>
+
+        <div class="gallery-grid" id="blogPosts">
+            <!-- Blog posts will be dynamically inserted here -->
+        </div>
+    </section>
+
+    <!-- Blog Post View (hidden by default) -->
+    <section class="blog-post-container" id="blogPostView">
+        <div class="blog-post-header">
+            <h1 class="blog-post-title" id="postTitle">Blog Post Title</h1>
+            <div class="blog-post-meta" id="postMeta">June 15, 2023 • Category</div>
+            <img src="" alt="" class="blog-post-image" id="postImage">
+        </div>
+        
+        <div class="blog-post-content" id="postContent">
+            <!-- Blog content will be inserted here -->
+        </div>
+        
+        <a href="#" class="back-to-blog" id="backToBlog">← Back to Blog</a>
+    </section>
+
+    <!-- Admin Panel (hidden by default) -->
+    <section class="admin-panel" id="adminPanel">
+        <h2>Blog Admin Panel</h2>
+        
+        <div class="tab-buttons">
+            <button class="tab-btn active" data-tab="add-post">Add New Post</button>
+            <button class="tab-btn" data-tab="manage-posts">Manage Posts</button>
+        </div>
+        
+        <!-- Add New Post Tab -->
+        <div class="tab-content active" id="add-post-tab">
+            <form id="blogPostForm">
+                <input type="hidden" id="postIdInput" value="">
+                <div class="form-group">
+                    <label for="postTitleInput">Title</label>
+                    <input type="text" id="postTitleInput" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="postExcerptInput">Excerpt (Short Description)</label>
+                    <textarea id="postExcerptInput" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="postContentInput">Content</label>
+                    <textarea id="postContentInput" required></textarea>
+                </div>
+                
+                <div class="image-upload-container">
+                    <label for="imageUpload">Upload Featured Image</label>
+                    <input type="file" id="imageUpload" accept="image/*" style="display: none;">
+                    <button type="button" class="upload-btn" id="uploadBtn">Choose Image</button>
+                    <img id="imagePreview" class="image-preview">
+                    <input type="hidden" id="postImageInput">
+                </div>
+                
+                <div class="form-group">
+                    <label for="postDateInput">Date</label>
+                    <input type="date" id="postDateInput" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="postCategoryInput">Category</label>
+                    <select id="postCategoryInput" required>
+                        <option value="trends">Trends</option>
+                        <option value="nutrition">Nutrition</option>
+                        <option value="events">Events</option>
+                    </select>
+                </div>
+                
+                <button type="submit" class="submit-btn" id="submitPostBtn">Publish Post</button>
+            </form>
+        </div>
+        
+        <!-- Manage Posts Tab -->
+        <div class="tab-content" id="manage-posts-tab">
+            <div class="posts-management">
+                <h3>Manage Existing Posts</h3>
+                <div class="posts-list" id="postsList">
+                    <!-- Posts will be listed here -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/#about">About Us</a></li>
+                    <li><a href="/services">Services</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Company</h3>
+                <ul>
+                    <li><a href="/#why-us">Why Us</a></li>
+                    <li><a href="#" id="footerBlogLink">Blog</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <ul>
+                    <li><a href="tel:5551234567">9958489481</a></li>
+                    <li><a href="mailto:lacleocorporateservices@gmail.com">lacleocorporateservices@gmail.com</a></li>
+                    <li><a href="#" id="footerAdminLink">Admin</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2023 LaCleo Foods. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Blog data storage
+        let blogPosts = JSON.parse(localStorage.getItem('blogPosts')) || [
+            {
+                id: 1,
+                title: "5 Trends in Corporate Catering for 2023",
+                excerpt: "Discover the latest trends shaping corporate catering this year and how to implement them in your business.",
+                image: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&h=400&fit=crop",
+                date: "2023-06-15",
+                category: "trends",
+                content: `
+                    <p>The corporate catering industry is evolving rapidly, with new trends emerging that reflect changing workplace dynamics and employee expectations. Here are the top 5 trends we're seeing in 2023:</p>
+                    
+                    <h3>1. Health-Conscious Menus</h3>
+                    <p>Companies are increasingly requesting meals that are not just delicious but also nutritionally balanced. Expect to see more plant-based options, superfood ingredients, and meals designed to boost energy and productivity.</p>
+                    
+                    <h3>2. Sustainable Practices</h3>
+                    <p>From compostable packaging to locally-sourced ingredients, sustainability is no longer optional. Clients want to know their catering choices align with their corporate sustainability goals.</p>
+                    
+                    <h3>3. Global Flavors</h3>
+                    <p>As workplaces become more diverse, so do palates. Menus featuring authentic international cuisine are in high demand, offering employees a taste of different cultures.</p>
+                    
+                    <h3>4. Tech-Enabled Ordering</h3>
+                    <p>Mobile apps and digital platforms are making catering orders more efficient than ever, with features like dietary preference tracking and advanced scheduling.</p>
+                    
+                    <h3>5. Hybrid Event Solutions</h3>
+                    <p>With many companies operating in hybrid models, caterers are developing innovative solutions to serve both in-office and remote employees simultaneously.</p>
+                    
+                    <p>At LaCleo Foods, we're at the forefront of these trends, helping our clients create catering experiences that impress and satisfy.</p>
+                `
+            },
+            {
+                id: 2,
+                title: "Healthy Snack Options for the Office",
+                excerpt: "Learn about nutritious snack options that boost productivity and keep your team energized throughout the day.",
+                image: "https://images.unsplash.com/photo-1606787366850-de6330128bfc?w=600&h=400&fit=crop",
+                date: "2023-05-28",
+                category: "nutrition",
+                content: `
+                    <p>Providing healthy snack options in the office isn't just about keeping employees happy - it's about maintaining energy levels, boosting productivity, and showing your team you care about their wellbeing. Here are our top recommendations for office snacks that are both nutritious and delicious.</p>
+                    
+                    <h3>1. Fresh Fruit Platters</h3>
+                    <p>Seasonal fruits provide natural sugars for quick energy along with fiber to keep you full. Arrange them attractively to encourage consumption.</p>
+                    
+                    <h3>2. Nut and Seed Mixes</h3>
+                    <p>Packed with protein and healthy fats, these provide sustained energy. Offer a variety to suit different tastes and dietary restrictions.</p>
+                    
+                    <h3>3. Greek Yogurt Parfaits</h3>
+                    <p>Layer Greek yogurt with granola and berries for a protein-packed snack that feels like a treat.</p>
+                    
+                    <h3>4. Vegetable Crudités with Hummus</h3>
+                    <p>Crunchy vegetables paired with protein-rich hummus make for a satisfying snack that's low in calories but high in nutrients.</p>
+                    
+                    <h3>5. Whole Grain Energy Balls</h3>
+                    <p>These no-bake treats made with oats, nut butter, and seeds provide lasting energy without the sugar crash.</p>
+                    
+                    <p>Remember to consider dietary restrictions and preferences when planning your office snack menu. At LaCleo, we can customize snack selections to meet your team's specific needs.</p>
+                `
+            }
+        ];
+
+        // Admin credentials (in a real system, these would be hashed and stored securely)
+        const adminCredentials = {
+            username: "admin",
+            password: "LaCleoFoods123" // You should change this to your own secure password
+        };
+
+        // DOM Elements
+        const blogListSection = document.getElementById('blogList');
+        const blogPostView = document.getElementById('blogPostView');
+        const adminPanel = document.getElementById('adminPanel');
+        const loginPanel = document.getElementById('loginPanel');
+        const blogPostsContainer = document.getElementById('blogPosts');
+        const blogLink = document.getElementById('blogLink');
+        const footerBlogLink = document.getElementById('footerBlogLink');
+        const backToBlog = document.getElementById('backToBlog');
+        const blogPostForm = document.getElementById('blogPostForm');
+        const loginForm = document.getElementById('loginForm');
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const imageUpload = document.getElementById('imageUpload');
+        const uploadBtn = document.getElementById('uploadBtn');
+        const imagePreview = document.getElementById('imagePreview');
+        const postImageInput = document.getElementById('postImageInput');
+        const postsList = document.getElementById('postsList');
+        const tabButtons = document.querySelectorAll('.tab-btn');
+        const tabContents = document.querySelectorAll('.tab-content');
+        const postIdInput = document.getElementById('postIdInput');
+        const submitPostBtn = document.getElementById('submitPostBtn');
+        const hamburger = document.getElementById('hamburger');
+        const navMenu = document.getElementById('navMenu');
+        const footerAdminLink = document.getElementById('footerAdminLink');
+        const menuOverlay = document.getElementById('menuOverlay');
+
+        // View management functions
+        function showBlogList() {
+            blogListSection.style.display = 'block';
+            blogPostView.style.display = 'none';
+            adminPanel.style.display = 'none';
+            loginPanel.style.display = 'none';
+            updateBlogList();
+            document.title = "Blog – LaCleo Foods";
+            closeMobileMenu();
+        }
+
+        function showBlogPost(postId) {
+            const post = blogPosts.find(p => p.id == postId);
+            if (post) {
+                // Format date for display
+                const postDate = new Date(post.date);
+                const options = { year: 'numeric', month: 'long', day: 'numeric' };
+                const formattedDate = postDate.toLocaleDateString('en-US', options);
+                
+                // Capitalize first letter of category
+                const formattedCategory = post.category.charAt(0).toUpperCase() + post.category.slice(1);
+                
+                document.getElementById('postTitle').textContent = post.title;
+                document.getElementById('postMeta').textContent = `${formattedDate} • ${formattedCategory}`;
+                document.getElementById('postImage').src = post.image;
+                document.getElementById('postImage').alt = post.title;
+                document.getElementById('postContent').innerHTML = post.content;
+                
+                blogListSection.style.display = 'none';
+                blogPostView.style.display = 'block';
+                adminPanel.style.display = 'none';
+                loginPanel.style.display = 'none';
+                
+                document.title = `${post.title} – LaCleo Foods Blog`;
+                closeMobileMenu();
+            } else {
+                showBlogList();
+            }
+        }
+
+        function showLoginPanel() {
+            blogListSection.style.display = 'none';
+            blogPostView.style.display = 'none';
+            adminPanel.style.display = 'none';
+            loginPanel.style.display = 'block';
+            document.title = "Admin Login – LaCleo Foods";
+            closeMobileMenu();
+        }
+
+        function showAdminPanel() {
+            blogListSection.style.display = 'none';
+            blogPostView.style.display = 'none';
+            adminPanel.style.display = 'block';
+            loginPanel.style.display = 'none';
+            document.title = "Blog Admin – LaCleo Foods";
+            
+            // Set today's date as default
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('postDateInput').value = today;
+            
+            // Reset form for new post
+            resetForm();
+            
+            // Update posts list
+            updatePostsList();
+            closeMobileMenu();
+        }
+
+        // Mobile menu functions
+        function toggleMobileMenu() {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+            menuOverlay.classList.toggle('active');
+            
+            // Toggle body scroll when menu is open
+            if (navMenu.classList.contains('active')) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = '';
+            }
+        }
+
+        function closeMobileMenu() {
+            hamburger.classList.remove('active');
+            navMenu.classList.remove('active');
+            menuOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Reset form for new post
+        function resetForm() {
+            blogPostForm.reset();
+            postIdInput.value = '';
+            imagePreview.style.display = 'none';
+            imagePreview.src = '';
+            submitPostBtn.textContent = 'Publish Post';
+        }
+
+        // Check admin login
+        function checkAdminLogin(username, password) {
+            return username === adminCredentials.username && password === adminCredentials.password;
+        }
+
+        // Handle image upload
+        uploadBtn.addEventListener('click', () => {
+            imageUpload.click();
+        });
+
+        imageUpload.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    imagePreview.src = event.target.result;
+                    imagePreview.style.display = 'block';
+                    postImageInput.value = event.target.result; // Store base64 encoded image
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Tab switching
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const tabId = button.getAttribute('data-tab');
+                
+                // Update active tab button
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                
+                // Show corresponding tab content
+                tabContents.forEach(content => {
+                    content.classList.remove('active');
+                    if (content.id === `${tabId}-tab`) {
+                        content.classList.add('active');
+                    }
+                });
+                
+                // Update posts list if we're switching to manage tab
+                if (tabId === 'manage-posts') {
+                    updatePostsList();
+                }
+                
+                // Reset form when switching to add post tab
+                if (tabId === 'add-post') {
+                    resetForm();
+                }
+            });
+        });
+
+        // Update posts list for management
+        function updatePostsList() {
+            postsList.innerHTML = '';
+            
+            if (blogPosts.length === 0) {
+                postsList.innerHTML = '<p>No posts found.</p>';
+                return;
+            }
+            
+            blogPosts.forEach(post => {
+                const postItem = document.createElement('div');
+                postItem.className = 'post-item';
+                postItem.innerHTML = `
+                    <div class="post-item-title">${post.title}</div>
+                    <div class="post-item-actions">
+                        <button class="edit-btn" data-id="${post.id}">Edit</button>
+                        <button class="delete-btn" data-id="${post.id}">Delete</button>
+                    </div>
+                `;
+                postsList.appendChild(postItem);
+            });
+            
+            // Add event listeners to delete buttons
+            document.querySelectorAll('.delete-btn').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const postId = parseInt(e.target.getAttribute('data-id'));
+                    deletePost(postId);
+                });
+            });
+            
+            // Add event listeners to edit buttons
+            document.querySelectorAll('.edit-btn').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const postId = parseInt(e.target.getAttribute('data-id'));
+                    editPost(postId);
+                });
+            });
+        }
+
+        // Edit a post
+        function editPost(postId) {
+            const post = blogPosts.find(p => p.id === postId);
+            if (post) {
+                // Switch to add post tab
+                document.querySelector('.tab-btn[data-tab="add-post"]').click();
+                
+                // Fill form with post data
+                postIdInput.value = post.id;
+                document.getElementById('postTitleInput').value = post.title;
+                document.getElementById('postExcerptInput').value = post.excerpt;
+                document.getElementById('postContentInput').value = post.content;
+                document.getElementById('postDateInput').value = post.date;
+                document.getElementById('postCategoryInput').value = post.category;
+                
+                // Handle image
+                if (post.image) {
+                    imagePreview.src = post.image;
+                    imagePreview.style.display = 'block';
+                    postImageInput.value = post.image;
+                } else {
+                    imagePreview.style.display = 'none';
+                    postImageInput.value = '';
+                }
+                
+                // Update button text
+                submitPostBtn.textContent = 'Update Post';
+                
+                // Scroll to form
+                document.getElementById('add-post-tab').scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // Delete a post
+        function deletePost(postId) {
+            if (confirm('Are you sure you want to delete this post?')) {
+                blogPosts = blogPosts.filter(post => post.id !== postId);
+                localStorage.setItem('blogPosts', JSON.stringify(blogPosts));
+                updatePostsList();
+                updateBlogList();
+                alert('Post deleted successfully!');
+            }
+        }
+
+        // Update blog list display
+        function updateBlogList(filter = 'all') {
+            blogPostsContainer.innerHTML = '';
+            
+            const filteredPosts = filter === 'all' 
+                ? blogPosts 
+                : blogPosts.filter(post => post.category === filter);
+            
+            if (filteredPosts.length === 0) {
+                blogPostsContainer.innerHTML = '<p>No posts found in this category.</p>';
+                return;
+            }
+            
+            filteredPosts.forEach(post => {
+                // Format date for display
+                const postDate = new Date(post.date);
+                const options = { year: 'numeric', month: 'long', day: 'numeric' };
+                const formattedDate = postDate.toLocaleDateString('en-US', options);
+                
+                // Capitalize first letter of category
+                const formattedCategory = post.category.charAt(0).toUpperCase() + post.category.slice(1);
+                
+                const blogCard = document.createElement('div');
+                blogCard.className = 'gallery-item';
+                blogCard.setAttribute('data-category', post.category);
+                blogCard.innerHTML = `
+                    <img src="${post.image}" alt="${post.title}" loading="lazy">
+                    <div class="gallery-content">
+                        <h3>${post.title}</h3>
+                        <p>${post.excerpt}</p>
+                        <span class="service-tag">${formattedCategory}</span>
+                        <span class="service-tag">${formattedDate}</span>
+                        <a href="#" class="read-more" data-id="${post.id}" style="display: block; margin-top: 1rem;">Read More →</a>
+                    </div>
+                `;
+                blogPostsContainer.appendChild(blogCard);
+            });
+            
+            // Add event listeners to read more links
+            document.querySelectorAll('.read-more').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const postId = e.target.getAttribute('data-id');
+                    showBlogPost(postId);
+                    history.pushState({ view: 'post', postId }, '', `?post=${postId}`);
+                });
+            });
+        }
+
+        // Handle form submission (for both new posts and edits)
+        blogPostForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const postId = postIdInput.value ? parseInt(postIdInput.value) : null;
+            const isEdit = !!postId;
+            
+            const postData = {
+                id: postId || (blogPosts.length > 0 ? Math.max(...blogPosts.map(p => p.id)) + 1 : 1),
+                title: document.getElementById('postTitleInput').value,
+                excerpt: document.getElementById('postExcerptInput').value,
+                content: document.getElementById('postContentInput').value,
+                image: document.getElementById('postImageInput').value || 'https://via.placeholder.com/600x400?text=No+Image',
+                date: document.getElementById('postDateInput').value,
+                category: document.getElementById('postCategoryInput').value
+            };
+            
+            if (isEdit) {
+                // Update existing post
+                const index = blogPosts.findIndex(p => p.id === postId);
+                if (index !== -1) {
+                    blogPosts[index] = postData;
+                }
+            } else {
+                // Add new post
+                blogPosts.push(postData);
+            }
+            
+            localStorage.setItem('blogPosts', JSON.stringify(blogPosts));
+            
+            // Reset form
+            resetForm();
+            
+            // Show success message
+            alert(`Post ${isEdit ? 'updated' : 'published'} successfully!`);
+            
+            // Update lists
+            updatePostsList();
+            updateBlogList();
+        });
+
+        // Handle login form submission
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            if (checkAdminLogin(username, password)) {
+                showAdminPanel();
+                // Clear the login form
+                loginForm.reset();
+            } else {
+                alert('Invalid username or password');
+            }
+        });
+
+        // Filter button functionality
+        filterButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                const filter = button.getAttribute('data-filter');
+                updateBlogList(filter);
+            });
+        });
+
+        // Event listeners for navigation
+        blogLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            showBlogList();
+            history.pushState({ view: 'list' }, '', '?view=list');
+        });
+
+        footerBlogLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            showBlogList();
+            history.pushState({ view: 'list' }, '', '?view=list');
+        });
+
+        backToBlog.addEventListener('click', (e) => {
+            e.preventDefault();
+            showBlogList();
+            history.pushState({ view: 'list' }, '', '?view=list');
+        });
+
+        // Admin link in footer
+        footerAdminLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            showLoginPanel();
+            history.pushState({ view: 'login' }, '', '?view=login');
+        });
+
+        // Hamburger menu toggle
+        hamburger.addEventListener('click', toggleMobileMenu);
+
+        // Close mobile menu when overlay is clicked
+        menuOverlay.addEventListener('click', closeMobileMenu);
+
+        // Close mobile menu when a link is clicked
+        navMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth <= 768) {
+                    closeMobileMenu();
+                }
+            });
+        });
+
+        // Handle back/forward navigation
+        window.addEventListener('popstate', (e) => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const postId = urlParams.get('post');
+            const view = urlParams.get('view');
+            
+            if (postId) {
+                showBlogPost(postId);
+            } else if (view === 'login') {
+                showLoginPanel();
+            } else if (view === 'admin') {
+                showAdminPanel();
+            } else {
+                showBlogList();
+            }
+        });
+
+        // Initial load
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const postId = urlParams.get('post');
+            const view = urlParams.get('view');
+            
+            if (postId) {
+                showBlogPost(postId);
+            } else if (view === 'login') {
+                showLoginPanel();
+            } else if (view === 'admin') {
+                showAdminPanel();
+            } else {
+                showBlogList();
+            }
+        });
+    </script>
+</body>
+</html>

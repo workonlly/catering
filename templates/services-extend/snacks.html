@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snacks - LaCleo Foods</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        .back-btn {
+            color: #e67e22;
+            text-decoration: none;
+            margin-bottom: 2rem;
+            display: inline-block;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+        .back-btn:hover {
+            color: #cf6a1c;
+        }
+        .service-header {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        .service-title {
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+        .service-image {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+        }
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        .content-card {
+            background: transparent;
+            padding: 2rem;
+            border-radius: 0px;
+        }
+        .content-card h3 {
+            color: #e67e22;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+        .content-card ul {
+            list-style: none;
+            padding: 0;
+        }
+        .content-card li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #eee;
+        }
+        .content-card li:before {
+            content: "✓";
+            color: #e67e22;
+            font-weight: bold;
+            margin-right: 0.5rem;
+        }
+        .cta-section {
+            background: linear-gradient(135deg, #e67e22, #cf6a1c);
+            color: white;
+            padding: 3rem;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .cta-section h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s;
+        }
+        .btn-primary {
+            background: white;
+            color: #e67e22;
+        }
+        .btn-primary:hover {
+            background: #f8f8f8;
+            transform: translateY(-2px);
+        }
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+        .btn-secondary:hover {
+            background: white;
+            color: #e67e22;
+        }
+        
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+        }
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 2rem;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 800px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            animation: modalopen 0.5s;
+        }
+        @keyframes modalopen {
+            from {opacity: 0; transform: translateY(-50px);}
+            to {opacity: 1; transform: translateY(0);}
+        }
+        .close-btn {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .close-btn:hover {
+            color: #333;
+        }
+        .menu-title {
+            color: #e67e22;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        .menu-category {
+            margin-bottom: 2rem;
+        }
+        .menu-category h3 {
+            color: #e67e22;
+            border-bottom: 2px solid #e67e22;
+            padding-bottom: 0.5rem;
+        }
+        .menu-items {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        .menu-item {
+            padding: 0.8rem;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .menu-item-name {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.3rem;
+        }
+        .menu-item-desc {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        /* Quote Form Styles */
+        .quote-form {
+            display: block;
+            background-color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        .form-group input, 
+        .form-group textarea, 
+        .form-group select {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: inherit;
+        }
+        .form-group textarea {
+            min-height: 100px;
+        }
+        .submit-btn {
+            background-color: #e67e22;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.3s;
+            width: 100%;
+        }
+        .submit-btn:hover {
+            background-color: #cf6a1c;
+        }
+        
+        @media (max-width: 768px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+            .service-title {
+                font-size: 2rem;
+            }
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            .modal-content {
+                width: 90%;
+                margin: 10% auto;
+                padding: 1.5rem;
+            }
+            .menu-items {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="{{ url_for('services') }}" class="back-btn">← Back to Services</a>
+        
+        <div class="service-header">
+            <h1 class="service-title">Snacks</h1>
+            <img src="https://videos.openai.com/vg-assets/assets%2Ftask_01jzar3cgaeyzb3qe7jfzcnn6v%2F1751633908_img_0.webp?st=2025-07-04T11%3A25%3A43Z&se=2025-07-10T12%3A25%3A43Z&sks=b&skt=2025-07-04T11%3A25%3A43Z&ske=2025-07-10T12%3A25%3A43Z&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skoid=3d249c53-07fa-4ba4-9b65-0bf8eb4ea46a&skv=2019-02-02&sv=2018-11-09&sr=b&sp=r&spr=https%2Chttp&sig=a3AulL94oTiaRkarxAPPzYdLt7mle%2FDnOLh2jiaXERU%3D&az=oaivgprodscus" alt="Snacks" class="service-image">
+            <p style="font-size: 1.2rem; color: #666;">Smart snacking options perfect for breaks and meetings. Keep your team energized with our healthy and delicious snack selections.</p>
+        </div>
+
+        <div class="content-grid">
+            <div class="content-card">
+                <h3>Snack Categories</h3>
+                <ul>
+                    <li>Healthy nuts and dried fruits</li>
+                    <li>Fresh seasonal fruits</li>
+                    <li>Artisanal cookies and biscuits</li>
+                    <li>Energy bars and protein snacks</li>
+                    <li>Traditional Indian snacks</li>
+                    <li>International favorites</li>
+                </ul>
+            </div>
+            
+            <div class="content-card">
+                <h3>Perfect For</h3>
+                <ul>
+                    <li>Meeting breaks</li>
+                    <li>Office pantry stocking</li>
+                    <li>Workshop refreshments</li>
+                    <li>Team building events</li>
+                    <li>Client meetings</li>
+                    <li>Daily office snacking</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="service-header" style="margin-top: 2rem;">
+            <h2 style="color: #e67e22;">Smart Snacking for Smarter Teams</h2>
+            <p>
+                At LaCleo Foods, we know that snacking is more than just a quick bite — it's a moment of refreshment, a spark of energy, and sometimes even a team bonding opportunity. That’s why our corporate snack offerings are designed to bring variety, nutrition, and delight into your office pantry or breakroom.
+            </p>
+
+            <h3 style="color: #444;">Why Snacks Matter</h3>
+            <p>
+                Employees who snack smartly tend to stay more focused and motivated throughout the day. Whether it’s a quick bite between meetings or an afternoon energy boost, a good snack can lift the mood and increase productivity. Our snacks are selected with both taste and health in mind — perfect for maintaining peak performance without compromising on flavor.
+            </p>
+
+            <h3 style="color: #444;">A Snack for Every Preference</h3>
+            <p>
+                From crunchy roasted nuts to indulgent artisanal cookies, our range covers everything your team could crave. Whether your office prefers traditional Indian flavors, globally loved snacks, or health-conscious options like protein bars and fresh fruits — we've got it covered.
+            </p>
+            <p>
+                You can build a custom snack basket or allow us to curate rotating selections so your team always has something new and exciting to look forward to.
+            </p>
+
+            <h3 style="color: #444;">Flexible Delivery & Stocking Solutions</h3>
+            <p>
+                We offer regular stocking for office pantries, special event packages, and even snack boxes tailored for hybrid or remote teams. With easy delivery scheduling and scalable quantities, LaCleo Foods fits seamlessly into your workplace rhythm.
+            </p>
+
+            <h3 style="color: #444;">Health, Hygiene, and Happiness</h3>
+            <p>
+                All snacks are sourced and packed with a focus on hygiene and quality. We prioritize natural ingredients and clear labeling, ensuring your team can snack confidently and safely.
+            </p>
+
+            <h3 style="color: #444;">Why Choose LaCleo for Office Snacks?</h3>
+            <ul>
+                <li>Wide variety of healthy & indulgent options</li>
+                <li>Customizable snack packs for all occasions</li>
+                <li>Reliable delivery and restocking support</li>
+                <li>Tailored solutions for offices of all sizes</li>
+                <li>Hygienically packaged and responsibly sourced</li>
+            </ul>
+        </div>
+        <div class="cta-section">
+            <h3>Keep Your Team Energized</h3>
+            <p>Our carefully curated snack selection ensures your team stays productive and satisfied throughout the day. From healthy options to indulgent treats, we have something for everyone.</p>
+            <div class="cta-buttons">
+                <button id="getQuoteBtn" class="btn btn-primary">Book Now</button>
+        </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div id="confirmationModal" class="modal">
+        <div class="modal-content" style="text-align: center; padding: 3rem;">
+            <span class="close-btn" onclick="closeModal('confirmationModal')">×</span>
+            <h2 style="color: #e67e22;">Thank You!</h2>
+            <p>Your snacks request has been submitted successfully.</p>
+            <p>Our team will contact you within 24 hours to confirm the details and discuss next steps.</p>
+            <button onclick="closeModal('confirmationModal')" class="submit-btn" style="margin-top: 1.5rem; width: auto; padding: 0.8rem 2rem;">Close</button>
+        </div>
+    </div>
+
+    <!-- Snack Menu Modal -->
+    <div id="snackMenuModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2 class="menu-title">Our Snack Selection</h2>
+            
+            <div class="menu-category">
+                <h3>Healthy Options</h3>
+                <div class="menu-items">
+                    <div class="menu-item">
+                        <div class="menu-item-name">Mixed Nuts</div>
+                        <div class="menu-item-desc">Premium quality almonds, cashews, walnuts, and pistachios</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-name">Dried Fruit Medley</div>
+                        <div class="menu-item-desc">Natural dried apricots, raisins, cranberries, and dates</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-name">Fresh Fruit Platter</div>
+                        <div class="menu-item-desc">Seasonal selection of fresh fruits, beautifully arranged</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-name">Veggie Sticks with Dip</div>
+                        <div class="menu-item-desc">Fresh cut vegetables with healthy hummus or yogurt dip</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="menu-category">
+                <h3>Energy Boosters</h3>
+                <div class="menu-items">
+                    <div class="menu-item">
+                        <div class="menu-item-name">Granola Bars</div>
+                        <div class="menu-item-desc">Homemade bars with oats, honey, nuts, and dried fruits</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-name">Protein Balls</div>
+                        <div class="menu-item-desc">Nutritious balls with peanut butter, oats, and chia seeds</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-name">Trail Mix</div>
+                        <div class="menu-item-desc">Custom blend of nuts, seeds, and dark chocolate</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-name">Energy Bites</div>
+                        <div class="menu-item-desc">Date-based energy bites with coconut and cacao</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="menu-category">
+                <h3>Traditional Indian</h3>
+                <div class="menu-items">
+                    <div class="menu-item">
+                        <div class="menu-item-name">Masala Peanuts</div>
+                        <div class="menu-item-desc">Crunchy peanuts seasoned with traditional spices</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-name">Roasted Makhana</div>
+                        <div class="menu-item-desc">Light and crispy fox nuts with mild seasoning</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-name">Spiced Chivda</div>
+                        <div class="menu-item-desc">Flattened rice snack mix with nuts and spices</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-name">Murukku</div>
+                        <div class="menu-item-desc">Traditional South Indian savory rice snack</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="menu-category">
+                <h3>International Favorites</h3>
+                <div class="menu-items">
+                    <div class="menu-item">
+                        <div class="menu-item-name">Artisanal Cookies</div>
+                        <div class="menu-item-desc">Handcrafted cookies in assorted flavors</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-name">Gourmet Popcorn</div>
+                        <div class="menu-item-desc">Premium popcorn with various flavor options</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-name">Pretzel Selection</div>
+                        <div class="menu-item-desc">Classic and flavored pretzel varieties</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-name">Chocolate Treats</div>
+                        <div class="menu-item-desc">Assorted premium chocolate snacks</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 2rem;">
+                <button id="requestQuoteFromMenu" class="btn btn-primary" style="margin-top: 1rem;">Request Custom Quote</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quote Form Modal -->
+    <div id="quoteFormModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2 class="menu-title">Request a Quote</h2>
+            
+            <form id="quoteForm" class="quote-form">
+                <div class="form-group">
+                    <label for="name">Your Name</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="company">Company Name</label>
+                    <input type="text" id="company" name="company">
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" name="phone" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="service">Service Needed</label>
+                    <select id="service" name="service">
+                        <option value="daily">Daily Office Snacks</option>
+                        <option value="meetings">Meeting/Event Catering</option>
+                        <option value="pantry">Office Pantry Stocking</option>
+                        <option value="custom">Custom Request</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="frequency">Delivery Frequency</label>
+                    <select id="frequency" name="frequency">
+                        <option value="one-time">One-time</option>
+                        <option value="weekly">Weekly</option>
+                        <option value="biweekly">Bi-weekly</option>
+                        <option value="monthly">Monthly</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="people">Number of People</label>
+                    <input type="number" id="people" name="people" min="1" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="preferences">Snack Preferences/Requirements</label>
+                    <textarea id="preferences" name="preferences"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <button type="submit" class="submit-btn">Submit Request</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Get modal elements
+        const quoteModal = document.getElementById("quoteFormModal");
+        const getQuoteBtn = document.getElementById("getQuoteBtn");
+        const closeBtns = document.getElementsByClassName("close-btn");
+        const quoteForm = document.getElementById("quoteForm");
+
+        // Open quote modal from menu modal
+        getQuoteBtn.addEventListener('click', function() {
+            quoteModal.style.display = "block";
+            document.body.style.overflow = "hidden";
+        });
+
+        // Close modals when X is clicked
+        for (let i = 0; i < closeBtns.length; i++) {
+            closeBtns[i].addEventListener('click', function() {
+                quoteModal.style.display = "none";
+                document.body.style.overflow = "auto";
+            });
+        }
+
+        // Close modal when clicking outside
+        window.addEventListener('click', function(event) {
+            if (event.target == quoteModal) {
+                quoteModal.style.display = "none";
+                document.body.style.overflow = "auto";
+            }
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === "Escape") {
+                quoteModal.style.display = "none";
+                document.body.style.overflow = "auto";
+            }
+        });
+
+        // Handle form submission
+        quoteForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const form = e.target;
+            const formData = new FormData(quoteForm);
+
+            fetch('https://script.google.com/macros/s/AKfycbxdKSOzdvx11dSIxLM0PLdJ6ak-fEXL1zv8zBgCFsPB3rZ03OVXvPm8H1Mm2QO7FbkJ/exec', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Close the quote modal
+                    quoteModal.style.display = "none";
+                    // Show the confirmation modal
+                    document.getElementById('confirmationModal').style.display = "block";
+                    // Reset the form
+                    quoteForm.reset();
+                } else {
+                    throw new Error('Failed to submit');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred. Please check your connection and try again.');
+            });
+        });
+
+        // Function to close any modal
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = "none";
+            document.body.style.overflow = "auto";
+        }
+
+        // Close modals when clicking outside
+        window.addEventListener('click', function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = "none";
+                document.body.style.overflow = "auto";
+            }
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === "Escape") {
+                const modals = document.querySelectorAll('.modal');
+                modals.forEach(modal => {
+                    modal.style.display = "none";
+                });
+                document.body.style.overflow = "auto";
+            }
+        });
+
+            
+            // Here you would typically send the data to your server
+            console.log('Form submitted:', formData);
+            
+            // Show success message
+            alert('Thank you for your request! We will contact you shortly with a quote.');
+            
+            // Close modal and reset form
+            quoteModal.style.display = "none";
+            document.body.style.overflow = "auto";
+            quoteForm.reset();
+            
+            // In a real implementation, you would add AJAX code here:
+            /*
+            fetch('/submit-quote', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert('Thank you! We will contact you soon.');
+                quoteModal.style.display = "none";
+                quoteForm.reset();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('There was an error submitting your request. Please try again.');
+            });
+            */
+    </script>
+</body>
+</html>

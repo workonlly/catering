@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Corporate Desktop - LaCleo Foods</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        .back-btn {
+            color: #e67e22;
+            text-decoration: none;
+            margin-bottom: 2rem;
+            display: inline-block;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+        .back-btn:hover {
+            color: #cf6a1c;
+        }
+        .service-header {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        .service-title {
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+        .service-image {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+        }
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        .content-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .content-card h3 {
+            color: #e67e22;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+        .content-card ul {
+            list-style: none;
+            padding: 0;
+        }
+        .content-card li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #eee;
+        }
+        .content-card li:before {
+            content: "💻";
+            margin-right: 0.5rem;
+            color: #e67e22;
+        }
+        .cta-section {
+            background: linear-gradient(135deg, #e67e22, #cf6a1c);
+            color: white;
+            padding: 3rem;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .cta-section h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s;
+        }
+        .btn-primary {
+            background: white;
+            color: #e67e22;
+        }
+        .btn-primary:hover {
+            background: #f8f8f8;
+            transform: translateY(-2px);
+        }
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+        .btn-secondary:hover {
+            background: white;
+            color: #e67e22;
+        }
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.5);
+        }
+        .modal-content {
+            background-color: #fff;
+            margin: 5% auto;
+            padding: 2rem;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 600px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            position: relative;
+        }
+        .close {
+            position: absolute;
+            right: 1rem;
+            top: 1rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        .form-group input, 
+        .form-group select, 
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: inherit;
+        }
+        .form-submit {
+            background: #e67e22;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+        .form-submit:hover {
+            background: #cf6a1c;
+        }
+        .info-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        .info-section h3 {
+            color: #e67e22;
+            border-bottom: 2px solid #e67e22;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+        .info-item {
+            margin-bottom: 1rem;
+        }
+        .info-item h4 {
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+        .tech-badge {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        .badge-icon {
+            margin-right: 1rem;
+            color: #e67e22;
+            font-size: 1.5rem;
+        }
+        @media (max-width: 768px) {
+            .content-grid, .info-grid {
+                grid-template-columns: 1fr;
+            }
+            .service-title {
+                font-size: 2rem;
+            }
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            .modal-content {
+                width: 90%;
+                margin: 10% auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="{{ url_for('services') }}" class="back-btn">← Back to Services</a>
+        <div class="service-header">
+            <h1 class="service-title">Corporate Desktop Solutions</h1>
+            <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" alt="Corporate Desktop Setup" class="service-image">
+            <p style="font-size: 1.2rem; color: #666;">Optimized desktop solutions for enterprise productivity and seamless workflow integration.</p>
+        </div>
+
+        <div class="content-grid">
+            <div class="content-card">
+                <h3>Desktop Services</h3>
+                <ul>
+                    <li>Enterprise Desktop Deployment</li>
+                    <li>Hardware Procurement & Configuration</li>
+                    <li>OS Imaging & Standardization</li>
+                    <li>Software License Management</li>
+                    <li>Desktop Virtualization Solutions</li>
+                    <li>Thin Client Implementations</li>
+                </ul>
+            </div>
+            
+            <div class="content-card">
+                <h3>Management Services</h3>
+                <ul>
+                    <li>Patch Management & Updates</li>
+                    <li>Remote Desktop Support</li>
+                    <li>Asset Tracking & Inventory</li>
+                    <li>Desktop Policy Configuration</li>
+                    <li>Endpoint Security Management</li>
+                    <li>User Profile Management</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <h3>Our Desktop Solutions</h3>
+            <div class="info-grid">
+                <div class="info-item">
+                    <div class="tech-badge">
+                        <div class="badge-icon">🖥️</div>
+                        <h4>Standardized Deployments</h4>
+                    </div>
+                    <p>Consistent desktop environments across your organization with customized OS images and pre-configured software stacks.</p>
+                </div>
+                <div class="info-item">
+                    <div class="tech-badge">
+                        <div class="badge-icon">🔒</div>
+                        <h4>Secure Workstations</h4>
+                    </div>
+                    <p>Enterprise-grade security configurations including disk encryption, endpoint protection, and access controls.</p>
+                </div>
+                <div class="info-item">
+                    <div class="tech-badge">
+                        <div class="badge-icon">🔄</div>
+                        <h4>Automated Management</h4>
+                    </div>
+                    <p>Centralized control of software updates, patches, and configuration changes across all corporate desktops.</p>
+                </div>
+                <div class="info-item">
+                    <div class="tech-badge">
+                        <div class="badge-icon">☁️</div>
+                        <h4>Virtual Desktop Infrastructure</h4>
+                    </div>
+                    <p>Cloud-hosted desktop solutions for remote access and BYOD scenarios with full corporate security.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-card" style="margin-top: 2rem;">
+            <h3 style="color: #e67e22;">Why Choose TechSphere for Corporate Desktops?</h3>
+            <p>In today's dynamic business environment, your desktop infrastructure needs to be more than just functional—it needs to be a strategic asset. TechSphere delivers comprehensive corporate desktop solutions that enhance productivity, ensure security, and simplify IT management.</p>
+
+            <h4>Enterprise-Grade Standardization</h4>
+            <p>We implement standardized desktop environments tailored to your organization's specific needs. Our golden image approach ensures consistency across all workstations while allowing for necessary departmental customizations.</p>
+
+            <h4>Streamlined Deployment Processes</h4>
+            <p>Our automated deployment systems can provision hundreds of identical workstations in hours, not days. Whether setting up a new office or refreshing existing hardware, we minimize downtime and disruption.</p>
+
+            <h4>Comprehensive Lifecycle Management</h4>
+            <p>From procurement to retirement, we manage the entire desktop lifecycle. Our asset tracking systems provide real-time visibility into your hardware inventory, warranty status, and refresh cycles.</p>
+
+            <h4>Enhanced Security Posture</h4>
+            <p>Corporate desktops are prime targets for cyber threats. We harden workstations with enterprise security configurations, regular patch management, and endpoint protection that meets industry compliance standards.</p>
+
+            <h4>Flexible Support Models</h4>
+            <p>Choose from our tiered support options to match your organization's needs—from basic break/fix services to fully managed desktop environments with 24/7 monitoring and support.</p>
+
+            <h4>Seamless Software Management</h4>
+            <p>Our software deployment systems ensure all users have the applications they need, when they need them. We handle license compliance, version control, and updates across your entire fleet.</p>
+
+            <h4>User-Centric Design</h4>
+            <p>While maintaining corporate standards, we optimize the user experience with personalized settings, familiar environments, and quick access to needed resources—reducing help desk calls and improving productivity.</p>
+
+            <h4>Future-Ready Solutions</h4>
+            <p>We design desktop solutions that evolve with your business. Whether transitioning to cloud workspaces, implementing VDI, or adopting new productivity tools, we ensure your infrastructure remains agile.</p>
+
+            <p>TechSphere's corporate desktop solutions go beyond basic IT support. We deliver strategic workplace technology that empowers your employees, protects your data, and adapts to your evolving business needs.</p>
+        </div>
+
+        <div class="cta-section">
+            <h3>Ready to Transform Your Corporate Desktops?</h3>
+            <p>Contact us today for a free infrastructure assessment and desktop strategy consultation.</p>
+            <div class="cta-buttons">
+                <a href="#" class="btn btn-primary" id="consultBtn">Request Consultation</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div id="confirmationModal" class="modal">
+        <div class="modal-content" style="text-align: center;">
+            <span class="close" onclick="closeModal('confirmationModal')">&times;</span>
+            <h2 style="color: #e67e22;">Thank You!</h2>
+            <p>Your consultation request has been submitted successfully.</p>
+            <p>Our desktop solutions specialist will contact you within 24 hours.</p>
+            <button class="form-submit" onclick="closeModal('confirmationModal')" style="margin-top: 1rem;">Close</button>
+        </div>
+    </div>
+
+    <!-- Consultation Request Modal -->
+    <div id="consultModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('consultModal')">&times;</span>
+            <h2 style="color: #e67e22; text-align: center;">Desktop Solutions Consultation</h2>
+            <p style="text-align: center; margin-bottom: 2rem;">Complete this form to schedule your free assessment</p>
+            <form id="desktopForm">
+                <div class="form-group">
+                    <label for="name">Your Name*</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="company">Company Name*</label>
+                    <input type="text" id="company" name="company" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="title">Job Title</label>
+                    <input type="text" id="title" name="title">
+                </div>
+                
+                <div class="form-group">
+                    <label for="phone">Contact Number*</label>
+                    <input type="tel" id="phone" name="phone" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email Address*</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="employees">Number of Employees</label>
+                    <select id="employees" name="employees">
+                        <option value="">Select range</option>
+                        <option value="1-50">1-50</option>
+                        <option value="51-200">51-200</option>
+                        <option value="201-500">201-500</option>
+                        <option value="501-1000">501-1000</option>
+                        <option value="1000+">1000+</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="current">Current Desktop Environment</label>
+                    <textarea id="current" name="current" rows="2" placeholder="Briefly describe your current setup"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="challenges">Key Challenges</label>
+                    <textarea id="challenges" name="challenges" rows="2" placeholder="What problems are you trying to solve?"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="timeline">Project Timeline</label>
+                    <select id="timeline" name="timeline">
+                        <option value="">Select timeline</option>
+                        <option value="immediate">Immediate (0-30 days)</option>
+                        <option value="short">Short Term (1-3 months)</option>
+                        <option value="medium">Medium Term (3-6 months)</option>
+                        <option value="long">Long Term (6+ months)</option>
+                        <option value="exploring">Just Exploring Options</option>
+                    </select>
+                </div>
+                
+                <button type="submit" class="form-submit">Request Consultation</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Get the modal elements
+        const consultModal = document.getElementById("consultModal");
+        const confirmationModal = document.getElementById("confirmationModal");
+        
+        // Get the buttons that open the modals
+        const consultBtn = document.getElementById("consultBtn");
+        
+        // When the user clicks the button, open the modal
+        consultBtn.onclick = function(e) {
+            e.preventDefault();
+            consultModal.style.display = "block";
+        }
+        
+        // Close modal function
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = "none";
+        }
+        
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = "none";
+            }
+        }
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === "Escape") {
+                const modals = document.querySelectorAll('.modal');
+                modals.forEach(modal => {
+                    modal.style.display = "none";
+                });
+            }
+        });
+        
+        // Form submission handling
+        document.getElementById("desktopForm").addEventListener("submit", function(e) {
+            e.preventDefault();
+            
+            // Here you would typically send the form data to your server
+            // For demonstration, we'll just show the confirmation modal
+            
+            // Close the consultation modal
+            consultModal.style.display = "none";
+            // Show the confirmation modal
+            confirmationModal.style.display = "block";
+            // Reset the form
+            e.target.reset();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Corporate Meals - LaCleo Foods</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        .back-btn {
+            color: #e67e22;
+            text-decoration: none;
+            margin-bottom: 2rem;
+            display: inline-block;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+        .back-btn:hover {
+            color: #cf6a1c;
+        }
+        .service-header {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        .service-title {
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+        .service-image {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+        }
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        .content-card {
+            background: transparent;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .content-card h3 {
+            color: #e67e22;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+        .content-card ul {
+            list-style: none;
+            padding: 0;
+        }
+        .content-card li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #eee;
+        }
+        .content-card li:before {
+            content: "✓";
+            color: #e67e22;
+            font-weight: bold;
+            margin-right: 0.5rem;
+        }
+        .cta-section {
+            background: linear-gradient(135deg, #e67e22, #cf6a1c);
+            color: white;
+            padding: 3rem;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .cta-section h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s;
+        }
+        .btn-primary {
+            background: white;
+            color: #e67e22;
+        }
+        .btn-primary:hover {
+            background: #f8f8f8;
+            transform: translateY(-2px);
+        }
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+        .btn-secondary:hover {
+            background: white;
+            color: #e67e22;
+        }
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8);
+            z-index: 1000;
+            overflow: auto;
+        }
+        .modal-content {
+            background: white;
+            margin: 5% auto;
+            padding: 2rem;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 700px;
+            position: relative;
+        }
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: inherit;
+        }
+        .form-submit {
+            background: #e67e22;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+
+        #confirmationModal .modal-content {
+            text-align: center;
+            padding: 3rem 2rem;
+        }
+
+        #confirmationModal h2 {
+            color: #e67e22;
+            margin-bottom: 1.5rem;
+        }
+
+        #confirmationModal p {
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .form-submit:hover {
+            background: #cf6a1c;
+        }
+        @media (max-width: 768px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+            .service-title {
+                font-size: 2rem;
+            }
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            .modal-content {
+                width: 90%;
+                margin: 10% auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="{{ url_for('services') }}" class="back-btn">← Back to Services</a>
+        <div class="service-header">
+            <h1 class="service-title">Corporate Meals</h1>
+            <img src="https://cdn-ikpened.nitrocdn.com/IASuVSfAFufVGDVSWpDAfIIJMmSefhYb/assets/images/optimized/rev-866e6ae/sadhgurucatering.com/wp-content/uploads/2023/12/dinner-catering-services-in-ghaziabad-and-noida-e1731795719614.jpg" alt="Corporate Meals" class="service-image">
+            <p style="font-size: 1.2rem; color: #666;">Fuel your team’s productivity with wholesome, chef-prepared meals delivered fresh daily. Choose from customizable menus tailored to diverse tastes and dietary needs. With seamless scheduling, real-time support, and a focus on nutrition, we help you keep your workforce energized and focused.</p>
+        </div>
+
+        <div class="content-grid">
+            <div class="content-card">
+                <h3>Our Features</h3>
+                <ul>
+                    <li>Daily fresh meal preparation</li>
+                    <li>Customizable menu options</li>
+                    <li>Dietary restrictions accommodation</li>
+                    <li>Convenient delivery scheduling</li>
+                    <li>Bulk ordering for teams</li>
+                    <li>Nutritionally balanced meals</li>
+                </ul>
+            </div>
+
+            <!-- Confirmation Modal -->
+            <div id="confirmationModal" class="modal">
+                <div class="modal-content">
+                    <button class="close-btn" onclick="closeModal('confirmationModal')">×</button>
+                    <h2>Thank You!</h2>
+                    <p>Your corporate meals request has been submitted successfully.</p>
+                    <p>Our team will contact you within 24 hours to confirm the details and discuss next steps.</p>
+                    <button onclick="closeModal('confirmationModal')" class="form-submit" style="margin-top: 1rem;">Close</button>
+                </div>
+            </div>
+            
+            <div class="content-card">
+                <h3>Meal Categories</h3>
+                <ul>
+                    <li>Traditional Indian cuisine</li>
+                    <li>Continental dishes</li>
+                    <li>Healthy salads & bowls</li>
+                    <li>Vegetarian & vegan options</li>
+                    <li>Special dietary meals</li>
+                    <li>Seasonal menu variations</li>
+                </ul>
+            </div>
+        </div>
+        <div class="service-header" style="margin-top: 2rem;">
+            <div class="detailed-description">
+                <h2 style="color: #e67e22;">Corporate Meals That Work for Your Team</h2>
+                <p>At LaCleo Foods, we believe that great food fuels great work. Our <strong>corporate meal plans</strong> are designed to keep your teams happy, healthy, and productive throughout the day. Whether you're managing a fast-paced tech startup or a large-scale manufacturing unit, we offer fresh, nutritious, and customizable meal options tailored to your unique workplace needs.</p>
+                <h3 style="color: #444;">Daily Meals That Energize and Empower</h3>
+                <p>Gone are the days of skipped lunches, unhealthy takeout, or employees rushing to find food during busy hours. Our meals are prepared fresh each day using high-quality ingredients. Designed by culinary experts, each plate is balanced, flavorful, and filling—keeping your team fueled and focused.</p>
+                <p>We cater to a range of dietary needs including vegetarian, vegan, gluten-free, and high-protein options. With a rotating menu and seasonal ingredients, we make sure your team never gets bored of eating the same thing twice.</p>
+
+                <h3 style="color: #444;">Flexible Plans for Every Business</h3>
+                <p>No two offices are the same, so why should their meals be? We offer scalable plans for small teams and large enterprises. Whether you need meals five days a week or just for weekly team lunches, we’ll tailor a solution that suits your schedule, headcount, and preferences.</p>
+                <p>Our logistics ensure timely delivery, hygienic packaging, and smooth coordination—leaving you stress-free and your team well-fed.</p>
+
+                <h3 style="color: #444;">More Than Just a Meal</h3>
+                <p>Introducing corporate meals goes beyond convenience. Studies show that providing meals leads to:</p>
+                <ul>
+                    <li>Higher employee satisfaction</li>
+                    <li>Increased productivity and focus</li>
+                    <li>Stronger company culture</li>
+                    <li>Lower turnover rates</li>
+                </ul>
+                <p>It’s a small gesture that creates a big impact—both in morale and performance.</p>
+
+                <h3 style="color: #444;">Why Choose LaCleo Foods?</h3>
+                <ul>
+                    <li>Fresh meals daily, no compromises</li>
+                    <li>Custom menus and flexible options</li>
+                    <li>Reliable delivery and support</li>
+                    <li>Transparent pricing and service terms</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="cta-section">
+            <h3>Ready to Feed Your Team?</h3>
+            <p>Join hundreds of companies who trust LaCleo Foods for their corporate meal needs. Our expert chefs and reliable delivery ensure your team stays energized and productive.</p>
+            <div class="cta-buttons">
+                <button onclick="openQuoteModal()" class="btn btn-primary">Book Now</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quote Request Modal -->
+    <div id="quoteModal" class="modal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeModal('quoteModal')">×</button>
+            <h2 style="color: #e67e22; margin-bottom: 1.5rem;">Request a Quote</h2>
+            <form id="quoteForm" action="https://script.google.com/macros/s/AKfycbxlUe-MkmCn-sMIM4uayoc-GYql-i1b_NK2LkjhqnYabkILk0IsZb7w2IKdopggjxbV/exec" method="POST">
+                <div class="form-group">
+                    <label for="company">Company Name*</label>
+                    <input type="text" id="company" name="company" required>
+                </div>
+                <div class="form-group">
+                    <label for="contact">Contact Person*</label>
+                    <input type="text" id="contact" name="contact" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email Address*</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" name="phone" required>
+                </div>
+                <div class="form-group">
+                    <label for="employees">Number of Employees*</label>
+                    <input type="number" id="employees" name="employees" min="1" required>
+                </div>
+                <div class="form-group">
+                    <label for="meals">Meals Needed Per Day*</label>
+                    <input type="number" id="meals" name="meals" min="1" required>
+                </div>
+                <div class="form-group">
+                    <label for="preferences">Meal Preferences</label>
+                    <select id="preferences" name="preferences" multiple>
+                    <option value="indian">Indian Cuisine</option>
+                    <option value="continental">Continental</option>
+                    <option value="vegetarian">Vegetarian</option>
+                    <option value="vegan">Vegan</option>
+                    <option value="healthy">Healthy Options</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="requirements">Special Requirements</label>
+                    <textarea id="requirements" name="requirements" rows="3"></textarea>
+                </div>
+                <button type="submit" class="form-submit">Submit Request</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Sample Menu Modal -->
+    <div id="menuModal" class="modal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeModal('menuModal')">×</button>
+            <h2 style="color: #e67e22; margin-bottom: 1.5rem;">Sample Corporate Menu</h2>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+                <div>
+                    <h3 style="color: #e67e22; border-bottom: 2px solid #e67e22; padding-bottom: 0.5rem;">Indian Cuisine</h3>
+                    <ul style="list-style-type: none; padding: 0;">
+                        <li style="padding: 0.5rem 0; border-bottom: 1px solid #eee;">Butter Chicken with Naan</li>
+                        <li style="padding: 0.5rem 0; border-bottom: 1px solid #eee;">Vegetable Biryani</li>
+                        <li style="padding: 0.5rem 0; border-bottom: 1px solid #eee;">Palak Paneer</li>
+                        <li style="padding: 0.5rem 0; border-bottom: 1px solid #eee;">Dal Tadka</li>
+                        <li style="padding: 0.5rem 0;">Assorted Bread Basket</li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 style="color: #e67e22; border-bottom: 2px solid #e67e22; padding-bottom: 0.5rem;">Continental Options</h3>
+                    <ul style="list-style-type: none; padding: 0;">
+                        <li style="padding: 0.5rem 0; border-bottom: 1px solid #eee;">Grilled Chicken with Mashed Potatoes</li>
+                        <li style="padding: 0.5rem 0; border-bottom: 1px solid #eee;">Pasta Primavera</li>
+                        <li style="padding: 0.5rem 0; border-bottom: 1px solid #eee;">Caesar Salad with Grilled Shrimp</li>
+                        <li style="padding: 0.5rem 0;">Vegetable Lasagna</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div style="margin-top: 2rem;">
+                <h3 style="color: #e67e22; border-bottom: 2px solid #e67e22; padding-bottom: 0.5rem;">Healthy Selections</h3>
+                <ul style="list-style-type: none; padding: 0;">
+                    <li style="padding: 0.5rem 0; border-bottom: 1px solid #eee;">Quinoa Buddha Bowl</li>
+                    <li style="padding: 0.5rem 0; border-bottom: 1px solid #eee;">Grilled Salmon with Vegetables</li>
+                    <li style="padding: 0.5rem 0; border-bottom: 1px solid #eee;">Vegan Power Salad</li>
+                    <li style="padding: 0.5rem 0;">Fresh Fruit Platter</li>
+                </ul>
+            </div>
+            
+            <p style="margin-top: 2rem; font-style: italic; color: #666;">
+                * Menu items change seasonally. All meals come with complimentary dessert and beverage options.
+                Special dietary requests can be accommodated with 24 hours notice.
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Open Quote Modal
+        function openQuoteModal() {
+            document.getElementById('quoteModal').style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+        
+        // Open Menu Modal
+        function openMenuModal() {
+            document.getElementById('menuModal').style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+        
+        // Close Modal
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+        
+        // Close modal when clicking outside content
+        window.onclick = function(event) {
+            if (event.target.className === 'modal') {
+                event.target.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        document.getElementById("quoteForm").addEventListener("submit", function(e) {
+            e.preventDefault();
+
+            const form = e.target;
+            const formData = new FormData(form);
+
+            fetch("https://script.google.com/macros/s/AKfycbxlUe-MkmCn-sMIM4uayoc-GYql-i1b_NK2LkjhqnYabkILk0IsZb7w2IKdopggjxbV/exec", {
+                method: "POST",
+                body: formData
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Close the quote modal
+                    closeModal('quoteModal');
+                    // Show the confirmation modal
+                    document.getElementById('confirmationModal').style.display = 'block';
+                    document.body.style.overflow = 'hidden';
+                    // Reset the form
+                    form.reset();
+                } else {
+                    throw new Error('Network response was not ok');
+                }
+            })
+            .catch(error => {
+                console.error("Error!", error.message);
+                alert("There was an error submitting the form. Please try again.");
+            });
+        });
+
+
+        
+        // Form Submission
+        function submitQuoteForm(event) {
+            event.preventDefault();
+            
+            // Get form values
+            const company = document.getElementById('company').value;
+            const contact = document.getElementById('contact').value;
+            const email = document.getElementById('email').value;
+            const employees = document.getElementById('employees').value;
+            
+            // Here you would normally send this data to your server
+            // For demonstration, we'll just show an alert
+            alert(`Thank you, ${contact} from ${company}!\nWe've received your request for ${employees} meals and will contact you at ${email} shortly.`);
+            
+            // Close the modal
+            closeModal('quoteModal');
+            
+            // Reset the form
+            document.getElementById('quoteForm').reset();
+        }
+    </script>
+</body>
+</html>

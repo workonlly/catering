@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trophies & Certificates - LaCleo Foods</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        .back-btn {
+            color: #e67e22;
+            text-decoration: none;
+            margin-bottom: 2rem;
+            display: inline-block;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+        .back-btn:hover {
+            color: #cf6a1c;
+        }
+        .service-header {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        .service-title {
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+        .service-image {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+        }
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        .content-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .content-card h3 {
+            color: #e67e22;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+        .content-card ul {
+            list-style: none;
+            padding: 0;
+        }
+        .content-card li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #eee;
+        }
+        .content-card li:before {
+            content: "🏆";
+            margin-right: 0.5rem;
+            color: #e67e22;
+        }
+        .cta-section {
+            background: linear-gradient(135deg, #e67e22, #cf6a1c);
+            color: white;
+            padding: 3rem;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .cta-section h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s;
+        }
+        .btn-primary {
+            background: white;
+            color: #e67e22;
+        }
+        .btn-primary:hover {
+            background: #f8f8f8;
+            transform: translateY(-2px);
+        }
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+        .btn-secondary:hover {
+            background: white;
+            color: #e67e22;
+        }
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.5);
+        }
+        .modal-content {
+            background-color: #fff;
+            margin: 5% auto;
+            padding: 2rem;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 600px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            position: relative;
+        }
+        .close {
+            position: absolute;
+            right: 1rem;
+            top: 1rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            color: #333;
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        .form-group input, 
+        .form-group select, 
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: inherit;
+        }
+        .form-submit {
+            background: #e67e22;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+        .form-submit:hover {
+            background: #cf6a1c;
+        }
+        .info-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        .info-section h3 {
+            color: #e67e22;
+            border-bottom: 2px solid #e67e22;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+        .info-item {
+            margin-bottom: 1rem;
+        }
+        .info-item h4 {
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+        .award-badge {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        .badge-icon {
+            margin-right: 1rem;
+            color: #e67e22;
+            font-size: 1.5rem;
+        }
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        .gallery-item {
+            height: 150px;
+            background-color: #eee;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        @media (max-width: 768px) {
+            .content-grid, .info-grid, .gallery {
+                grid-template-columns: 1fr;
+            }
+            .service-title {
+                font-size: 2rem;
+            }
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            .modal-content {
+                width: 90%;
+                margin: 10% auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="{{ url_for('services') }}" class="back-btn">← Back to Services</a>
+        <div class="service-header">
+            <h1 class="service-title">Premium Trophies & Certificates</h1>
+            <img src="https://videos.openai.com/vg-assets/assets%2Ftask_01jzan620wf2badjjxsvnnwre4%2F1751631138_img_0.webp?st=2025-07-04T10%3A30%3A27Z&se=2025-07-10T11%3A30%3A27Z&sks=b&skt=2025-07-04T10%3A30%3A27Z&ske=2025-07-10T11%3A30%3A27Z&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skoid=3d249c53-07fa-4ba4-9b65-0bf8eb4ea46a&skv=2019-02-02&sv=2018-11-09&sr=b&sp=r&spr=https%2Chttp&sig=3nFvzYwitjsdCevtYb%2FYeE%2FuU0n26HnsBOX%2FeV4yfYk%3D&az=oaivgprodscus" alt="Trophies and Awards" class="service-image">
+            <p style="font-size: 1.2rem; color: #666;">Celebrate achievement with our custom-designed trophies, awards, and certificates that make every moment memorable.</p>
+        </div>
+
+        <div class="content-grid">
+            <div class="content-card">
+                <h3>Trophy Services</h3>
+                <ul>
+                    <li>Custom Trophy Design</li>
+                    <li>Corporate Awards</li>
+                    <li>Sports Trophies</li>
+                    <li>Academic Achievements</li>
+                    <li>Crystal Awards</li>
+                    <li>Plaques & Medals</li>
+                </ul>
+            </div>
+            
+            <div class="content-card">
+                <h3>Certificate Services</h3>
+                <ul>
+                    <li>Custom Certificate Design</li>
+                    <li>Corporate Recognition</li>
+                    <li>Academic Certificates</li>
+                    <li>Participation Awards</li>
+                    <li>Framed Certificates</li>
+                    <li>Digital Certificates</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <h3>Our Award Solutions</h3>
+            <div class="info-grid">
+                <div class="info-item">
+                    <div class="award-badge">
+                        <div class="badge-icon">🏅</div>
+                        <h4>Custom Designed Trophies</h4>
+                    </div>
+                    <p>Unique trophy designs tailored to your event theme, brand identity, or specific achievement criteria.</p>
+                </div>
+                <div class="info-item">
+                    <div class="award-badge">
+                        <div class="badge-icon">📜</div>
+                        <h4>Premium Certificates</h4>
+                    </div>
+                    <p>Elegant certificates printed on high-quality paper with foil stamping, embossing, and custom seals.</p>
+                </div>
+                <div class="info-item">
+                    <div class="award-badge">
+                        <div class="badge-icon">💎</div>
+                        <h4>Crystal & Glass Awards</h4>
+                    </div>
+                    <p>Luxurious crystal and glass awards with precision laser engraving for corporate milestones.</p>
+                </div>
+                <div class="info-item">
+                    <div class="award-badge">
+                        <div class="badge-icon">🏆</div>
+                        <h4>Sports & Competition Awards</h4>
+                    </div>
+                    <p>Durable, high-quality trophies and medals designed for sports tournaments and competitions.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-card" style="margin-top: 2rem;">
+            <h3 style="color: #e67e22;">Why Choose AwardCraft for Your Recognition Needs?</h3>
+            <p>Recognizing achievement is about more than just handing out awards—it's about creating meaningful symbols of accomplishment that recipients will treasure. At AwardCraft, we combine craftsmanship, quality materials, and thoughtful design to create trophies and certificates that truly honor achievement.</p>
+
+            <h4>Custom Design Expertise</h4>
+            <p>Our design team works closely with you to create awards that reflect your organization's identity and the significance of the achievement being recognized. Whether you need a corporate trophy with your logo or academic certificates with your school's crest, we bring your vision to life.</p>
+
+            <h4>Premium Quality Materials</h4>
+            <p>We use only the finest materials—from solid wood bases to lead crystal components, from archival-quality paper to museum-grade inks. Every AwardCraft product is built to last and designed to impress.</p>
+
+            <h4>Versatile Recognition Solutions</h4>
+            <p>From small employee appreciation awards to large-scale competition trophies, from simple participation certificates to elaborate framed honors—we have solutions for every recognition need and budget.</p>
+
+            <h4>Fast Turnaround Times</h4>
+            <p>Need awards for an upcoming event? Our efficient production process ensures you get your trophies and certificates on time, even with last-minute orders.</p>
+
+            <h4>Bulk Order Discounts</h4>
+            <p>We offer competitive pricing and special discounts for large orders, making it affordable to recognize all your achievers in style.</p>
+
+            <h4>Eco-Friendly Options</h4>
+            <p>For environmentally conscious organizations, we offer sustainable award options including recycled materials and responsibly sourced components.</p>
+
+            <h4>Nationwide Delivery</h4>
+            <p>We safely package and ship awards anywhere in the country, with tracking and insurance for your peace of mind.</p>
+
+            <h4>Digital Certificate Solutions</h4>
+            <p>In addition to physical awards, we offer digital certificates that can be emailed to recipients and shared on social media—perfect for virtual events and remote teams.</p>
+
+            <p>At AwardCraft, we understand that recognition matters. Let us help you create awards that celebrate achievement in a way that's as special as the accomplishments themselves.</p>
+        </div>
+
+        <div class="cta-section">
+            <h3>Ready to Honor Achievement in Style?</h3>
+            <p>Contact us today to design custom trophies and certificates that make your recognition event unforgettable.</p>
+            <div class="cta-buttons">
+                <a href="#" class="btn btn-primary" id="designBtn">Start Your Design</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div id="confirmationModal" class="modal">
+        <div class="modal-content" style="text-align: center;">
+            <span class="close" onclick="closeModal('confirmationModal')">&times;</span>
+            <h2 style="color: #e67e22;">Thank You!</h2>
+            <p>Your design request has been submitted successfully.</p>
+            <p>Our award specialist will contact you within 24 hours to discuss your project.</p>
+            <button class="form-submit" onclick="closeModal('confirmationModal')" style="margin-top: 1rem;">Close</button>
+        </div>
+    </div>
+
+    <!-- Design Request Modal -->
+    <div id="designModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 style="color: #e67e22; text-align: center;">Custom Award Design</h2>
+            <p style="text-align: center; margin-bottom: 2rem;">Complete this form to begin your custom trophy or certificate design</p>
+            <form id="awardForm">
+                <div class="form-group">
+                    <label for="name">Your Name*</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="organization">Organization/School</label>
+                    <input type="text" id="organization" name="organization">
+                </div>
+                
+                <div class="form-group">
+                    <label for="phone">Contact Number*</label>
+                    <input type="tel" id="phone" name="phone" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email Address*</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="awardType">Award Type*</label>
+                    <select id="awardType" name="awardType" required>
+                        <option value="">Select award type</option>
+                        <option value="trophy">Trophy</option>
+                        <option value="certificate">Certificate</option>
+                        <option value="plaque">Plaque</option>
+                        <option value="medal">Medal</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="quantity">Approximate Quantity</label>
+                    <select id="quantity" name="quantity">
+                        <option value="">Select quantity</option>
+                        <option value="1-10">1-10</option>
+                        <option value="11-25">11-25</option>
+                        <option value="26-50">26-50</option>
+                        <option value="51-100">51-100</option>
+                        <option value="100+">100+</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="eventDate">Event/Award Date</label>
+                    <input type="date" id="eventDate" name="eventDate">
+                </div>
+                
+                <div class="form-group">
+                    <label for="description">Award Description*</label>
+                    <textarea id="description" name="description" rows="3" required placeholder="Please describe the award purpose, any text to include, and design preferences"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="budget">Budget Range</label>
+                    <select id="budget" name="budget">
+                        <option value="">Select budget range</option>
+                        <option value="economy">Economy</option>
+                        <option value="standard">Standard</option>
+                        <option value="premium">Premium</option>
+                        <option value="luxury">Luxury</option>
+                    </select>
+                </div>
+                
+                <button type="submit" class="form-submit">Submit Design Request</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Modal handling
+        const designModal = document.getElementById("designModal");
+        const confirmationModal = document.getElementById("confirmationModal");
+        const designBtn = document.getElementById("designBtn");
+        const closeBtns = document.getElementsByClassName("close");
+        
+        // Open design modal
+        designBtn.onclick = function(e) {
+            e.preventDefault();
+            designModal.style.display = "block";
+            document.body.style.overflow = "hidden"; // Prevent scrolling
+        }
+        
+        // Close modals
+        for (let i = 0; i < closeBtns.length; i++) {
+            closeBtns[i].onclick = function() {
+                designModal.style.display = "none";
+                confirmationModal.style.display = "none";
+                document.body.style.overflow = "auto"; // Re-enable scrolling
+            }
+        }
+        
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = "none";
+                document.body.style.overflow = "auto";
+            }
+        }
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === "Escape") {
+                const modals = document.querySelectorAll('.modal');
+                modals.forEach(modal => {
+                    modal.style.display = "none";
+                    document.body.style.overflow = "auto";
+                });
+            }
+        });
+        
+        // Form submission handling
+        document.getElementById("awardForm").addEventListener("submit", function(e) {
+            e.preventDefault();
+            
+            // Show loading state
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+            const originalBtnText = submitBtn.textContent;
+            submitBtn.disabled = true;
+            submitBtn.textContent = "Submitting...";
+            
+            // Validate form
+            if (!validateForm()) {
+                submitBtn.disabled = false;
+                submitBtn.textContent = originalBtnText;
+                return;
+            }
+
+            const form = e.target;
+            const formData = new FormData(form);
+            
+            // Convert FormData to object
+            const formObject = {};
+            formData.forEach((value, key) => {
+                formObject[key] = value;
+            });
+            
+            // Send to Google Apps Script
+            fetch("https://script.google.com/macros/s/AKfycbyn8hEm4L6UL52U58Io-OZPmhGsCT74eXOfswyjqjejNq9h7kOttKoXNxIrKorFddAg/exec", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded",
+                },
+                body: new URLSearchParams(formObject).toString()
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.text();
+            })
+            .then(responseText => {
+                if (responseText.includes("Success")) {
+                    // Close design modal and show confirmation
+                    designModal.style.display = "none";
+                    confirmationModal.style.display = "block";
+                    document.body.style.overflow = "hidden";
+                    form.reset();
+                } else {
+                    throw new Error('Unexpected response from server');
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                alert("There was an error submitting your request. Please try again or contact us directly.\nError: " + error.message);
+            })
+            .finally(() => {
+                submitBtn.disabled = false;
+                submitBtn.textContent = originalBtnText;
+            });
+        });
+
+        // Form validation
+        function validateForm() {
+            const requiredFields = document.querySelectorAll('#awardForm [required]');
+            let isValid = true;
+            
+            requiredFields.forEach(field => {
+                if (!field.value.trim()) {
+                    field.style.borderColor = "red";
+                    isValid = false;
+                    
+                    // Remove error styling when user starts typing
+                    field.addEventListener('input', function() {
+                        if (this.value.trim()) {
+                            this.style.borderColor = "#ddd";
+                        }
+                    });
+                }
+            });
+            
+            if (!isValid) {
+                alert("Please fill in all required fields marked with *");
+                return false;
+            }
+            
+            // Validate email format
+            const email = document.getElementById("email");
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email.value)) {
+                email.style.borderColor = "red";
+                alert("Please enter a valid email address");
+                return false;
+            }
+            
+            return true;
+        }
+
+        // Function to close any modal
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = "none";
+            document.body.style.overflow = "auto";
+        }
+    </script>
+</body>
+</html>

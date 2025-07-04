@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Security Services - LaCleo Foods</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        .back-btn {
+            color: #e67e22;
+            text-decoration: none;
+            margin-bottom: 2rem;
+            display: inline-block;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+        .back-btn:hover {
+            color: #cf6a1c;
+        }
+        .service-header {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        .service-title {
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+        .service-image {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+        }
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        .content-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .content-card h3 {
+            color: #e67e22;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+        .content-card ul {
+            list-style: none;
+            padding: 0;
+        }
+        .content-card li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #eee;
+        }
+        .content-card li:before {
+            content: "🔒";
+            margin-right: 0.5rem;
+            color: #e67e22;
+        }
+        .cta-section {
+            background: linear-gradient(135deg, #e67e22, #cf6a1c);
+            color: white;
+            padding: 3rem;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .cta-section h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s;
+        }
+        .btn-primary {
+            background: white;
+            color: #e67e22;
+        }
+        .btn-primary:hover {
+            background: #f8f8f8;
+            transform: translateY(-2px);
+        }
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+        .btn-secondary:hover {
+            background: white;
+            color: #e67e22;
+        }
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.5);
+        }
+        .modal-content {
+            background-color: #fff;
+            margin: 5% auto;
+            padding: 2rem;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 600px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            position: relative;
+        }
+        .close {
+            position: absolute;
+            right: 1rem;
+            top: 1rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+            cursor: pointer;
+            color: #333;
+        }
+        .close:hover {
+            color: #e67e22;
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        .form-group input, 
+        .form-group select, 
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: inherit;
+        }
+        .form-submit {
+            background: #e67e22;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+        .form-submit:hover {
+            background: #cf6a1c;
+        }
+        .info-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        .info-section h3 {
+            color: #e67e22;
+            border-bottom: 2px solid #e67e22;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+        .info-item {
+            margin-bottom: 1rem;
+        }
+        .info-item h4 {
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+        .security-badge {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        .badge-icon {
+            margin-right: 1rem;
+            color: #e67e22;
+            font-size: 1.5rem;
+        }
+        @media (max-width: 768px) {
+            .content-grid, .info-grid {
+                grid-template-columns: 1fr;
+            }
+            .service-title {
+                font-size: 2rem;
+            }
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            .modal-content {
+                width: 90%;
+                margin: 10% auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="{{ url_for('services') }}" class="back-btn">← Back to Services</a>
+        <div class="service-header">
+            <h1 class="service-title">Professional Security Guard Services</h1>
+            <img src="https://t3.ftcdn.net/jpg/03/89/64/28/360_F_389642869_GUV78rbOFwMwEL5oUu3le2wJbgTdZxgg.jpg" alt="Security Team" class="service-image">
+            <p style="font-size: 1.2rem; color: #666;">24/7 protection with highly trained security professionals. Your safety is our priority.</p>
+        </div>
+
+        <div class="content-grid">
+            <div class="content-card">
+                <h3>Security Services</h3>
+                <ul>
+                    <li>Armed & Unarmed Security Guards</li>
+                    <li>Mobile Patrol Units</li>
+                    <li>Event Security Personnel</li>
+                    <li>Executive Protection</li>
+                    <li>Construction Site Security</li>
+                    <li>Retail Loss Prevention</li>
+                </ul>
+            </div>
+            
+            <div class="content-card">
+                <h3>Industries We Serve</h3>
+                <ul>
+                    <li>Corporate Offices</li>
+                    <li>Residential Communities</li>
+                    <li>Healthcare Facilities</li>
+                    <li>Educational Institutions</li>
+                    <li>Retail Establishments</li>
+                    <li>Industrial Sites</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <h3>Our Security Solutions</h3>
+            <div class="info-grid">
+                <div class="info-item">
+                    <div class="security-badge">
+                        <div class="badge-icon">🛡️</div>
+                        <h4>Static Guard Services</h4>
+                    </div>
+                    <p>Dedicated security personnel stationed at your premises for continuous protection and access control.</p>
+                </div>
+                <div class="info-item">
+                    <div class="security-badge">
+                        <div class="badge-icon">🚔</div>
+                        <h4>Mobile Patrol Units</h4>
+                    </div>
+                    <p>Regularly scheduled patrols of your property with rapid response capabilities.</p>
+                </div>
+                <div class="info-item">
+                    <div class="security-badge">
+                        <div class="badge-icon">🎪</div>
+                        <h4>Event Security</h4>
+                    </div>
+                    <p>Crowd management and VIP protection for concerts, conferences, and special events.</p>
+                </div>
+                <div class="info-item">
+                    <div class="security-badge">
+                        <div class="badge-icon">💼</div>
+                        <h4>Executive Protection</h4>
+                    </div>
+                    <p>Discreet personal security for executives, celebrities, and high-profile individuals.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-card" style="margin-top: 2rem;">
+            <h3 style="color: #e67e22;">Why Choose SecureShield Security Services?</h3>
+            <p>Security isn't just about presence—it's about prevention, preparedness, and professional response. At SecureShield, we provide comprehensive security solutions tailored to your specific needs, with highly trained personnel and advanced monitoring capabilities.</p>
+
+            <h4>Highly Trained Security Professionals</h4>
+            <p>All our security personnel undergo rigorous background checks and complete extensive training in conflict resolution, emergency response, and customer service. We maintain high standards with regular performance evaluations and ongoing training programs.</p>
+
+            <h4>Customized Security Plans</h4>
+            <p>We understand that every client has unique security needs. Our team conducts thorough site assessments to develop customized security plans that address your specific vulnerabilities and requirements.</p>
+
+            <h4>24/7 Monitoring & Rapid Response</h4>
+            <p>Our operations center maintains constant communication with all on-site personnel and can dispatch additional support within minutes when needed. We utilize advanced technology to enhance our response capabilities.</p>
+
+            <h4>Advanced Technology Integration</h4>
+            <p>We complement our human security with state-of-the-art technology including surveillance systems, access control, and mobile reporting tools to provide comprehensive protection.</p>
+
+            <h4>Proactive Approach to Security</h4>
+            <p>Our security teams are trained to identify potential threats before they escalate. Through regular patrols, thorough reporting, and situational awareness, we prevent incidents rather than just respond to them.</p>
+
+            <h4>Flexible Service Options</h4>
+            <p>Whether you need temporary event security, long-term site protection, or specialized executive services, we offer flexible contracts to meet your changing security needs.</p>
+
+            <h4>Proven Track Record</h4>
+            <p>With years of experience serving diverse industries, we've developed security protocols that actually work. Our clients include Fortune 500 companies, government facilities, and high-profile individuals.</p>
+
+            <h4>Transparent Reporting</h4>
+            <p>We provide detailed incident reports and activity logs, giving you complete visibility into all security activities on your premises.</p>
+
+            <p>SecureShield isn't just another security company. We're your protection partners, committed to delivering peace of mind through professional, reliable security services tailored to your specific requirements.</p>
+        </div>
+
+        <div class="cta-section">
+            <h3>Ready to Enhance Your Security?</h3>
+            <p>Contact us today for a free security assessment and customized protection plan.</p>
+            <div class="cta-buttons">
+                <a href="#" class="btn btn-primary" id="quoteBtn">Get a Free Quote</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div id="confirmationModal" class="modal">
+        <div class="modal-content" style="text-align: center;">
+            <span class="close">&times;</span>
+            <h2 style="color: #e67e22;">Thank You!</h2>
+            <p>Your security service request has been submitted successfully.</p>
+            <p>Our security consultant will contact you within 24 hours to discuss your needs.</p>
+            <button class="form-submit" onclick="closeModal('confirmationModal')" style="margin-top: 1rem;">Close</button>
+        </div>
+    </div>
+
+    <!-- Quote Request Modal -->
+    <div id="quoteModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 style="color: #e67e22; text-align: center;">Security Service Quote</h2>
+            <p style="text-align: center; margin-bottom: 2rem;">Complete this form for a free security assessment</p>
+            <form id="securityForm">
+                <div class="form-group">
+                    <label for="name">Your Name*</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="company">Company/Organization</label>
+                    <input type="text" id="company" name="company">
+                </div>
+                
+                <div class="form-group">
+                    <label for="phone">Contact Number*</label>
+                    <input type="tel" id="phone" name="phone" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email Address*</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="serviceType">Service Needed*</label>
+                    <select id="serviceType" name="serviceType" required>
+                        <option value="">Select service type</option>
+                        <option value="static">Static Guard Services</option>
+                        <option value="mobile">Mobile Patrol Services</option>
+                        <option value="event">Event Security</option>
+                        <option value="executive">Executive Protection</option>
+                        <option value="other">Other Security Needs</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="location">Location/Address*</label>
+                    <input type="text" id="location" name="location" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="coverage">Required Coverage*</label>
+                    <select id="coverage" name="coverage" required>
+                        <option value="">Select coverage</option>
+                        <option value="24/7">24/7 Protection</option>
+                        <option value="business">Business Hours Only</option>
+                        <option value="nights">Nights & Weekends</option>
+                        <option value="temporary">Temporary/Event</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="guards">Estimated Number of Guards Needed</label>
+                    <input type="number" id="guards" name="guards" min="1">
+                </div>
+                
+                <div class="form-group">
+                    <label for="message">Additional Security Requirements</label>
+                    <textarea id="message" name="message" rows="4"></textarea>
+                </div>
+                
+                <button type="submit" class="form-submit">Request Free Quote</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("securityForm").addEventListener("submit", function(e) {
+            e.preventDefault();
+            
+            // Get form data
+            const formData = {
+                name: document.getElementById("name").value,
+                company: document.getElementById("company").value,
+                phone: document.getElementById("phone").value,
+                email: document.getElementById("email").value,
+                serviceType: document.getElementById("serviceType").value,
+                location: document.getElementById("location").value,
+                coverage: document.getElementById("coverage").value,
+                guards: document.getElementById("guards").value,
+                message: document.getElementById("message").value
+            };
+
+            // Replace with your deployed web app URL
+            const scriptUrl = "YOUR_GOOGLE_SCRIPT_WEBAPP_URL";
+            
+            fetch(scriptUrl, {
+                method: "POST",
+                body: JSON.stringify(formData),
+                headers: {
+                "Content-Type": "application/json"
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.result === "success") {
+                // Close the quote modal
+                quoteModal.style.display = "none";
+                // Show the confirmation modal
+                confirmationModal.style.display = "block";
+                // Reset the form
+                e.target.reset();
+                } else {
+                alert("Error: " + data.message);
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                alert("There was an error submitting the form. Please try again.");
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CorporateCab - Premium Business Transportation</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        .back-btn {
+            color: #e67e22;
+            text-decoration: none;
+            margin-bottom: 2rem;
+            display: inline-block;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+        .back-btn:hover {
+            color: #cf6a1c;
+        }
+        .service-header {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        .service-title {
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+        .service-image {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+        }
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        .content-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .content-card h3 {
+            color: #e67e22;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+        .content-card ul {
+            list-style: none;
+            padding: 0;
+        }
+        .content-card li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #eee;
+        }
+        .content-card li:before {
+            content: "🚖";
+            margin-right: 0.5rem;
+            color: #e67e22;
+        }
+        .cta-section {
+            background: linear-gradient(135deg, #e67e22, #cf6a1c);
+            color: white;
+            padding: 3rem;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .cta-section h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s;
+        }
+        .btn-primary {
+            background: white;
+            color: #e67e22;
+        }
+        .btn-primary:hover {
+            background: #f8f8f8;
+            transform: translateY(-2px);
+        }
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+        .btn-secondary:hover {
+            background: white;
+            color: #e67e22;
+        }
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.5);
+        }
+        .modal-content {
+            background-color: #fff;
+            margin: 5% auto;
+            padding: 2rem;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 600px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            position: relative;
+        }
+        .close {
+            position: absolute;
+            right: 1rem;
+            top: 1rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+            cursor: pointer;
+            color: #999;
+            transition: color 0.3s;
+        }
+        .close:hover {
+            color: #333;
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        .form-group input, 
+        .form-group select, 
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: inherit;
+            box-sizing: border-box;
+        }
+        .form-submit {
+            background: #e67e22;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+        .form-submit:hover {
+            background: #cf6a1c;
+        }
+        .info-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        .info-section h3 {
+            color: #e67e22;
+            border-bottom: 2px solid #e67e22;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+        .info-item {
+            margin-bottom: 1rem;
+        }
+        .info-item h4 {
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+        .cab-badge {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        .badge-icon {
+            margin-right: 1rem;
+            color: #e67e22;
+            font-size: 1.5rem;
+        }
+        .fleet-gallery {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        .fleet-item {
+            height: 200px;
+            background-color: #eee;
+            border-radius: 5px;
+            overflow: hidden;
+            position: relative;
+        }
+        .fleet-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+        .fleet-item:hover img {
+            transform: scale(1.05);
+        }
+        .fleet-label {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 0.5rem;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+        .benefits-list {
+            margin: 2rem 0;
+        }
+        .benefits-list li {
+            margin-bottom: 1rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+        .benefits-list li:before {
+            content: "✓";
+            color: #e67e22;
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+        @media (max-width: 768px) {
+            .content-grid, .info-grid, .fleet-gallery {
+                grid-template-columns: 1fr;
+            }
+            .service-title {
+                font-size: 2rem;
+            }
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            .modal-content {
+                width: 90%;
+                margin: 10% auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="#" class="back-btn">← Back to Services</a>
+        <div class="service-header">
+            <h1 class="service-title">Corporate Cab Services</h1>
+            <img src="https://videos.openai.com/vg-assets/assets%2Ftask_01jzap9j97e09s7etsqsf4cc69%2F1751631984_img_0.webp?st=2025-07-04T11%3A25%3A37Z&se=2025-07-10T12%3A25%3A37Z&sks=b&skt=2025-07-04T11%3A25%3A37Z&ske=2025-07-10T12%3A25%3A37Z&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skoid=3d249c53-07fa-4ba4-9b65-0bf8eb4ea46a&skv=2019-02-02&sv=2018-11-09&sr=b&sp=r&spr=https%2Chttp&sig=ERAoaZwKJ7dudSZu7H%2BH7w2tSsW8mdBevoKKeQIPPlM%3D&az=oaivgprodscus" alt="Corporate Cab Services" class="service-image">
+            <p style="font-size: 1.2rem; color: #666;">Reliable, professional transportation solutions for your business needs.</p>
+        </div>
+
+        <div class="content-grid">
+            <div class="content-card">
+                <h3>Our Services</h3>
+                <ul>
+                    <li>Airport Transfers</li>
+                    <li>Executive City Travel</li>
+                    <li>Employee Commute</li>
+                    <li>Event Transportation</li>
+                    <li>Long-Distance Travel</li>
+                    <li>24/7 Availability</li>
+                </ul>
+            </div>
+            
+            <div class="content-card">
+                <h3>Fleet Options</h3>
+                <ul>
+                    <li>Luxury Sedans</li>
+                    <li>Executive SUVs</li>
+                    <li>Premium Vans</li>
+                    <li>Eco-Friendly Vehicles</li>
+                    <li>Wheelchair Accessible</li>
+                    <li>Corporate Shuttles</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <h3>Our Transportation Solutions</h3>
+            <div class="info-grid">
+                <div class="info-item">
+                    <div class="cab-badge">
+                        <div class="badge-icon">⏱️</div>
+                        <h4>Punctual Service</h4>
+                    </div>
+                    <p>Guaranteed on-time pickups with real-time tracking and flight monitoring for airport transfers.</p>
+                </div>
+                <div class="info-item">
+                    <div class="cab-badge">
+                        <div class="badge-icon">📱</div>
+                        <h4>Easy Booking</h4>
+                    </div>
+                    <p>Book via app, web portal, or dedicated account manager for corporate clients.</p>
+                </div>
+                <div class="info-item">
+                    <div class="cab-badge">
+                        <div class="badge-icon">👔</div>
+                        <h4>Professional Drivers</h4>
+                    </div>
+                    <p>Uniformed, trained chauffeurs with extensive local knowledge and corporate service experience.</p>
+                </div>
+                <div class="info-item">
+                    <div class="cab-badge">
+                        <div class="badge-icon">📊</div>
+                        <h4>Detailed Reporting</h4>
+                    </div>
+                    <p>Monthly usage reports with trip details, costs, and carbon footprint analysis.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="fleet-gallery">
+            <div class="fleet-item">
+                <img src="https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Luxury Sedan">
+                <div class="fleet-label">Executive Sedan</div>
+            </div>
+            <div class="fleet-item">
+                <img src="data:image/jpeg;base64,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" alt="Premium SUV">
+                <div class="fleet-label">Premium SUV</div>
+            </div>
+            <div class="fleet-item">
+                <img src="https://media.istockphoto.com/id/1140988145/photo/commercial-delivery-vans-in-row.jpg?s=612x612&w=0&k=20&c=2zzFR_os1LewoOu0d14dpzvm5zRW_hO8N-VmFBK1pgs=" alt="Corporate Van">
+                <div class="fleet-label">Corporate Van</div>
+            </div>
+        </div>
+
+        <div class="content-card" style="margin-top: 2rem;">
+            <h3 style="color: #e67e22;">Why Choose CorporateCab for Business Transportation?</h3>
+            <p>Corporate transportation is more than just getting from point A to point B—it's about reliability, professionalism, and creating a seamless experience for your employees and clients. CorporateCab delivers premium transportation solutions tailored to your business needs.</p>
+
+            <h4>Dedicated Corporate Accounts</h4>
+            <p>We offer customized corporate accounts with centralized billing, multiple user access, and spending controls. Manage all employee travel from one dashboard with our easy-to-use platform.</p>
+
+            <h4>Safety & Reliability</h4>
+            <p>All vehicles undergo regular maintenance and safety checks. Our drivers are thoroughly vetted with background checks and receive ongoing training in defensive driving and customer service.</p>
+
+            <h4>Seamless Integration</h4>
+            <p>Integrate our services with your existing travel management systems or use our API for custom solutions. We work with all major expense management platforms for easy reconciliation.</p>
+
+            <h4>Cost Control</h4>
+            <p>Predictable pricing with corporate discounts and volume-based rates. Set spending limits by department or employee level to control transportation costs.</p>
+
+            <h4>Global Coverage</h4>
+            <p>While headquartered locally, we partner with premium transportation providers worldwide to ensure consistent service quality for your international travelers.</p>
+
+            <h4>Key Benefits:</h4>
+            <ul class="benefits-list">
+                <li>Reduce employee parking costs and commuting stress</li>
+                <li>Ensure client comfort with professional transportation</li>
+                <li>Streamline expense reporting with consolidated billing</li>
+                <li>Enhance safety with tracked, insured vehicles</li>
+                <li>Improve sustainability with eco-friendly fleet options</li>
+                <li>Gain visibility into transportation spending</li>
+                <li>24/7 support for urgent travel needs</li>
+            </ul>
+
+            <h4>Customizable Service Plans</h4>
+            <p>Choose the plan that fits your organization's needs:</p>
+            <ul class="benefits-list">
+                <li><strong>Executive Travel:</strong> Premium vehicles for C-suite and client transportation</li>
+                <li><strong>Employee Commute:</strong> Scheduled rides for staff between home and office</li>
+                <li><strong>Event Transportation:</strong> Group transport for conferences and corporate events</li>
+                <li><strong>Airport Solutions:</strong> Reliable airport transfers with flight tracking</li>
+                <li><strong>On-Demand Service:</strong> Instant bookings for unexpected travel needs</li>
+            </ul>
+
+            <p>CorporateCab transforms business transportation from a logistical challenge to a strategic advantage. Let us handle the driving while you focus on your business.</p>
+        </div>
+
+        <div class="cta-section">
+            <h3>Ready to Upgrade Your Corporate Transportation?</h3>
+            <p>Contact us today to discuss customized cab solutions for your business.</p>
+            <div class="cta-buttons">
+                <a href="#" class="btn btn-primary" id="accountBtn">Open Corporate Account</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div id="confirmationModal" class="modal">
+        <div class="modal-content" style="text-align: center;">
+            <span class="close" data-modal="confirmationModal">&times;</span>
+            <h2 style="color: #e67e22;">Thank You!</h2>
+            <p>Your corporate account request has been submitted successfully.</p>
+            <p>Our transportation specialist will contact you within 24 hours.</p>
+            <button class="form-submit" onclick="closeModal('confirmationModal')" style="margin-top: 1rem;">Close</button>
+        </div>
+    </div>
+
+    <!-- Account Request Modal -->
+    <div id="accountModal" class="modal">
+        <div class="modal-content">
+            <span class="close" data-modal="accountModal">&times;</span>
+            <h2 style="color: #e67e22; text-align: center;">Corporate Account Application</h2>
+            <p style="text-align: center; margin-bottom: 2rem;">Complete this form to set up your business transportation account</p>
+            <form id="cabForm">
+                <div class="form-group">
+                    <label for="name">Your Name*</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="company">Company Name*</label>
+                    <input type="text" id="company" name="company" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="title">Job Title*</label>
+                    <input type="text" id="title" name="title" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="phone">Contact Number*</label>
+                    <input type="tel" id="phone" name="phone" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email Address*</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="employees">Approximate Number of Users*</label>
+                    <select id="employees" name="employees" required>
+                        <option value="">Select range</option>
+                        <option value="1-10">1-10</option>
+                        <option value="11-25">11-25</option>
+                        <option value="26-50">26-50</option>
+                        <option value="51-100">51-100</option>
+                        <option value="100+">100+</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="service">Primary Service Need*</label>
+                    <select id="service" name="service" required>
+                        <option value="">Select primary need</option>
+                        <option value="executive">Executive Travel</option>
+                        <option value="airport">Airport Transfers</option>
+                        <option value="commute">Employee Commute</option>
+                        <option value="event">Event Transportation</option>
+                        <option value="mixed">Mixed Usage</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="locations">Service Locations Needed</label>
+                    <textarea id="locations" name="locations" rows="2" placeholder="Cities/regions where you need service"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="notes">Additional Requirements</label>
+                    <textarea id="notes" name="notes" rows="3" placeholder="Any special vehicle needs or other considerations"></textarea>
+                </div>
+                
+                <button type="submit" class="form-submit">Submit Application</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Modal helper functions
+        function openModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.style.display = "block";
+                document.body.style.overflow = "hidden";
+            }
+        }
+
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.style.display = "none";
+                document.body.style.overflow = "auto";
+            }
+        }
+
+        // Wait for DOM to be fully loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            // Modal close handlers - Fixed version
+            document.querySelectorAll(".close").forEach(btn => {
+                btn.addEventListener("click", function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    // Get modal ID from data attribute or find closest modal
+                    const modalId = this.getAttribute('data-modal') || this.closest('.modal').id;
+                    closeModal(modalId);
+                });
+            });
+
+            // Close modals when clicking outside
+            window.addEventListener("click", function(event) {
+                if (event.target.classList.contains("modal")) {
+                    closeModal(event.target.id);
+                }
+            });
+
+            // Account button click handler
+            const accountBtn = document.getElementById('accountBtn');
+            if (accountBtn) {
+                accountBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    openModal('accountModal');
+                });
+            }
+
+            // Form submission handling
+            const cabForm = document.getElementById("cabForm");
+            if (cabForm) {
+                cabForm.addEventListener("submit", function(e) {
+                    e.preventDefault();
+
+                    // Show loading state
+                    const submitBtn = e.target.querySelector('button[type="submit"]');
+                    const originalText = submitBtn.textContent;
+                    submitBtn.disabled = true;
+                    submitBtn.textContent = "Submitting...";
+
+                    // Simulate form submission (replace with actual submission logic)
+                    setTimeout(() => {
+                        cabForm.reset();
+                        closeModal("accountModal");
+                        openModal("confirmationModal");
+                        
+                        // Reset button
+                        submitBtn.disabled = false;
+                        submitBtn.textContent = originalText;
+                    }, 1000);
+                });
+            }
+        });
+
+        // Escape key to close modals
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                const openModals = document.querySelectorAll('.modal[style*="block"]');
+                openModals.forEach(modal => {
+                    closeModal(modal.id);
+                });
+            }
+        });
+    </script>
+</body>
+</html>
